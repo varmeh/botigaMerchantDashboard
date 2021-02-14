@@ -6,7 +6,7 @@ async function getPresignedImageUrl() {
 }
 
 async function uploadImageToS3(url, image) {
-    return axios.put(url, image);
+    return await axios.put(url, image);
 }
 
 

@@ -1,0 +1,111 @@
+.product-details-style{
+    width: 530px;
+}
+
+.product-details-style .MuiFormLabel-root{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.product-details-header-item{
+    padding: 20px 25px 20px 25px;
+    height: 33px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid  #DCDCDC;
+}
+.product-details-header-name{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 150%;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #000000;
+}
+
+.product-details-body{
+    display: flex;
+    flex-direction: column;
+    padding: 30px 30px 30px 30px;
+}
+.product-details-row{
+    display: flex;
+    margin-top: 20px;
+}
+.product-details-spacer{
+    width: 22px;
+}
+
+.product-details-small-input{
+    width: 101px;
+}
+.product-details-description-text.MuiFormControlLabel-labelPlacementStart{
+     margin-left: 0px;  
+}
+
+.product-details-description-text .MuiFormControlLabel-label,.MuiTypography-body1{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+    color: #000000;
+}
+
+.upload-image{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 136px;
+    border: 1px dashed rgba(18, 23, 21, 0.25);
+    box-sizing: border-box;
+    border-radius: 8px;
+}
+
+.upload-image .description{
+    width: 224px;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 18px;
+    text-align: center;
+    letter-spacing: 0.2px;
+    color: #121715;
+    opacity: 0.7;
+}
+
+.no-product-slected{
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 22px;
+    color: #000000;
+    opacity: 0.5;
+}
+
+.menu-item-unit{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+    color: rgba(0, 0, 0, 0.6);
+}

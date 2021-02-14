@@ -1,6 +1,6 @@
 import axios from "../helpers/axios";
 
-async function getProducts() {
+async function fetchProducts() {
     return axios().get('/api/seller/products');
 }
 
@@ -16,4 +16,4 @@ async function saveProduct(categoryId, name, price, quantity, unit, imageUrl, de
     });
 }
 
-export { getProducts, saveProduct };
+export { fetchProducts, saveProduct };
