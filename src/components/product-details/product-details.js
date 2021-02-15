@@ -5,7 +5,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
-import {capitalize} from "../../helpers/util";
+import { capitalize } from "../../helpers/util";
 
 import "./product-details.css";
 
@@ -38,7 +38,6 @@ function ProductImageUploadComponent(props) {
 function ProductDetailsBody({ product }) {
     const [showDesc, setShowDesc] = useState(false);
     const [quantity, unit] = product ? product.size.split(" ") : "";
-    console.log(unit);
     return (
         <div className="product-details-body">
             {
