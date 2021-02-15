@@ -30,7 +30,7 @@ function ProductItem({ product: { id, name, imageUrl, size, price, description, 
           className="product-status-text"
           value={productStatus}
           control={<Switch color="primary" />}
-          label={productStatus ? "Available" : "Not Available"}
+          label={productStatus ? "Available" : "Not available"}
           labelPlacement="start"
           onChange={() => setProductStatus(!productStatus)}
           checked={productStatus} />
@@ -47,7 +47,7 @@ function ProductItem({ product: { id, name, imageUrl, size, price, description, 
             {description}
           </div>
         </div>
-        <ProductImage url={imageUrl} />
+        {imageUrl && <ProductImage url={imageUrl} />}
       </div>
     </div>
   );
