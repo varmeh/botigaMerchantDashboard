@@ -1,21 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { AppRoutes } from "./components/AppRoutes";
-import { fetchProfile } from "./services/auth-service";
-import { withRouter } from "react-router-dom";
+import { SideNav } from "./components/side-nav/side-nav";
 
-export const App = withRouter(({ history }) => {
-  const [isLoading, setLoading] = useState(false);
+import "./App.css";
 
-  // useEffect(() => {
-  //   setLoading(true);
-  //   fetchProfile()
-  //     .then(() => history.push("/add-product"))
-  //     .catch(err => history.push("/"))
-  //     .finally(() => setLoading(false))
-  // }, []);
-
-  if (isLoading) return (<h1>Loading...</h1>)
+export function App() {
   return (
-    <AppRoutes />
-  );
-});
+    <div className="app">
+      <SideNav />
+      <div className="main-content">
+        <AppRoutes />
+      </div>
+    </div>
+  )
+}
