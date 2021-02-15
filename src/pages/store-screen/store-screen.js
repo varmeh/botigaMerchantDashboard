@@ -18,7 +18,7 @@ function getCategoryList(products) {
 }
 
 function getProductList(products, selectedCategoryId) {
-    const selectedProduct = products.find(product => product.categoryId == selectedCategoryId);
+    const selectedProduct = products.find(product => product.categoryId === selectedCategoryId);
     if (selectedProduct) {
         return selectedProduct.products;
     } else {

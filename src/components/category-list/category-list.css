@@ -63,3 +63,49 @@
     color: #000000;
     opacity: 0.5;
 }
+
+
+
+.add-category-modal .MuiPaper-rounded{
+    padding: 10px 10px 20px 10px;
+}
+
+.add-category-modal-title .MuiTypography-h6{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    color: #121715;
+}
+
+
+button.save-category-btn .MuiButton-label{
+    text-transform: initial !important;
+    font-family: Montserrat;
+    font-style: normal;
+    
+}
+
+button.save-category-cancel .MuiButton-label{
+    text-transform: initial !important;
+    font-family: Montserrat;
+    font-style: normal;
+    color: rgba(18, 23, 21, 0.5);
+}
+
+.category-name-textfield .MuiFormLabel-root{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    letter-spacing: 0.15px;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.add-category-action.MuiDialogActions-root {
+    flex: 0 0 auto;
+    display: flex;
+    padding: 8px 24px 8px 8px;
+    align-items: center;
+    justify-content: flex-end;
+}
