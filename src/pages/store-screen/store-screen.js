@@ -27,9 +27,9 @@ function getProductList(products, selectedCategoryId) {
 
 }
 
-function getSelectedProduct(products,selectedCategoryId,selectedProductId){
-    const productList = getProductList(products,selectedCategoryId);
-    const product = productList.find(p=>p.id===selectedProductId);
+function getSelectedProduct(products, selectedCategoryId, selectedProductId) {
+    const productList = getProductList(products, selectedCategoryId);
+    const product = productList.find(p => p.id === selectedProductId);
     return product;
 }
 
@@ -80,9 +80,10 @@ export function StoreScreen() {
                 selectProduct={selectProduct}
                 setAddProductMode={setAddProductMode} />
             <ProductDetails
-                product={getSelectedProduct(products,selectedCategoryId,selectedProductId)}
+                categories={getCategoryList(products)}
+                product={getSelectedProduct(products, selectedCategoryId, selectedProductId)}
                 addProducMode={addProducMode}
-                setAddProductMode={setAddProductMode}/>
+                setAddProductMode={setAddProductMode} />
         </div>
     )
 

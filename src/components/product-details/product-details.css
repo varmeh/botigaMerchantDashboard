@@ -8,7 +8,6 @@
     font-weight: 400;
     font-size: 16px;
     letter-spacing: 0.15px;
-    color: rgba(0, 0, 0, 0.6);
 }
 
 .product-details-header-item{
@@ -39,6 +38,15 @@
 .product-details-row{
     display: flex;
     margin-top: 20px;
+}
+.product-details-row-action{
+    border-top: 1px solid #DCDCDC;
+    padding: 15px 25px 15px 25px;
+    display: flex;
+    justify-content: space-between;
+}
+.product-details-row-action-btns{
+    display: flex;
 }
 .product-details-spacer{
     width: 22px;
@@ -107,4 +115,27 @@
     line-height: 24px;
     letter-spacing: 0.15px;
     color: rgba(0, 0, 0, 0.6);
+}
+
+.add-image-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 137px;
+    height: 40px;
+    background: rgba(18, 23, 21, 0.05);
+    border-radius: 8px;
+    border: none;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 150%;
+    margin-bottom: 10px;
+}
+
+.add-image-btn .MuiSvgIcon-root{
+    height: 20px;
+    width: 20px;
+    margin-right: 8px;
 }
