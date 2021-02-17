@@ -3,5 +3,19 @@ body{
 }
 
 .item_selected{
-    background-color: whitesmoke;
+    background-color: whitesmoke !important;
+}
+
+.MuiButton-containedPrimary{
+    background-color: #179F57 !important;
+}
+
+.MuiSwitch-colorPrimary.Mui-checked{
+    color: #179F57 !important;
+}
+.MuiSwitch-colorPrimary.Mui-checked + .MuiSwitch-track {
+    background-color: #179F57 !important;
+}
+.MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track {
+    opacity: 0.5 !important;
 }

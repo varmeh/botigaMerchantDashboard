@@ -36,8 +36,8 @@ function ProductImageUploadComponent(props) {
     return (
         <div className="upload-image" {...getRootProps()}>
             <input {...getInputProps()} />
-            <button class="add-image-btn">
-                <Image />Add image</button>
+            <button className="add-image-btn">
+                <Image />Add Image</button>
             <div className="description">Adding image will increase people interest in your product</div>
         </div>
     );
