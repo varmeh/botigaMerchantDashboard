@@ -3,7 +3,7 @@ import { useDropzone } from 'react-dropzone'
 import { Formik } from 'formik';
 import { addProductValidators } from "../../helpers/validators";
 import { fetchCategories } from "../../services/category-service";
-import { getPresignedImageUrl,uploadImageToS3 } from "../../services/common-service";
+import { getPresignedImageUrl, uploadImageToS3 } from "../../services/common-service";
 import { saveProduct } from "../../services/product-service";
 
 
@@ -73,7 +73,7 @@ export function AddProduct() {
             onSubmit={async (values) => {
 
                 try {
-                    await uploadImageToS3(imageUrl.uploadUrl,previewImage)
+                    await uploadImageToS3(imageUrl.uploadUrl, previewImage)
                     await saveProduct(values.categoryId, values.productName, values.price, values.quantity, values.unit, imageUrl.downloadUrl, values.description);
                 } catch (err) { }
                 finally { }
@@ -81,7 +81,7 @@ export function AddProduct() {
             }}>
             {formik => (
                 <form onSubmit={formik.handleSubmit}>
-                    {previewImage ? <img src={URL.createObjectURL(previewImage)} style={{ height: 30, width: 30 }} /> : <ProductImage setPreviewImage={setPreviewImage}/>}
+                    {previewImage ? <img src={URL.createObjectURL(previewImage)} style={{ height: 30, width: 30 }} /> : <ProductImage setPreviewImage={setPreviewImage} />}
                     <label htmlFor="productName">Product Name</label>
                     <input
                         id="productName"

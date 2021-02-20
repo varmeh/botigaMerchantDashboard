@@ -1,5 +1,6 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, useRef } from 'react';
 import { Formik } from 'formik';
+import { makeStyles } from '@material-ui/core/styles';
 import { useDropzone } from 'react-dropzone'
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -8,15 +9,196 @@ import Image from '@material-ui/icons/Image';
 import DeleteOutlineSharp from '@material-ui/icons/DeleteOutlineSharp';
 import Button from '@material-ui/core/Button';
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+
+import Dialog from '@material-ui/core/Dialog';
+import ReactCrop from 'react-image-crop';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import CloseIcon from '@material-ui/icons/Close';
+import Slide from '@material-ui/core/Slide';
+import 'react-image-crop/dist/ReactCrop.css';
+import { saveProduct } from "../../services/product-service";
+
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
 import { addProductValidators } from "../../helpers/validators";
 import { capitalize } from "../../helpers/util";
 
-import { getPresignedImageUrl } from "../../services/common-service";
+import { getPresignedImageUrl, uploadImageToS3 } from "../../services/common-service";
 
 import "./product-details.css";
 
+const useStyles = makeStyles((theme) => ({
+    appBar: {
+        position: 'relative',
+    },
+    title: {
+        marginLeft: theme.spacing(2),
+        flex: 1,
+    },
+}));
 
 const units = ['kg', 'gms', 'lt', 'ml', 'piece', 'pieces'];
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
+
+function getCroppedImg(image, crop, fileName) {
+    const canvas = document.createElement('canvas');
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
+    canvas.width = crop.width;
+    canvas.height = crop.height;
+    const ctx = canvas.getContext('2d');
+    console.log(image);
+    ctx.drawImage(
+        image,
+        crop.x * scaleX,
+        crop.y * scaleY,
+        crop.width * scaleX,
+        crop.height * scaleY,
+        0,
+        0,
+        crop.width,
+        crop.height,
+    );
+
+    // As Base64 string
+    // const base64Image = canvas.toDataURL('image/jpeg');
+
+    // As a blob
+    return new Promise((resolve, reject) => {
+        canvas.toBlob(blob => {
+            blob.name = fileName;
+            resolve(blob);
+        }, 'image/jpeg', 1);
+    });
+}
+
+function ScrollDialog({ imgSrc, setPreviewImage, imageFile, SetFinalImage }) {
+    const [scroll, setScroll] = React.useState('paper');
+    const [open, setOpen] = React.useState(true);
+    const [crop, setCrop] = useState({ aspect: 16 / 9 });
+    const imgRef = useRef(null);
+
+    const onLoad = useCallback((img) => {
+        imgRef.current = img;
+    }, []);
+
+    const handleClose = async () => {
+        setOpen(false);
+        setPreviewImage(null);
+        const croppedImg = await getCroppedImg(imgRef.current, crop, "mi");
+        // SetFinalImage(window.URL.createObjectURL(croppedImg));
+
+        var file = new File([croppedImg], "abc.png", { type: "image/png" });
+
+        SetFinalImage(croppedImg);
+    };
+
+
+    const handleClickOpen = (scrollType) => () => {
+        setOpen(true);
+        setScroll(scrollType);
+    };
+
+
+
+    const descriptionElementRef = React.useRef(null);
+    React.useEffect(() => {
+        if (open) {
+            const { current: descriptionElement } = descriptionElementRef;
+            if (descriptionElement !== null) {
+                descriptionElement.focus();
+            }
+        }
+    }, [open]);
+
+    return (
+        <div>
+            <Button onClick={handleClickOpen('paper')}>scroll=paper</Button>
+            <Button onClick={handleClickOpen('body')}>scroll=body</Button>
+            <Dialog
+                disableBackdropClick
+                disableEscapeKeyDown
+                maxWidth={'md'}
+                open={open}
+                onClose={handleClose}
+                scroll={scroll}
+                aria-labelledby="scroll-dialog-title"
+                aria-describedby="scroll-dialog-description"
+            >
+                <DialogTitle id="scroll-dialog-title">Subscribe</DialogTitle>
+                <DialogContent dividers={scroll === 'paper'}>
+
+                    <ReactCrop onImageLoaded={onLoad} src={imgSrc} crop={crop} onChange={newCrop => {
+                        console.log(newCrop);
+                        setCrop(newCrop);
+                    }} />
+
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} color="primary">
+                        Cancel
+            </Button>
+                    <Button onClick={handleClose} color="primary">
+                        Subscribe
+            </Button>
+                </DialogActions>
+            </Dialog>
+        </div>
+    );
+}
+
+function CropperModal({ imgSrc, setPreviewImage, imageFile, SetFinalImage }) {
+    const classes = useStyles();
+    const [open, setOpen] = React.useState(true);
+    const [crop, setCrop] = useState({ aspect: 16 / 9 });
+    const imgRef = useRef(null);
+
+    const onLoad = useCallback((img) => {
+        imgRef.current = img;
+    }, []);
+
+    const handleClose = async () => {
+        setOpen(false);
+        setPreviewImage(null);
+        const croppedImg = await getCroppedImg(imgRef.current, crop, "mi");
+        // SetFinalImage(window.URL.createObjectURL(croppedImg));
+
+        var file = new File([croppedImg], "abc.png", { type: "image/png" });
+
+        SetFinalImage(croppedImg);
+    };
+
+    return (
+        <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
+            <AppBar className={classes.appBar}>
+                <Toolbar>
+                    <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
+                        <CloseIcon />
+                    </IconButton>
+                    <Typography variant="h6" className={classes.title}>
+                        Crop Image
+                    </Typography>
+                    <Button autoFocus color="inherit" onClick={handleClose}>
+                        Done
+                    </Button>
+                </Toolbar>
+            </AppBar>
+            <ReactCrop onImageLoaded={onLoad} src={imgSrc} crop={crop} onChange={newCrop => {
+                console.log(newCrop);
+                setCrop(newCrop);
+            }} />;
+        </Dialog>
+    );
+}
 
 function ProductDetailsHeader() {
     return (
@@ -27,9 +209,10 @@ function ProductDetailsHeader() {
     );
 }
 
-function ProductImageUploadComponent(props) {
+function ProductImageUploadComponent({ setPreviewImage }) {
     const onDrop = useCallback(acceptedFiles => {
-        props.setPreviewImage(acceptedFiles.shift());
+
+        setPreviewImage(acceptedFiles.shift());
     }, [])
     const { getRootProps, getInputProps } = useDropzone({ onDrop })
 
@@ -108,6 +291,7 @@ function AddNewProduct({ categories }) {
     const [showDesc, setShowDesc] = useState(false);
     const [imageUrl, setImageUrl] = useState({ uploadUrl: '', downloadUrl: '' });
     const [previewImage, setPreviewImage] = useState(null);
+    const [finalImage, SetFinalImage] = useState(null);
 
     const initialValue = {
         category: '',
@@ -139,12 +323,22 @@ function AddNewProduct({ categories }) {
         <Formik
             validationSchema={addProductValidators}
             initialValues={initialValue}
-            onSubmit={async (values) => {
-            }}>
+            onSubmit={
+                async (values) => {
+
+                    try {
+                        await uploadImageToS3(imageUrl.uploadUrl, finalImage)
+                        await saveProduct(values.category, values.productName, values.price, values.quantity, values.unit, imageUrl.downloadUrl, values.description);
+                    } catch (err) { }
+                    finally { }
+
+                }
+            }>
             {({ handleSubmit, getFieldProps, touched, errors }) => (
                 <form onSubmit={handleSubmit}>
                     <div className="product-details-body">
-                        <ProductImageUploadComponent />
+                        {previewImage ? <ScrollDialog SetFinalImage={SetFinalImage} imgSrc={URL.createObjectURL(previewImage)} imageFile={previewImage} setPreviewImage={setPreviewImage} /> : <ProductImageUploadComponent setPreviewImage={setPreviewImage} />}
+                        {finalImage && <img src={finalImage} />}
                         <div className="product-details-row">
                             <TextField id="productName" label="Product Name" variant="outlined" fullWidth  {...getFieldProps('productName')} error={touched.productName && errors.productName} helperText={errors.productName} />
                         </div>
@@ -201,7 +395,7 @@ function AddNewProduct({ categories }) {
                         <div className="product-details-row-action-btns">
                             <Button>Cancel</Button>
                             <div className="product-details-spacer" />
-                            <Button variant="contained" color="primary" disableElevation>Save Changes</Button>
+                            <Button type="submit" variant="contained" color="primary" disableElevation>Save Changes</Button>
                         </div>
                     </div>
                 </form>

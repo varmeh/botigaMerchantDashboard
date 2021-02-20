@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 
 import { fetchProducts } from "../../services/product-service";
-
 import CategoryList from "../../components/category-list/category-list";
 import ProductList from "../../components/product-list/product-list";
-import ProductDetails from "../../components/product-details/product-details";
+import ProductView from "../../components/product-view/product-view";
 
 import "./store-screen.css";
 
@@ -79,7 +78,7 @@ export function StoreScreen() {
                 selectedProductId={selectedProductId}
                 selectProduct={selectProduct}
                 setAddProductMode={setAddProductMode} />
-            <ProductDetails
+            <ProductView
                 categories={getCategoryList(products)}
                 product={getSelectedProduct(products, selectedCategoryId, selectedProductId)}
                 addProducMode={addProducMode}

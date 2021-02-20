@@ -19,3 +19,8 @@ body{
 .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track {
     opacity: 0.5 !important;
 }
+
+
+.MuiAppBar-colorPrimary{
+    background-color: #179F57 !important;
+}
