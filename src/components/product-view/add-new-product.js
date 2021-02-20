@@ -24,7 +24,8 @@ export function AddNewProduct({ categories }) {
     const [isError, setIsError] = useState(false);
     const [showDesc, setShowDesc] = useState(false);
     const [imageUrl, setImageUrl] = useState({ uploadUrl: '', downloadUrl: '' });
-    const [finalImage, setFinalImage] = useState(null);
+    const [mainImage, setMainImage] = useState(null);
+    const [otherImages, setOtherImages] = useState([]);
 
     const initialValue = {
         category: '',
@@ -60,7 +61,7 @@ export function AddNewProduct({ categories }) {
             onSubmit={
                 async (values) => {
                     try {
-                        await uploadImageToS3(imageUrl.uploadUrl, finalImage)
+                        await uploadImageToS3(imageUrl.uploadUrl, mainImage)
                         await saveProduct(values.category, values.productName, values.price, values.quantity, values.unit, imageUrl.downloadUrl, values.description);
                     } catch (err) { }
                     finally { }
@@ -98,9 +99,10 @@ export function AddNewProduct({ categories }) {
                             </TextField>
                         </div>
                         <div className="product-details-row">
-                            {finalImage ? <PreviewImage imageUrl={URL.createObjectURL(finalImage)} setFinalImage={setFinalImage} /> : <MainProductImageUploadComponent setFinalImage={setFinalImage} />}
+                            {mainImage ? <PreviewImage imageUrl={URL.createObjectURL(mainImage)} setMainImage={setMainImage} /> : <MainProductImageUploadComponent setMainImage={setMainImage} />}
                             <div className="product-details-spacer" />
-                            {finalImage ? <PreviewImage imageUrl={URL.createObjectURL(finalImage)} setFinalImage={setFinalImage} /> : <ProductImageUploadComponent setFinalImage={setFinalImage} />}
+                            {/* TO DO Make it proper format*/}
+                            {otherImages.length > 0 ? <PreviewImage imageUrl={''} setOtherImages={setOtherImages} /> : <ProductImageUploadComponent setOtherImages={setOtherImages} />}
                         </div>
                         <div className="product-details-row">
                             <div className="image_info_banner">

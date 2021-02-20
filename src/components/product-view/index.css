@@ -169,8 +169,6 @@
 
 
 
-
-
 .main-upload-image{
     display: flex;
     flex-direction: column;
@@ -240,3 +238,21 @@
     letter-spacing: 0.2px;
     color: #000000;
 }
+
+
+.main-preview-container {
+    display: inline;
+    position: relative;
+  }
+  .main-preview-container .main-preview-img{
+    width: 140px;
+    height: 140px;
+    border-radius: 8px;
+  }
+  .main-preview-container .main-preview-close {
+    position: absolute;
+    right: 0;
+    padding: 4.5px;
+    color: #FFFFFF;
+    cursor: pointer;
+  }

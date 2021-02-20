@@ -1,14 +1,15 @@
 import React from "react";
-import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
-export function PreviewImage({ imageUrl, setFinalImage }) {
+export function PreviewImage({ imageUrl, setMainImage }) {
     function removeImage() {
-        setFinalImage(null);
+        setMainImage(null);
     }
     return (
-        <React.Fragment>
-            <img src={imageUrl} alt="product-image" />
-            <button onClick={removeImage} className="preview-image-remove">Button</button>
-        </React.Fragment>
+        <div className="main-preview-container">
+            <img src={imageUrl} className="main-preview-img" alt="product-image" />
+            <CloseIcon className="main-preview-close" onClick={removeImage} />
+        </div>
     );
 }
