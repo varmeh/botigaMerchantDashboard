@@ -155,7 +155,6 @@
     color: #372D21;
 }
 .upload-image .description{
-    width: 224px;
     font-family: Montserrat;
     font-style: normal;
     font-weight: 500;
@@ -190,7 +189,6 @@
     opacity: 0.5;
 }
 .main-upload-image .main-description{
-    width: 224px;
     font-family: Montserrat;
     font-style: normal;
     font-weight: 500;
@@ -240,19 +238,76 @@
 }
 
 
+
 .main-preview-container {
     display: inline;
     position: relative;
-  }
-  .main-preview-container .main-preview-img{
+}
+.main-preview-container .main-preview-img{
     width: 140px;
     height: 140px;
     border-radius: 8px;
-  }
-  .main-preview-container .main-preview-close {
+}
+.main-preview-container .main-preview-close {
     position: absolute;
     right: 0;
     padding: 4.5px;
     color: #FFFFFF;
     cursor: pointer;
-  }
+}
+
+
+
+.secondary-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex:1;
+}
+.secondary-preview-container {
+    display: inline;
+    position: relative;
+    margin-right: 15px;
+    margin-bottom: 15px;
+}
+.secondary-preview-container .secondary-preview-img{
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+}
+.secondary-preview-container .secondary-preview-close {
+    position: absolute;
+    right: 0;
+    padding: 1px;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+
+
+.secondary-small-upload-image{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 80px;
+    border: 1px dashed rgba(18, 23, 21, 0.25);
+    box-sizing: border-box;
+    border-radius: 8px;
+}
+.secondary-small-upload-image .MuiSvgIcon-root{
+    color: #000000;
+    opacity: 0.5;
+}
+.secondary-small-upload-image .add-secondary-description{
+    margin-top: 3px;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 18px;
+    text-align: center;
+    letter-spacing: 0.2px;
+    color: #179F57;
+}

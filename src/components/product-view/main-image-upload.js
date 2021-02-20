@@ -1,0 +1,22 @@
+import React, { useCallback } from 'react';
+import { useDropzone } from 'react-dropzone'
+import AddIcon from '@material-ui/icons/Add';
+import 'react-image-crop/dist/ReactCrop.css';
+import { getResizedFile } from "../../helpers/util";
+
+export function MainImageUploadComponent({ setMainImage }) {
+
+    const onDrop = useCallback(async (acceptedFiles) => {
+        getResizedFile(acceptedFiles.shift(), "product-image", setMainImage);
+    }, []);
+
+    const { getRootProps, getInputProps } = useDropzone({ onDrop })
+
+    return (
+        <div className="main-upload-image" {...getRootProps()}>
+            <input {...getInputProps()} />
+            <button className="add-main-image-btn"><AddIcon /></button>
+            <div className="main-description">MAIN IMAGE</div>
+        </div>
+    );
+}

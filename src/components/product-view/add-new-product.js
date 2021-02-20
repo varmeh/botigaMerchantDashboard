@@ -7,11 +7,12 @@ import DeleteOutlineSharp from '@material-ui/icons/DeleteOutlineSharp';
 import Button from '@material-ui/core/Button';
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
-import { ProductImageUploadComponent } from "./product-image-upload";
-import { MainProductImageUploadComponent } from "./main-product-imageupload";
+import { SecondaryImageUploadComponent } from "./secondary-image-upload";
+import { MainImageUploadComponent } from "./main-image-upload";
 import { saveProduct } from "../../services/product-service";
 import { addProductValidators } from "../../helpers/validators";
-import { PreviewImage } from "./preview-image";
+import { PreviewMainImage } from "./preview-main-image";
+import { PreviewSecondaryImage } from "./preview-secondary-image";
 import { capitalize } from "../../helpers/util";
 import { getPresignedImageUrl, uploadImageToS3 } from "../../services/common-service";
 
@@ -53,6 +54,16 @@ export function AddNewProduct({ categories }) {
         }
     }, []);
 
+
+    function addOtherImages(image) {
+        setOtherImages(images => [...images, image]);
+    }
+
+    function removeImageAtIndex(index) {
+        const images = [...otherImages];
+        images.splice(index, 1);
+        setOtherImages(images);
+    }
 
     return (
         <Formik
@@ -99,10 +110,22 @@ export function AddNewProduct({ categories }) {
                             </TextField>
                         </div>
                         <div className="product-details-row">
-                            {mainImage ? <PreviewImage imageUrl={URL.createObjectURL(mainImage)} setMainImage={setMainImage} /> : <MainProductImageUploadComponent setMainImage={setMainImage} />}
+                            {mainImage ? <PreviewMainImage imageUrl={URL.createObjectURL(mainImage)} setMainImage={setMainImage} /> : <MainImageUploadComponent setMainImage={setMainImage} />}
                             <div className="product-details-spacer" />
-                            {/* TO DO Make it proper format*/}
-                            {otherImages.length > 0 ? <PreviewImage imageUrl={''} setOtherImages={setOtherImages} /> : <ProductImageUploadComponent setOtherImages={setOtherImages} />}
+                            <div className="secondary-container">
+                                {
+                                    otherImages.length > 0
+                                        ? otherImages.length == 4
+                                            ? otherImages.map((image, index) => <PreviewSecondaryImage key={index} imageUrl={URL.createObjectURL(image)} index={index} removeImageAtIndex={removeImageAtIndex} />)
+                                            : (
+                                                <React.Fragment>
+                                                    {otherImages.map((image, index) => <PreviewSecondaryImage key={index} imageUrl={URL.createObjectURL(image)} index={index} removeImageAtIndex={removeImageAtIndex} />)}
+                                                    <SecondaryImageUploadComponent isSmall={true} addOtherImages={addOtherImages} />
+                                                </React.Fragment>
+                                            )
+                                        : <SecondaryImageUploadComponent isSmall={false} addOtherImages={addOtherImages} />
+                                }
+                            </div>
                         </div>
                         <div className="product-details-row">
                             <div className="image_info_banner">

@@ -5,7 +5,6 @@ import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import { capitalize } from "../../helpers/util";
-import { ProductImageUploadComponent } from "./product-image-upload";
 
 const units = ['kg', 'gms', 'lt', 'ml', 'piece', 'pieces'];
 
@@ -18,7 +17,6 @@ export function ProductDetails({ product }) {
             {
                 product != null ?
                     <React.Fragment>
-                        <ProductImageUploadComponent />
                         <div className="product-details-row">
                             <TextField value={product.name} id="productName" label="Product Name" variant="outlined" fullWidth />
                         </div>
