@@ -53,14 +53,14 @@ function ProductItem({ product: { id, name, imageUrl, size, price, description, 
   );
 }
 
-function ProductImage({ url, name }) {
+const ProductImage = React.memo(function ({ url, name }) {
   return (
     <div className="product-item-image-container">
       <span className="badge">Best Seller</span>
       <img className="product-item-image" src={url} alt={name} />
     </div>
   );
-}
+});
 
 export default function ProductList({ products, selectProduct, selectedProductId, setAddProductMode }) {
   return (
