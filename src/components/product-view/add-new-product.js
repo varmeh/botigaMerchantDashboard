@@ -20,7 +20,7 @@ import 'react-image-crop/dist/ReactCrop.css';
 
 const units = ['kg', 'gms', 'lt', 'ml', 'piece', 'pieces'];
 
-export function AddNewProduct({ categories }) {
+export function AddNewProduct({ selectedCategoryId, refresh }) {
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
     const [showDesc, setShowDesc] = useState(false);
@@ -29,8 +29,8 @@ export function AddNewProduct({ categories }) {
     const [otherImages, setOtherImages] = useState([]);
 
     const initialValue = {
-        category: '',
         productName: '',
+        mrp: '',
         price: '',
         quantity: '',
         unit: '',
@@ -73,7 +73,7 @@ export function AddNewProduct({ categories }) {
                 async (values) => {
                     try {
                         await uploadImageToS3(imageUrl.uploadUrl, mainImage)
-                        await saveProduct(values.category, values.productName, values.price, values.quantity, values.unit, imageUrl.downloadUrl, values.description);
+                        //await saveProduct(selectedCategoryId, values.productName,  values.price, values.quantity, values.unit, imageUrl.downloadUrl, values.description);
                     } catch (err) { }
                     finally { }
                 }
@@ -85,16 +85,7 @@ export function AddNewProduct({ categories }) {
                             <TextField id="productName" label="Product Name" variant="outlined" fullWidth  {...getFieldProps('productName')} error={touched.productName && errors.productName} helperText={errors.productName} />
                         </div>
                         <div className="product-details-row">
-                            <TextField id="category" select label="Select category" fullWidth variant="outlined" {...getFieldProps('category')} error={touched.category && errors.category} helperText={errors.category}>
-                                {categories.map((value) => (
-                                    <MenuItem key={value.categoryId} value={value.categoryId}>
-                                        <span className="menu-item-unit">{capitalize(value.name)}</span>
-                                    </MenuItem>
-                                ))}
-                            </TextField>
-                        </div>
-                        <div className="product-details-row">
-                            <TextField id="actualPrice" label="Actual Price" variant="outlined" fullWidth {...getFieldProps('price')} error={touched.price && errors.price} helperText={errors.price} />
+                            <TextField id="mrp" label="Mrp (Optional)" variant="outlined" fullWidth {...getFieldProps('mrp')} error={touched.mrp && errors.mrp} helperText={errors.mrp} />
                             <div className="product-details-spacer" />
                             <TextField id="price" label="Selling Price" variant="outlined" fullWidth {...getFieldProps('price')} error={touched.price && errors.price} helperText={errors.price} />
                         </div>

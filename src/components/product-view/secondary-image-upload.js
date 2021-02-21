@@ -13,13 +13,17 @@ export function SecondaryImageUploadComponent({ addOtherImages, isSmall }) {
         });
     }, []);
 
-    const { getRootProps, getInputProps } = useDropzone({ onDrop })
+    const dropzoneConfig = (isSmall
+        ? { onDrop, noDrag: true, accept: 'image/jpeg, image/png', maxFiles: 1 }
+        : { onDrop, accept: 'image/jpeg, image/png', maxFiles: 4 });
+
+    const { getRootProps, getInputProps } = useDropzone(dropzoneConfig)
 
     function getSmallUplaod() {
         return (
-            <div className="secondary-small-upload-image" {...getRootProps()}>
+            <div className="secondary-small-upload-image">
                 <input {...getInputProps()} />
-                <AddIcon />
+                <AddIcon {...getRootProps()} />
                 <div className="add-secondary-description">Add</div>
             </div>
         );

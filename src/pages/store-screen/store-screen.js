@@ -82,7 +82,8 @@ export function StoreScreen() {
                 loadProducts={loadProducts}
                 setAddProductMode={setAddProductMode} />
             <ProductView
-                categories={getCategoryList(products)}
+                loadProducts={loadProducts}
+                selectedCategoryId={selectedCategoryId}
                 product={getSelectedProduct(products, selectedCategoryId, selectedProductId)}
                 addProducMode={addProducMode}
                 setAddProductMode={setAddProductMode} />
