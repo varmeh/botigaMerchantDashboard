@@ -72,7 +72,8 @@ export function StoreScreen() {
             <CategoryList
                 categories={getCategoryList(products)}
                 selectedCategoryId={selectedCategoryId}
-                selectCategory={selectedCategory} />
+                selectCategory={selectedCategory}
+                loadProducts={loadProducts} />
             <ProductList
                 products={getProductList(products, selectedCategoryId)}
                 selectedProductId={selectedProductId}

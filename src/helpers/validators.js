@@ -8,3 +8,7 @@ export const addProductValidators = Yup.object({
   unit: Yup.string().required('Required'),
   description: Yup.string()
 });
+
+export const addCategoryValidators = Yup.object({
+  category: Yup.string().required('Required')
+});
