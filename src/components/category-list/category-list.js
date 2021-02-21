@@ -26,11 +26,11 @@ function CategoryHeader({ handleClickOpen }) {
 }
 
 
-function CategoryItem({ category, selectedCategoryId, selectCategory, loadProducts }) {
+function CategoryItem({ category, selectedCategoryId, selectCategory, refresh }) {
     const [openEdit, setOpenEdit] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
 
-    const { categoryId, name, displaytext } = category;
+    const { categoryId, name, displaytext, count } = category;
     let categortItemClass = "category-item";
 
     function handlOpenEditCategoryModal() {
@@ -52,7 +52,7 @@ function CategoryItem({ category, selectedCategoryId, selectCategory, loadProduc
     async function deleteAddedCategory() {
         try {
             await deleteCategory(category.categoryId);
-            await loadProducts();
+            await refresh();
             closeDeleteModal();
         } catch (err) {
 
@@ -69,7 +69,7 @@ function CategoryItem({ category, selectedCategoryId, selectCategory, loadProduc
             <div className="category-item-action">
                 <div className="category-quantity">{displaytext}</div>
                 <Edit fontSize="small" onClick={handlOpenEditCategoryModal} />
-                <DeleteIcon fontSize="small" onClick={openDeleteModal} />
+                {count > 0 && <DeleteIcon fontSize="small" onClick={openDeleteModal} />}
             </div>
             <Formik
                 validationSchema={addCategoryValidators}
@@ -79,7 +79,7 @@ function CategoryItem({ category, selectedCategoryId, selectCategory, loadProduc
                 onSubmit={
                     async (values) => {
                         await editCategory(category.categoryId, values.category);
-                        await loadProducts();
+                        await refresh();
                         handleCloseEditCategoryModal();
                     }
                 }>
@@ -145,13 +145,17 @@ export default function CategoryList({ categories, selectedCategoryId, selectCat
         setOpenCategoryModal(false);
     }
 
+    async function refresh() {
+        await loadProducts();
+    }
+
     return (
         <div className="category-list-style">
             <CategoryHeader handleClickOpen={handlOpenCategoryModal} />
             {
                 categories.map((category => (
                     <CategoryItem
-                        loadProducts={loadProducts}
+                        refresh={refresh}
                         category={category}
                         key={category.categoryId}
                         selectedCategoryId={selectedCategoryId}
