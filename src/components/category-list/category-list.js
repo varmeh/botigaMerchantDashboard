@@ -6,8 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import TextField from '@material-ui/core/TextField';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
+import DeleteOutline from '@material-ui/icons/DeleteOutline';
 import Edit from '@material-ui/icons/Edit';
 import { Formik } from 'formik';
 
@@ -68,8 +67,8 @@ function CategoryItem({ category, selectedCategoryId, selectCategory, refresh })
             <div className="category-name">{name}</div>
             <div className="category-item-action">
                 <div className="category-quantity">{displaytext}</div>
-                <Edit fontSize="small" onClick={handlOpenEditCategoryModal} />
-                {count > 0 && <DeleteIcon fontSize="small" onClick={openDeleteModal} />}
+                <Edit onClick={handlOpenEditCategoryModal} />
+                {count === 0 && <DeleteOutline onClick={openDeleteModal} />}
             </div>
             <Formik
                 validationSchema={addCategoryValidators}
@@ -115,17 +114,17 @@ function CategoryItem({ category, selectedCategoryId, selectCategory, refresh })
                 open={openDelete}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description">
-                <DialogTitle id="alert-dialog-title">{"Delete category?"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title">{'Delete category'}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Are you sure you want to delete this category
+                        Are you sure you want to delete this category ?
                      </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={closeDeleteModal}>
                         Cancel
                     </Button>
-                    <Button startIcon={<DeleteIcon />} onClick={deleteAddedCategory} color="secondary" variant="contained">
+                    <Button startIcon={<DeleteOutline />} onClick={deleteAddedCategory} color="secondary" variant="contained">
                         Delete
                     </Button>
                 </DialogActions>
@@ -141,8 +140,13 @@ export default function CategoryList({ categories, selectedCategoryId, selectCat
         setOpenCategoryModal(true);
     }
 
-    function handleCloseCategoryModal() {
-        setOpenCategoryModal(false);
+    function handleCloseCategoryModal(resetForm) {
+        return function () {
+            if (typeof resetForm === "function") {
+                resetForm();
+            }
+            setOpenCategoryModal(false);
+        }
     }
 
     async function refresh() {
@@ -167,17 +171,16 @@ export default function CategoryList({ categories, selectedCategoryId, selectCat
                 initialValues={{ category: '' }}
                 onSubmit={
                     async (values) => {
-                        console.log(values);
                         try {
                             await saveCategory(values.category);
-                            await loadProducts();
-                            handleCloseCategoryModal();
+                            await refresh();
+                            handleCloseCategoryModal()();
                         } catch (err) {
 
                         }
                     }
                 }>
-                {({ handleSubmit, getFieldProps, touched, errors }) => (
+                {({ handleSubmit, getFieldProps, touched, errors, resetForm }) => (
                     <Dialog fullWidth maxWidth="xs" open={openCategoryModal} aria-labelledby="form-dialog-title" className="add-category-modal">
                         <DialogTitle className="add-category-modal-title">Add category</DialogTitle>
                         <form onSubmit={handleSubmit}>
@@ -194,7 +197,7 @@ export default function CategoryList({ categories, selectedCategoryId, selectCat
                                     fullWidth />
                             </DialogContent>
                             <DialogActions className="add-category-action">
-                                <Button size="large" className="save-category-cancel" onClick={handleCloseCategoryModal} color="primary">
+                                <Button size="large" className="save-category-cancel" onClick={handleCloseCategoryModal(resetForm)}>
                                     Cancel
                             </Button>
                                 <Button type="submit" size="large" className="save-category-btn" variant="contained" color="primary" disableElevation>
