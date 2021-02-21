@@ -67,7 +67,7 @@ function CategoryItem({ category, selectedCategoryId, selectCategory, refresh })
             <div className="category-name">{name}</div>
             <div className="category-item-action">
                 <div className="category-quantity">{displaytext}</div>
-                <Edit onClick={handlOpenEditCategoryModal} />
+                {count !== 0 ? <Edit onClick={handlOpenEditCategoryModal} /> : null}
                 {count === 0 && <DeleteOutline onClick={openDeleteModal} />}
             </div>
             <Formik

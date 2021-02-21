@@ -3,6 +3,8 @@ import Button from "@material-ui/core/Button";
 import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
+import { updateProductStatus } from "../../services/product-service";
+
 import "./product-list.css";
 
 function ProductHeader({ setAddProductMode }) {
@@ -14,9 +16,21 @@ function ProductHeader({ setAddProductMode }) {
   );
 }
 
-function ProductItem({ product: { id, name, imageUrl, size, price, description, available }, selectProduct, selectedProductId }) {
+function ProductItem({ product, selectProduct, selectedProductId, selectedCategoryId, refresh }) {
+  const { id, name, imageUrl, size, price, description, available } = product;
   const [productStatus, setProductStatus] = useState(available);
   let productItemClass = "product-item";
+
+  async function changeProductStatus() {
+    let oldStatus = productStatus;
+    setProductStatus(!productStatus);
+    try {
+      await updateProductStatus(selectedCategoryId, product, !productStatus);
+      await refresh();
+    } catch (err) {
+      setProductStatus(oldStatus);
+    }
+  }
 
   if (id === selectedProductId) {
     productItemClass = `${productItemClass} item_selected`;
@@ -32,7 +46,7 @@ function ProductItem({ product: { id, name, imageUrl, size, price, description, 
           control={<Switch color="primary" />}
           label={productStatus ? "Available" : "Not available"}
           labelPlacement="start"
-          onChange={() => setProductStatus(!productStatus)}
+          onChange={changeProductStatus}
           checked={productStatus} />
       </div>
       <div className="product-item-row-description">
@@ -62,7 +76,12 @@ const ProductImage = React.memo(function ({ url, name }) {
   );
 });
 
-export default function ProductList({ products, selectProduct, selectedProductId, setAddProductMode }) {
+export default function ProductList({ products, selectProduct, selectedCategoryId, selectedProductId, setAddProductMode, loadProducts }) {
+
+  async function refresh() {
+    loadProducts();
+  }
+
   return (
     <div className="product-list-style">
       <ProductHeader setAddProductMode={setAddProductMode} />
@@ -72,6 +91,8 @@ export default function ProductList({ products, selectProduct, selectedProductId
             product={product}
             key={product.id}
             selectProduct={selectProduct}
+            refresh={refresh}
+            selectedCategoryId={selectedCategoryId}
             selectedProductId={selectedProductId} />
         ))
       }
