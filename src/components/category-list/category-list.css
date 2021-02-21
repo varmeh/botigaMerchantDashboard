@@ -35,7 +35,7 @@
 
 
 .category-item{
-    padding: 20px 5px 20px 25px;
+    padding: 20px 25px 20px 25px;
     display: flex;
     flex-direction: row;
     border-top: 1px solid  #DCDCDC;

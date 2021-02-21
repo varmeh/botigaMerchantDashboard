@@ -10,5 +10,5 @@ export const addProductValidators = Yup.object({
 });
 
 export const addCategoryValidators = Yup.object({
-  category: Yup.string().required('Required')
+  category: Yup.string().max(32).required('Required')
 });
