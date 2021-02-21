@@ -7,6 +7,18 @@ import { updateProductStatus } from "../../services/product-service";
 
 import "./product-list.css";
 
+function getProductSizeAndPriceDetails(size, mrp, price) {
+  const showMrp = mrp && mrp > price;
+  return (
+    <React.Fragment>
+      <span className="text-light">
+        {size} •{showMrp && <del>&#8377; {mrp}</del>}
+      </span>
+      <span className="text-dark">&nbsp;&#8377;{price}</span>
+    </React.Fragment>
+  );
+}
+
 function ProductHeader({ setAddProductMode }) {
   return (
     <div className="product-header-item">
@@ -17,7 +29,7 @@ function ProductHeader({ setAddProductMode }) {
 }
 
 function ProductItem({ product, selectProduct, selectedProductId, selectedCategoryId, refresh }) {
-  const { id, name, imageUrl, size, price, description, available } = product;
+  const { id, name, imageUrl, size, price, mrp, description, available } = product;
   const [productStatus, setProductStatus] = useState(available);
   let productItemClass = "product-item";
 
@@ -51,12 +63,7 @@ function ProductItem({ product, selectProduct, selectedProductId, selectedCatego
       </div>
       <div className="product-item-row-description">
         <div className="product-secondary-text">
-          <React.Fragment>
-            <span className="text-light">
-              {size} •<del>&#8377; {price}</del>
-            </span>
-            <span className="text-dark">&nbsp;&#8377;{price}</span>
-          </React.Fragment>
+          {getProductSizeAndPriceDetails(size, mrp, price)}
           <div className="description text-light">
             {description}
           </div>

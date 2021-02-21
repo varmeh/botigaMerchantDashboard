@@ -23,6 +23,7 @@ async function updateProductStatus(categoryId, product, availableStatus) {
         'categoryId': categoryId,
         'name': product.name,
         'price': product.price,
+        ...(product.mrp ? { 'mrp': product.mrp } : {}),
         'quantity': quantity,
         'unit': unit,
         'available': availableStatus,
