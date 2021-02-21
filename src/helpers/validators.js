@@ -6,9 +6,9 @@ export const addProductValidators = Yup.object({
   price: Yup.number().required('Required'),
   quantity: Yup.number().required('Required'),
   unit: Yup.string().required('Required'),
-  description: Yup.string()
+  description: Yup.max(140).string()
 });
 
 export const addCategoryValidators = Yup.object({
-  category: Yup.string().max(32).required('Required')
+  category: Yup.string().max(24).required('Required')
 });
