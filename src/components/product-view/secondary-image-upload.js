@@ -8,8 +8,8 @@ import { getResizedFile } from "../../helpers/util";
 export function SecondaryImageUploadComponent({ addOtherImages, isSmall }) {
 
     const onDrop = useCallback(acceptedFiles => {
-        acceptedFiles.forEach((file, indx) => {
-            getResizedFile(file, `secondary-image${indx}`, addOtherImages);
+        acceptedFiles.forEach(file => {
+            getResizedFile(file, addOtherImages, false);
         });
     }, []);
 

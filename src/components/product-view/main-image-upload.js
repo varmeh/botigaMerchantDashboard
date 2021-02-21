@@ -7,7 +7,7 @@ import { getResizedFile } from "../../helpers/util";
 export function MainImageUploadComponent({ setMainImage }) {
 
     const onDrop = useCallback(async (acceptedFiles) => {
-        getResizedFile(acceptedFiles.shift(), "product-image", setMainImage);
+        getResizedFile(acceptedFiles.shift(), setMainImage, true);
     }, []);
 
     const { getRootProps, getInputProps } = useDropzone({ onDrop, noDrag: true, accept: 'image/jpeg, image/png', maxFiles: 1 })

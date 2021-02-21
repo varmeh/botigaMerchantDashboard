@@ -4,14 +4,17 @@ async function fetchProducts() {
     return axios().get('/api/seller/products');
 }
 
-async function saveProduct(categoryId, name, price, quantity, unit, imageUrl, description) {
+async function saveProduct(categoryId, name, price, mrp, quantity, unit, imageUrl, imageUrlLarge, description, secondaryImageUrls) {
     return axios().post('/api/seller/products', {
         'categoryId': categoryId,
         'name': name,
         'price': price,
+        ...(mrp ? { mrp } : {}),
         'size': { 'quantity': `${quantity}`, 'unit': unit },
-        'imageUrl': imageUrl,
-        'description': description,
+        ...(imageUrl ? { imageUrl } : {}),
+        ...(imageUrlLarge ? { imageUrlLarge } : {}),
+        ...(description ? { description } : {}),
+        ...((secondaryImageUrls && secondaryImageUrls.length > 0) ? { secondaryImageUrls } : {}),
         'available': true
     });
 }
@@ -33,4 +36,19 @@ async function updateProductStatus(categoryId, product, availableStatus) {
     });
 }
 
-export { fetchProducts, saveProduct, updateProductStatus };
+async function deleteProductImage(imageUrl) {
+    return axios().post('/api/services/image/delete', {
+        'imageUrl': imageUrl
+    });
+}
+
+async function uploadProductImage(image, isMainImage) {
+    var bodyFormData = new FormData();
+    bodyFormData.append('image', image);
+    bodyFormData.append('isMainImage', isMainImage);
+    return axios().post('/api/seller/products/images', bodyFormData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+    });
+}
+
+export { fetchProducts, saveProduct, updateProductStatus, uploadProductImage, deleteProductImage };

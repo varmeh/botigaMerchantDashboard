@@ -14,7 +14,6 @@ import { addProductValidators } from "../../helpers/validators";
 import { PreviewMainImage } from "./preview-main-image";
 import { PreviewSecondaryImage } from "./preview-secondary-image";
 import { capitalize } from "../../helpers/util";
-import { getPresignedImageUrl, uploadImageToS3 } from "../../services/common-service";
 
 import 'react-image-crop/dist/ReactCrop.css';
 
@@ -24,7 +23,6 @@ export function AddNewProduct({ selectedCategoryId, refresh }) {
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
     const [showDesc, setShowDesc] = useState(false);
-    const [imageUrl, setImageUrl] = useState({ uploadUrl: '', downloadUrl: '' });
     const [mainImage, setMainImage] = useState(null);
     const [otherImages, setOtherImages] = useState([]);
 
@@ -36,23 +34,6 @@ export function AddNewProduct({ selectedCategoryId, refresh }) {
         unit: '',
         description: '',
     };
-
-    async function loadPresignedImageUrl() {
-        const { data } = await getPresignedImageUrl();
-        if (data) { setImageUrl(data); }
-    }
-
-    useEffect(() => {
-        try {
-            setIsLoading(true);
-            loadPresignedImageUrl();
-        } catch (err) {
-            setIsError(true);
-        }
-        finally {
-            setIsLoading(false);
-        }
-    }, []);
 
 
     function addOtherImages(image) {
@@ -71,9 +52,22 @@ export function AddNewProduct({ selectedCategoryId, refresh }) {
             initialValues={initialValue}
             onSubmit={
                 async (values) => {
+                    const imageurl = mainImage ? mainImage.imageUrlSmall : '';
+                    const imageUrlLarge = mainImage ? mainImage.imageurl : '';
+                    const description = showDesc ? values.description : ''
                     try {
-                        await uploadImageToS3(imageUrl.uploadUrl, mainImage)
-                        //await saveProduct(selectedCategoryId, values.productName,  values.price, values.quantity, values.unit, imageUrl.downloadUrl, values.description);
+                        await saveProduct(
+                            selectedCategoryId,
+                            values.productName,
+                            values.price,
+                            values.mrp,
+                            values.quantity,
+                            values.unit,
+                            imageurl,
+                            imageUrlLarge,
+                            description,
+                            otherImages
+                        );
                     } catch (err) { }
                     finally { }
                 }
@@ -101,16 +95,16 @@ export function AddNewProduct({ selectedCategoryId, refresh }) {
                             </TextField>
                         </div>
                         <div className="product-details-row">
-                            {mainImage ? <PreviewMainImage imageUrl={URL.createObjectURL(mainImage)} setMainImage={setMainImage} /> : <MainImageUploadComponent setMainImage={setMainImage} />}
+                            {mainImage ? <PreviewMainImage mainImage={mainImage} setMainImage={setMainImage} /> : <MainImageUploadComponent setMainImage={setMainImage} />}
                             <div className="product-details-spacer" />
                             <div className="secondary-container">
                                 {
                                     otherImages.length > 0
                                         ? otherImages.length == 4
-                                            ? otherImages.map((image, index) => <PreviewSecondaryImage key={index} imageUrl={URL.createObjectURL(image)} index={index} removeImageAtIndex={removeImageAtIndex} />)
+                                            ? otherImages.map((image, index) => <PreviewSecondaryImage key={index} imageUrl={image} index={index} removeImageAtIndex={removeImageAtIndex} />)
                                             : (
                                                 <React.Fragment>
-                                                    {otherImages.map((image, index) => <PreviewSecondaryImage key={index} imageUrl={URL.createObjectURL(image)} index={index} removeImageAtIndex={removeImageAtIndex} />)}
+                                                    {otherImages.map((image, index) => <PreviewSecondaryImage key={index} imageUrl={image} index={index} removeImageAtIndex={removeImageAtIndex} />)}
                                                     <SecondaryImageUploadComponent isSmall={true} addOtherImages={addOtherImages} />
                                                 </React.Fragment>
                                             )

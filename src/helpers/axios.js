@@ -6,4 +6,4 @@ instance.defaults.headers.common['Authorization'] = 'eyJhbGciOiJIUzI1NiIsInR5cCI
 instance.defaults.headers.post['Content-Type'] = 'application/json';
 instance.defaults.headers.post['Accept'] = 'application/json';
 
-export default function() { return instance; }
+export default function () { return instance; }
