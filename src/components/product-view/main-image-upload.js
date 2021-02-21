@@ -10,12 +10,12 @@ export function MainImageUploadComponent({ setMainImage }) {
         getResizedFile(acceptedFiles.shift(), setMainImage, true);
     }, []);
 
-    const { getRootProps, getInputProps } = useDropzone({ onDrop, noDrag: true, accept: 'image/jpeg, image/png', maxFiles: 1 })
+    const { getRootProps, getInputProps } = useDropzone({ onDrop, noDrag: true, accept: 'image/jpeg, image/png', maxFiles: 1, multiple: false })
 
     return (
-        <div className="main-upload-image">
+        <div className="main-upload-image" {...getRootProps()}>
             <input {...getInputProps()} />
-            <button className="add-main-image-btn" {...getRootProps()}><AddIcon /></button>
+            <div className="add-main-image-btn"><AddIcon /></div>
             <div className="main-description">MAIN IMAGE</div>
         </div>
     );

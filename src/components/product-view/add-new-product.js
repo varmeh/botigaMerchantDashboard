@@ -68,6 +68,7 @@ export function AddNewProduct({ selectedCategoryId, refresh }) {
                             description,
                             otherImages
                         );
+                        refresh();
                     } catch (err) { }
                     finally { }
                 }

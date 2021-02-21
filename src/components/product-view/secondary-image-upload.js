@@ -14,16 +14,16 @@ export function SecondaryImageUploadComponent({ addOtherImages, isSmall }) {
     }, []);
 
     const dropzoneConfig = (isSmall
-        ? { onDrop, noDrag: true, accept: 'image/jpeg, image/png', maxFiles: 1 }
-        : { onDrop, accept: 'image/jpeg, image/png', maxFiles: 4 });
+        ? { onDrop, noDrag: true, accept: 'image/jpeg, image/png', maxFiles: 1, multiple: false }
+        : { onDrop, accept: 'image/jpeg, image/png', maxFiles: 4, multiple: true });
 
     const { getRootProps, getInputProps } = useDropzone(dropzoneConfig)
 
     function getSmallUplaod() {
         return (
-            <div className="secondary-small-upload-image">
+            <div className="secondary-small-upload-image" {...getRootProps()} >
                 <input {...getInputProps()} />
-                <AddIcon {...getRootProps()} />
+                <AddIcon />
                 <div className="add-secondary-description">Add</div>
             </div>
         );
@@ -33,8 +33,9 @@ export function SecondaryImageUploadComponent({ addOtherImages, isSmall }) {
         return (
             <div className="upload-image" {...getRootProps()}>
                 <input {...getInputProps()} />
-                <button className="add-image-btn">
-                    Add more images</button>
+                <div className="add-image-btn">
+                    Add more images
+                </div>
                 <div className="description">or drag and drop files</div>
             </div>
         );
