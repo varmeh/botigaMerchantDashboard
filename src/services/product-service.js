@@ -4,6 +4,10 @@ async function fetchProducts() {
     return axios().get('/api/seller/products');
 }
 
+async function deleteProduct(productId, categoryId) {
+    return axios().delete(`/api/seller/products/${productId}/categories/${categoryId}`);
+}
+
 async function saveProduct(categoryId, name, price, mrp, quantity, unit, imageUrl, imageUrlLarge, description, secondaryImageUrls) {
     return axios().post('/api/seller/products', {
         'categoryId': categoryId,
@@ -51,4 +55,4 @@ async function uploadProductImage(image, isMainImage) {
     });
 }
 
-export { fetchProducts, saveProduct, updateProductStatus, uploadProductImage, deleteProductImage };
+export { fetchProducts, saveProduct, updateProductStatus, uploadProductImage, deleteProductImage, deleteProduct };

@@ -36,7 +36,7 @@ export function StoreScreen() {
     const [products, setProducts] = useState([]);
     const [selectedCategoryId, setSelectedCategoryId] = useState(null);
     const [selectedProductId, setSelectedProductId] = useState(null);
-    const [addProducMode, setAddProductMode] = useState(false);
+    const [isAddProduct, setIsAddProduct] = useState(false);
 
     useEffect(() => {
         loadProducts();
@@ -58,12 +58,22 @@ export function StoreScreen() {
     function selectedCategory(categoryId) {
         setSelectedCategoryId(categoryId);
         setSelectedProductId(null);
-        setAddProductMode(false);
+        setIsAddProduct(false);
     }
 
     function selectProduct(productId) {
+        setIsAddProduct(false);
         setSelectedProductId(productId);
-        setAddProductMode(false);
+    }
+
+    function showProductAddForm() {
+        setSelectedProductId(null);
+        setIsAddProduct(true);
+    }
+
+    function hideShowAddProductForm() {
+        setSelectedProductId(null);
+        setIsAddProduct(false);
     }
 
 
@@ -80,13 +90,13 @@ export function StoreScreen() {
                 selectedCategoryId={selectedCategoryId}
                 selectProduct={selectProduct}
                 loadProducts={loadProducts}
-                setAddProductMode={setAddProductMode} />
+                showProductAddForm={showProductAddForm} />
             <ProductView
                 loadProducts={loadProducts}
                 selectedCategoryId={selectedCategoryId}
                 product={getSelectedProduct(products, selectedCategoryId, selectedProductId)}
-                addProducMode={addProducMode}
-                setAddProductMode={setAddProductMode} />
+                isAddProduct={isAddProduct}
+                hideShowAddProductForm={hideShowAddProductForm} />
         </div>
     )
 

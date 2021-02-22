@@ -9,7 +9,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import { SecondaryImageUploadComponent } from "./secondary-image-upload";
 import { MainImageUploadComponent } from "./main-image-upload";
-import { saveProduct } from "../../services/product-service";
+import { saveProduct, deleteProduct } from "../../services/product-service";
 import { addProductValidators } from "../../helpers/validators";
 import { PreviewMainImage } from "./preview-main-image";
 import { PreviewSecondaryImage } from "./preview-secondary-image";
@@ -19,21 +19,27 @@ import 'react-image-crop/dist/ReactCrop.css';
 
 const units = ['kg', 'gms', 'lt', 'ml', 'piece', 'pieces'];
 
-export function AddNewProduct({ selectedCategoryId, refresh }) {
+export function AddNewProduct({ selectedCategoryId, refresh, product, hideShowAddProductForm }) {
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
     const [showDesc, setShowDesc] = useState(false);
     const [mainImage, setMainImage] = useState(null);
-    const [otherImages, setOtherImages] = useState([]);
+    const [otherImages, setOtherImages] = useState(product.secondaryImageUrls || []);
+    const [quantity, unit] = (product.size || '').split(' ');
 
     const initialValue = {
-        productName: '',
-        mrp: '',
-        price: '',
-        quantity: '',
-        unit: '',
-        description: '',
+        productName: (product.name || ''),
+        mrp: (product.mrp || ''),
+        price: (product.price || ''),
+        quantity: (quantity || ''),
+        unit: (unit || ''),
+        description: (product.description || ''),
     };
+
+    useEffect(() => {
+        const desc = product.description ? true : false;
+        setShowDesc(desc);
+    }, [product.description])
 
 
     function addOtherImages(image) {
@@ -46,8 +52,21 @@ export function AddNewProduct({ selectedCategoryId, refresh }) {
         setOtherImages(images);
     }
 
+    function getIsDeleteDisabled() {
+        return Object.keys(product).length === 0;
+    }
+
+    async function removeProduct() {
+        try {
+            await deleteProduct(product.id, selectedCategoryId);
+            refresh();
+        } catch (err) { }
+
+    }
+
     return (
         <Formik
+            enableReinitialize
             validationSchema={addProductValidators}
             initialValues={initialValue}
             onSubmit={
@@ -154,9 +173,9 @@ export function AddNewProduct({ selectedCategoryId, refresh }) {
                             : null}
                     </div>
                     <div className="product-details-row-action">
-                        <Button startIcon={<DeleteOutlineSharp />}>Delete Product</Button>
+                        <Button disabled={getIsDeleteDisabled()} onClick={removeProduct} startIcon={<DeleteOutlineSharp />}>Delete Product</Button>
                         <div className="product-details-row-action-btns">
-                            <Button>Cancel</Button>
+                            <Button onClick={hideShowAddProductForm}>Cancel</Button>
                             <div className="product-details-spacer" />
                             <Button type="submit" variant="contained" color="primary" disableElevation>Save Changes</Button>
                         </div>

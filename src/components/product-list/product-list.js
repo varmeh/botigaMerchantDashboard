@@ -19,11 +19,11 @@ function getProductSizeAndPriceDetails(size, mrp, price) {
   );
 }
 
-function ProductHeader({ setAddProductMode }) {
+function ProductHeader({ showProductAddForm }) {
   return (
     <div className="product-header-item">
       <div className="product-header-name">Product</div>
-      <Button className="product-header-btn" onClick={() => setAddProductMode(true)}>+ ADD</Button>
+      <Button className="product-header-btn" onClick={showProductAddForm}>+ ADD</Button>
     </div>
   );
 }
@@ -83,7 +83,7 @@ const ProductImage = React.memo(function ({ url, name }) {
   );
 });
 
-export default function ProductList({ products, selectProduct, selectedCategoryId, selectedProductId, setAddProductMode, loadProducts }) {
+export default function ProductList({ products, selectProduct, selectedCategoryId, selectedProductId, showProductAddForm, loadProducts }) {
 
   async function refresh() {
     loadProducts();
@@ -91,7 +91,7 @@ export default function ProductList({ products, selectProduct, selectedCategoryI
 
   return (
     <div className="product-list-style">
-      <ProductHeader setAddProductMode={setAddProductMode} />
+      <ProductHeader showProductAddForm={showProductAddForm} />
       {
         products.map((product) => (
           <ProductItem

@@ -13,8 +13,8 @@ function ProductDetailsHeader() {
     );
 }
 
-export default function ProductView({ product, selectedCategoryId, addProducMode, setAddProductMode, loadProducts }) {
-
+export default function ProductView({ product, selectedCategoryId, isAddProduct, hideShowAddProductForm, loadProducts }) {
+    const defaultProduct = {};
     async function refresh() {
         loadProducts();
     }
@@ -22,11 +22,17 @@ export default function ProductView({ product, selectedCategoryId, addProducMode
     return <div className="product-details-style">
         <ProductDetailsHeader />
         {
-            addProducMode
-                ? <AddNewProduct refresh={refresh} selectedCategoryId={selectedCategoryId} />
+            isAddProduct
+                ? <AddNewProduct
+                    refresh={refresh}
+                    hideShowAddProductForm={hideShowAddProductForm}
+                    selectedCategoryId={selectedCategoryId}
+                    product={defaultProduct} />
                 : <ProductDetails
-                    product={product}
-                    setAddProductMode={setAddProductMode} />
+                    refresh={refresh}
+                    hideShowAddProductForm={hideShowAddProductForm}
+                    selectedCategoryId={selectedCategoryId}
+                    product={product} />
         }
     </div>
 }

@@ -1,68 +1,21 @@
-import React, { useState } from 'react';
-import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
-import Switch from "@material-ui/core/Switch";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
+import React from 'react';
+import { AddNewProduct } from "./add-new-product";
 
-import { capitalize } from "../../helpers/util";
-
-const units = ['kg', 'gms', 'lt', 'ml', 'piece', 'pieces'];
-
-export function ProductDetails({ product }) {
-    const [showDesc, setShowDesc] = useState(false);
-    const [quantity, unit] = product ? product.size.split(" ") : "";
-
+export function ProductDetails({ product, refresh, selectedCategoryId, hideShowAddProductForm }) {
     return (
-        <div className="product-details-body">
-            {
-                product != null ?
-                    <React.Fragment>
-                        <div className="product-details-row">
-                            <TextField value={product.name} id="productName" label="Product Name" variant="outlined" fullWidth />
-                        </div>
-                        <div className="product-details-row">
-                            <TextField id="actualPrice" value={product.price} label="Actual Price" variant="outlined" fullWidth />
-                            <div className="product-details-spacer" />
-                            <TextField id="sellingPrice" value={product.price} label="Selling Price" variant="outlined" fullWidth />
-                        </div>
-                        <div className="product-details-row">
-                            <TextField className="product-details-small-input" value={quantity} id="quantity" label="Quantity" variant="outlined" />
-                            <div className="product-details-spacer" />
-                            <TextField value={unit} className="product-details-small-input" id="unit" select label="Select" variant="outlined">
-                                {units.map((value) => (
-                                    <MenuItem key={value} value={value}>
-                                        <span className="menu-item-unit">{capitalize(value)}</span>
-                                    </MenuItem>
-                                ))}
-                            </TextField>
-                        </div>
-                        <div className="product-details-row">
-                            <FormControlLabel
-                                className="product-details-description-text"
-                                value="Add Description"
-                                control={<Switch color="primary" />}
-                                label="Add Description"
-                                labelPlacement="start"
-                                checked={showDesc}
-                                onChange={() => setShowDesc(!showDesc)}
-                            />
-                        </div>
-                        {showDesc
-                            ? <div className="product-details-row">
-                                <TextField
-                                    id="outlined-multiline-static"
-                                    label="Product Description"
-                                    multiline
-                                    fullWidth
-                                    rows={3}
-                                    variant="outlined" />
-                            </div>
-                            : null}
-                    </React.Fragment> :
+        product != null
+            ? <AddNewProduct
+                product={product}
+                refresh={refresh}
+                selectedCategoryId={selectedCategoryId}
+                hideShowAddProductForm={hideShowAddProductForm}
+            />
+            : (
+                <div className="product-details-body">
                     <div className="no-product-slected">
                         No Product Selected
                     </div>
-            }
-        </div>
+                </div>
+            )
     );
 }
