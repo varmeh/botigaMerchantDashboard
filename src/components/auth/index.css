@@ -1,0 +1,107 @@
+.login{
+    position: relative;
+    top: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 452px;
+    height: 322px;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.09);
+    border-radius: 8px;
+    margin: auto;
+    padding: 50px;
+}
+.login .loginForm{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+.login .MuiSvgIcon-root{
+    color: rgba(18, 23, 21, 0.5);
+}
+.login .MuiButton-containedPrimary {
+    height:50px;
+    margin-top: 40px;
+}
+.login .MuiButton-label{
+    text-transform: capitalize;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+
+
+
+.verify-otp{
+    position: relative;
+    top: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 452px;
+    height: 418px;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.09);
+    border-radius: 8px;
+    margin: auto;
+    padding: 50px;
+}
+.verify-otp .description{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 20px;
+    text-align: center;
+    color: #121715;
+}
+.verify-otp .otpForm{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.verify-otp .MuiButton-containedPrimary {
+    height:50px;
+    margin-top: 40px;
+}
+.verify-otp .MuiButton-label{
+    text-transform: capitalize;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+}
+.verify-otp .otp-seprator{
+    width: 14px;
+}
+.verify-otp .resend{
+    margin-top: 20px;
+}
+.verify-otp .resendText{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 18px;
+    color: rgba(18, 23, 21, 0.5);
+}
+.verify-otp .resendbtn{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 18px;
+    color: rgba(18, 23, 21, 0.5);
+    cursor: pointer;
+}
+.verify-otp-inputs input{
+    width: 40px !important;
+    height: 50px !important;
+    background: rgba(18, 23, 21, 0.05);
+    border-radius: 8px;
+    border: none;
+}

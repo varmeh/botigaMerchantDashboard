@@ -1,5 +1,18 @@
+*{
+    box-sizing: border-box;
+}
+
 body{
     background: #E5E5E5;
+}
+
+.main-logo-conatiner{
+    display: flex;
+    justify-content: center;
+}
+.main-logo-conatiner .main-logo{
+    width: 148.06px;
+    height: 40px;
 }
 
 .item_selected{

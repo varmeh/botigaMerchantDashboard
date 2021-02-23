@@ -1,25 +1,56 @@
-import React, { useState } from "react";
+import React from "react";
 import { withRouter } from "react-router-dom";
-import PhoneInput from 'react-phone-input-2';
-import 'react-phone-input-2/lib/plain.css';
+import { Formik } from 'formik';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Phone from '@material-ui/icons/Phone';
+import { loginPhone } from "../../helpers/validators";
+import botigaMainLogo from "../../assets/icons/botiga-main-logo.svg";
 
+import "./index.css";
 
 export const Login = withRouter(({ history }) => {
-    const [phone, setPhone] = useState('');
 
-    function goToOtpPage() {
+    function goToOtpPage(phone) {
         history.push("/verify-otp", { phone });
     }
 
     return (
-        <React.Fragment>
-            <PhoneInput
-                country={'in'}
-                value={phone}
-                onChange={val => setPhone(val)}
-                onlyCountries={['in']}/>
-            <button onClick={goToOtpPage}>Continue</button>
-        </React.Fragment>
-
+        <div className="login">
+            <div className="main-logo-conatiner">
+                <img className="main-logo" src={botigaMainLogo} />
+            </div>
+            <Formik
+                enableReinitialize
+                validationSchema={loginPhone}
+                initialValues={{ 'phone': '' }}
+                onSubmit={function (values) {
+                    goToOtpPage(values.phone);
+                }}>
+                {({ handleSubmit, getFieldProps, touched, errors }) => (
+                    <form onSubmit={handleSubmit}>
+                        <div className="loginForm">
+                            <TextField
+                                id="phone"
+                                placeholder="Phone number"
+                                variant="outlined"
+                                fullWidth
+                                {...getFieldProps('phone')}
+                                error={touched.phone && errors.phone}
+                                helperText={errors.phone}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <Phone />
+                                        </InputAdornment>
+                                    ),
+                                }} />
+                            <Button type="submit" variant="contained" color="primary" size="large" fullWidth disableElevation>Sign In</Button>
+                        </div>
+                    </form>
+                )}
+            </Formik>
+        </div>
     );
 });

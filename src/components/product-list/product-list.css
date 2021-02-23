@@ -18,6 +18,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    height: 66px;
 }
 .product-header-name{
     font-family: Montserrat;

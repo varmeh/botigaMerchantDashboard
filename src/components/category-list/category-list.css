@@ -8,6 +8,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    height: 66px;
 }
 .category-header-name{
     font-family: Montserrat;
