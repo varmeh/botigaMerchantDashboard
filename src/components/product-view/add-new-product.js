@@ -14,6 +14,7 @@ import { addProductValidators } from "../../helpers/validators";
 import { PreviewMainImage } from "./preview-main-image";
 import { PreviewSecondaryImage } from "./preview-secondary-image";
 import { capitalize } from "../../helpers/util";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import 'react-image-crop/dist/ReactCrop.css';
 
@@ -58,130 +59,140 @@ export function AddNewProduct({ selectedCategoryId, refresh, product, hideShowAd
 
     async function removeProduct() {
         try {
+            setIsLoading(true);
             await deleteProduct(product.id, selectedCategoryId);
             refresh();
         } catch (err) { }
+        finally {
+            setIsLoading(false);
+        }
 
     }
 
     return (
-        <Formik
-            enableReinitialize
-            validationSchema={addProductValidators}
-            initialValues={initialValue}
-            onSubmit={
-                async (values) => {
-                    const imageurl = mainImage ? mainImage.imageUrlSmall : '';
-                    const imageUrlLarge = mainImage ? mainImage.imageUrl : '';
-                    const description = showDesc ? values.description : ''
-                    try {
-                        await saveProduct(
-                            selectedCategoryId,
-                            values.productName,
-                            values.price,
-                            values.mrp,
-                            values.quantity,
-                            values.unit,
-                            imageurl,
-                            imageUrlLarge,
-                            description,
-                            otherImages
-                        );
-                        refresh();
-                    } catch (err) { }
-                    finally { }
-                }
-            }>
-            {({ handleSubmit, getFieldProps, touched, errors }) => (
-                <form onSubmit={handleSubmit}>
-                    <div className="product-details-body">
-                        <div className="product-details-row">
-                            <TextField id="productName" label="Product Name" variant="outlined" fullWidth  {...getFieldProps('productName')} error={touched.productName && errors.productName} helperText={errors.productName} />
-                        </div>
-                        <div className="product-details-row">
-                            <TextField id="mrp" label="Mrp (Optional)" variant="outlined" fullWidth {...getFieldProps('mrp')} error={touched.mrp && errors.mrp} helperText={errors.mrp} />
-                            <div className="product-details-spacer" />
-                            <TextField id="price" label="Selling Price" variant="outlined" fullWidth {...getFieldProps('price')} error={touched.price && errors.price} helperText={errors.price} />
-                        </div>
-                        <div className="product-details-row">
-                            <TextField className="product-details-small-input" id="quantity" label="Quantity" variant="outlined" {...getFieldProps('quantity')} error={touched.quantity && errors.quantity} helperText={errors.quantity} />
-                            <div className="product-details-spacer" />
-                            <TextField className="product-details-small-input" id="unit" select label="Select" variant="outlined" {...getFieldProps('unit')} error={touched.unit && errors.unit} helperText={errors.unit}>
-                                {units.map((value) => (
-                                    <MenuItem key={value} value={value}>
-                                        <span className="menu-item-unit">{capitalize(value)}</span>
-                                    </MenuItem>
-                                ))}
-                            </TextField>
-                        </div>
-                        <div className="product-details-row">
-                            {mainImage ? <PreviewMainImage mainImage={mainImage} setMainImage={setMainImage} /> : <MainImageUploadComponent setMainImage={setMainImage} />}
-                            <div className="product-details-spacer" />
-                            <div className="secondary-container">
-                                {
-                                    otherImages.length > 0
-                                        ? otherImages.length == 4
-                                            ? otherImages.map((image, index) => <PreviewSecondaryImage key={index} imageUrl={image} index={index} removeImageAtIndex={removeImageAtIndex} />)
-                                            : (
-                                                <React.Fragment>
-                                                    {otherImages.map((image, index) => <PreviewSecondaryImage key={index} imageUrl={image} index={index} removeImageAtIndex={removeImageAtIndex} />)}
-                                                    <SecondaryImageUploadComponent isSmall={true} addOtherImages={addOtherImages} />
-                                                </React.Fragment>
-                                            )
-                                        : <SecondaryImageUploadComponent isSmall={false} addOtherImages={addOtherImages} />
-                                }
+        <div className={isLoading ? 'disable-container' : ''}>
+            {isLoading && (<div className="view-loader"><CircularProgress /></div>)}
+            < Formik
+                enableReinitialize
+                validationSchema={addProductValidators}
+                initialValues={initialValue}
+                onSubmit={
+                    async (values) => {
+                        const imageurl = mainImage ? mainImage.imageUrlSmall : '';
+                        const imageUrlLarge = mainImage ? mainImage.imageUrl : '';
+                        const description = showDesc ? values.description : ''
+                        try {
+                            setIsLoading(true);
+                            await saveProduct(
+                                selectedCategoryId,
+                                values.productName,
+                                values.price,
+                                values.mrp,
+                                values.quantity,
+                                values.unit,
+                                imageurl,
+                                imageUrlLarge,
+                                description,
+                                otherImages
+                            );
+                            refresh();
+                        } catch (err) { }
+                        finally {
+                            setIsLoading(false);
+                        }
+                    }
+                }>
+                {({ handleSubmit, getFieldProps, touched, errors }) => (
+                    <form onSubmit={handleSubmit}>
+                        <div className="product-details-body">
+                            <div className="product-details-row">
+                                <TextField id="productName" label="Product Name" variant="outlined" fullWidth  {...getFieldProps('productName')} error={touched.productName && errors.productName} helperText={errors.productName} />
                             </div>
-                        </div>
-                        <div className="product-details-row">
-                            <div className="image_info_banner">
-                                <div className="block_section">
-                                    <div className="primary">format</div>
-                                    <div className="secondary">JPG, PNG</div>
-                                </div>
-                                <div className="block_section">
-                                    <div className="primary">dimension</div>
-                                    <div className="secondary"> 600 px x 600 px</div>
-                                </div>
-                                <div className="block_section">
-                                    <div className="primary">size</div>
-                                    <div className="secondary">20 MB Max.</div>
+                            <div className="product-details-row">
+                                <TextField id="mrp" label="Mrp (Optional)" variant="outlined" fullWidth {...getFieldProps('mrp')} error={touched.mrp && errors.mrp} helperText={errors.mrp} />
+                                <div className="product-details-spacer" />
+                                <TextField id="price" label="Selling Price" variant="outlined" fullWidth {...getFieldProps('price')} error={touched.price && errors.price} helperText={errors.price} />
+                            </div>
+                            <div className="product-details-row">
+                                <TextField className="product-details-small-input" id="quantity" label="Quantity" variant="outlined" {...getFieldProps('quantity')} error={touched.quantity && errors.quantity} helperText={errors.quantity} />
+                                <div className="product-details-spacer" />
+                                <TextField className="product-details-small-input" id="unit" select label="Select" variant="outlined" {...getFieldProps('unit')} error={touched.unit && errors.unit} helperText={errors.unit}>
+                                    {units.map((value) => (
+                                        <MenuItem key={value} value={value}>
+                                            <span className="menu-item-unit">{capitalize(value)}</span>
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+                            </div>
+                            <div className="product-details-row">
+                                {mainImage ? <PreviewMainImage mainImage={mainImage} setMainImage={setMainImage} /> : <MainImageUploadComponent setMainImage={setMainImage} />}
+                                <div className="product-details-spacer" />
+                                <div className="secondary-container">
+                                    {
+                                        otherImages.length > 0
+                                            ? otherImages.length == 4
+                                                ? otherImages.map((image, index) => <PreviewSecondaryImage key={index} imageUrl={image} index={index} removeImageAtIndex={removeImageAtIndex} />)
+                                                : (
+                                                    <React.Fragment>
+                                                        {otherImages.map((image, index) => <PreviewSecondaryImage key={index} imageUrl={image} index={index} removeImageAtIndex={removeImageAtIndex} />)}
+                                                        <SecondaryImageUploadComponent isSmall={true} addOtherImages={addOtherImages} />
+                                                    </React.Fragment>
+                                                )
+                                            : <SecondaryImageUploadComponent isSmall={false} addOtherImages={addOtherImages} />
+                                    }
                                 </div>
                             </div>
-                        </div>
-                        <div className="product-details-row">
-                            <FormControlLabel
-                                className="product-details-description-text"
-                                value="Add Description"
-                                control={<Switch color="primary" />}
-                                label="Add Description"
-                                labelPlacement="start"
-                                checked={showDesc}
-                                onChange={() => setShowDesc(!showDesc)}
-                            />
-                        </div>
-                        {showDesc
-                            ? <div className="product-details-row">
-                                <TextField
-                                    {...getFieldProps('description')}
-                                    id="description"
-                                    label="Product Description"
-                                    multiline
-                                    fullWidth
-                                    rows={3}
-                                    variant="outlined" />
+                            <div className="product-details-row">
+                                <div className="image_info_banner">
+                                    <div className="block_section">
+                                        <div className="primary">format</div>
+                                        <div className="secondary">JPG, PNG</div>
+                                    </div>
+                                    <div className="block_section">
+                                        <div className="primary">dimension</div>
+                                        <div className="secondary"> 600 px x 600 px</div>
+                                    </div>
+                                    <div className="block_section">
+                                        <div className="primary">size</div>
+                                        <div className="secondary">20 MB Max.</div>
+                                    </div>
+                                </div>
                             </div>
-                            : null}
-                    </div>
-                    <div className="product-details-row-action">
-                        <Button disabled={isProductEmpty(product)} onClick={removeProduct} startIcon={<DeleteOutlineSharp />}>Delete Product</Button>
-                        <div className="product-details-row-action-btns">
-                            <Button onClick={hideShowAddProductForm}>Cancel</Button>
-                            <div className="product-details-spacer" />
-                            <Button type="submit" variant="contained" color="primary" disableElevation>Save Changes</Button>
+                            <div className="product-details-row">
+                                <FormControlLabel
+                                    className="product-details-description-text"
+                                    value="Add Description"
+                                    control={<Switch color="primary" />}
+                                    label="Add Description"
+                                    labelPlacement="start"
+                                    checked={showDesc}
+                                    onChange={() => setShowDesc(!showDesc)}
+                                />
+                            </div>
+                            {showDesc
+                                ? <div className="product-details-row">
+                                    <TextField
+                                        {...getFieldProps('description')}
+                                        id="description"
+                                        label="Product Description"
+                                        multiline
+                                        fullWidth
+                                        rows={3}
+                                        variant="outlined" />
+                                </div>
+                                : null}
                         </div>
-                    </div>
-                </form>
-            )}
-        </Formik>
+                        <div className="product-details-row-action">
+                            <Button disabled={isProductEmpty(product)} onClick={removeProduct} startIcon={<DeleteOutlineSharp />}>Delete Product</Button>
+                            <div className="product-details-row-action-btns">
+                                <Button onClick={hideShowAddProductForm}>Cancel</Button>
+                                <div className="product-details-spacer" />
+                                <Button type="submit" variant="contained" color="primary" disableElevation>Save Changes</Button>
+                            </div>
+                        </div>
+                    </form>
+                )}
+            </Formik >
+        </div>
     );
 }

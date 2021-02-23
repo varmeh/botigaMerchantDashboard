@@ -1,5 +1,6 @@
 .product-details-style{
     width: 530px;
+    position: relative;
 }
 .product-details-style .MuiFormLabel-root{
     font-family: Montserrat;

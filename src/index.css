@@ -37,3 +37,16 @@ body{
 .MuiAppBar-colorPrimary{
     background-color: #179F57 !important;
 }
+
+.MuiCircularProgress-root{
+    color: #179F57 !important;
+}
+
+.disable-container{
+    pointer-events: none !important;
+}
+.view-loader{
+    position: absolute;
+    top: 50%;
+    right: 50%;
+}
