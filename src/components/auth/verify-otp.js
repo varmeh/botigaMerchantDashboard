@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 
 import { getOTP, verifyOtpValue } from "../../services/auth-service";
 import botigaMainLogo from "../../assets/icons/botiga-main-logo.svg";
+import { Token } from "../../helpers/Token";
 import "./index.css";
 
 export const VerifyOtp = withRouter(({ history, location }) => {
@@ -43,10 +44,18 @@ export const VerifyOtp = withRouter(({ history, location }) => {
 
     async function verifyEnterdOTP() {
         try {
-            await verifyOtpValue(phone, sessionId, otp);
-            goToStore();
-        } catch (err) {
+            const response = await verifyOtpValue(phone, sessionId, otp);
+            if (response.data['message'] === 'createSeller') {
+                alert('seller doesnt not exists');
+            } else {
+                const { headers: { authorization } } = response;
+                const token = new Token();
+                await token.setAuthenticationToken(authorization);
+                goToStore();
+            }
 
+        } catch (err) {
+            alert(err);
         }
     }
 
