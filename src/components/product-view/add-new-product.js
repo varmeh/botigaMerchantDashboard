@@ -19,11 +19,15 @@ import 'react-image-crop/dist/ReactCrop.css';
 
 const units = ['kg', 'gms', 'lt', 'ml', 'piece', 'pieces'];
 
+function isProductEmpty(product) {
+    return Object.keys(product).length === 0;
+}
+
 export function AddNewProduct({ selectedCategoryId, refresh, product, hideShowAddProductForm }) {
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
     const [showDesc, setShowDesc] = useState(false);
-    const [mainImage, setMainImage] = useState(null);
+    const [mainImage, setMainImage] = useState(!isProductEmpty(product) ? { imageUrl: product.imageUrlLarge, imageUrlSmall: product.imageUrl } : null);
     const [otherImages, setOtherImages] = useState(product.secondaryImageUrls || []);
     const [quantity, unit] = (product.size || '').split(' ');
 
@@ -52,10 +56,6 @@ export function AddNewProduct({ selectedCategoryId, refresh, product, hideShowAd
         setOtherImages(images);
     }
 
-    function getIsDeleteDisabled() {
-        return Object.keys(product).length === 0;
-    }
-
     async function removeProduct() {
         try {
             await deleteProduct(product.id, selectedCategoryId);
@@ -72,7 +72,7 @@ export function AddNewProduct({ selectedCategoryId, refresh, product, hideShowAd
             onSubmit={
                 async (values) => {
                     const imageurl = mainImage ? mainImage.imageUrlSmall : '';
-                    const imageUrlLarge = mainImage ? mainImage.imageurl : '';
+                    const imageUrlLarge = mainImage ? mainImage.imageUrl : '';
                     const description = showDesc ? values.description : ''
                     try {
                         await saveProduct(
@@ -173,7 +173,7 @@ export function AddNewProduct({ selectedCategoryId, refresh, product, hideShowAd
                             : null}
                     </div>
                     <div className="product-details-row-action">
-                        <Button disabled={getIsDeleteDisabled()} onClick={removeProduct} startIcon={<DeleteOutlineSharp />}>Delete Product</Button>
+                        <Button disabled={isProductEmpty(product)} onClick={removeProduct} startIcon={<DeleteOutlineSharp />}>Delete Product</Button>
                         <div className="product-details-row-action-btns">
                             <Button onClick={hideShowAddProductForm}>Cancel</Button>
                             <div className="product-details-spacer" />
