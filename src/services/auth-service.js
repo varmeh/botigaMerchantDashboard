@@ -14,4 +14,8 @@ async function verifyOtpValue(phone, sessionId, otpVal) {
     });
 }
 
-export { fetchProfile, getOTP, verifyOtpValue };
+async function Logout() {
+    return axios().post(`/api/seller/auth/signout`, {});
+}
+
+export { fetchProfile, getOTP, verifyOtpValue, Logout };

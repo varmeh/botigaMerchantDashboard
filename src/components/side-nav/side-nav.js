@@ -1,17 +1,26 @@
 import React from "react";
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 
 import botigaLogo from "../../assets/icons/botiga_logo.svg";
 import storeIcon from "../../assets/icons/store.svg";
 import promoIcon from "../../assets/icons/promo.svg";
 import logoutIcon from "../../assets/icons/logout.svg";
 
+import { Logout } from "../../services/auth-service";
+import { Token } from "../../helpers/Token";
+
 import "./side-nav.css";
+export const SideNav = withRouter(({ history }) => {
 
-export function SideNav() {
+    async function handleLogout() {
+        try {
+            const token = new Token();
+            await Logout();
+            await token.setAuthenticationToken('');
+            history.push("/");
+        } catch (err) {
 
-    function handleLogout() {
-        console.log("Logout clicked +++");
+        }
     }
 
     return (
@@ -22,7 +31,7 @@ export function SideNav() {
             <MenuIconItem image={logoutIcon} text={"Logout"} isLogout handleLogout={handleLogout} />
         </div>
     );
-}
+});
 
 
 function MenuIconItem({ image, text, to, isLogout = false, handleLogout }) {

@@ -6,7 +6,9 @@ import { withRouter } from "react-router-dom";
 import { fetchProfile } from "./services/auth-service";
 import "./App.css";
 
-export const App = withRouter(({ history }) => {
+export const App = withRouter(({ history, location: { pathname = '' } }) => {
+
+  const sideBarForbiddenFor = ['/', '/verify-otp'];
 
   async function isValidTokenWithProfile() {
     try {
@@ -24,7 +26,7 @@ export const App = withRouter(({ history }) => {
 
   return (
     <div className="app">
-      <SideNav />
+      {sideBarForbiddenFor.includes(pathname) ? null : <SideNav />}
       <div className="main-content">
         <AppRoutes />
       </div>
