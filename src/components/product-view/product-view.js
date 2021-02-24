@@ -13,10 +13,11 @@ function ProductDetailsHeader() {
     );
 }
 
-export default function ProductView({ product, selectedCategoryId, isAddProduct, hideShowAddProductForm, loadProducts }) {
+export default function ProductView({ product, selectedCategoryId, isAddProduct, hideShowAddProductForm, updateScreen }) {
     const defaultProduct = {};
+
     async function refresh() {
-        loadProducts();
+        await updateScreen();
     }
 
     return <div className="product-details-style">

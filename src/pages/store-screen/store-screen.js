@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
-
-import { fetchProducts } from "../../services/product-service";
+import React, { useState, useEffect, useContext } from "react";
+import appContext from "../../contexts/AppContext";
 import CategoryList from "../../components/category-list/category-list";
 import ProductList from "../../components/product-list/product-list";
 import ProductView from "../../components/product-view/product-view";
@@ -33,27 +32,14 @@ function getSelectedProduct(products, selectedCategoryId, selectedProductId) {
 }
 
 export function StoreScreen() {
-    const [products, setProducts] = useState([]);
+    const { fetchProductList, products, setError } = useContext(appContext);
     const [selectedCategoryId, setSelectedCategoryId] = useState(null);
     const [selectedProductId, setSelectedProductId] = useState(null);
     const [isAddProduct, setIsAddProduct] = useState(false);
 
     useEffect(() => {
-        loadProducts();
+        initProductList();
     }, []);
-
-    async function loadProducts() {
-        const { data } = await fetchProducts();
-        if (data) {
-            setProducts(data);
-            if (data.length > 0) {
-                const firstProductElement = data[0];
-                if (firstProductElement) {
-                    setSelectedCategoryId(firstProductElement.categoryId);
-                }
-            }
-        }
-    }
 
     function selectedCategory(categoryId) {
         setSelectedCategoryId(categoryId);
@@ -76,6 +62,36 @@ export function StoreScreen() {
         setIsAddProduct(false);
     }
 
+    function setInitialCategorySelection(productList) {
+        if (productList.length > 0) {
+            const firstProductElement = productList[0];
+            if (firstProductElement) {
+                setSelectedCategoryId(firstProductElement.categoryId);
+            }
+        }
+    }
+
+    async function initProductList() {
+        try {
+            if (products.length > 0) {
+                setInitialCategorySelection(products);
+            } else {
+                const productList = await fetchProductList();
+                setInitialCategorySelection(productList);
+            }
+        } catch (err) { }
+        finally { }
+    }
+
+    async function updateScreen() {
+        try {
+            await fetchProductList();
+            setIsAddProduct(false);
+        } catch (err) { }
+        finally { }
+    }
+
+    const isAddProductBtnDisabled = getCategoryList(products).length === 0;
 
     return (
         <div className="store-screen-paper">
@@ -83,20 +99,21 @@ export function StoreScreen() {
                 categories={getCategoryList(products)}
                 selectedCategoryId={selectedCategoryId}
                 selectCategory={selectedCategory}
-                loadProducts={loadProducts} />
+                updateScreen={updateScreen} />
             <ProductList
+                isAddProductBtnDisabled={isAddProductBtnDisabled}
                 products={getProductList(products, selectedCategoryId)}
                 selectedProductId={selectedProductId}
                 selectedCategoryId={selectedCategoryId}
                 selectProduct={selectProduct}
-                loadProducts={loadProducts}
-                showProductAddForm={showProductAddForm} />
+                showProductAddForm={showProductAddForm}
+                updateScreen={updateScreen} />
             <ProductView
-                loadProducts={loadProducts}
                 selectedCategoryId={selectedCategoryId}
                 product={getSelectedProduct(products, selectedCategoryId, selectedProductId)}
                 isAddProduct={isAddProduct}
-                hideShowAddProductForm={hideShowAddProductForm} />
+                hideShowAddProductForm={hideShowAddProductForm}
+                updateScreen={updateScreen} />
         </div>
     )
 

@@ -140,7 +140,7 @@ function CategoryItem({ category, selectedCategoryId, selectCategory, refresh })
     );
 }
 
-export default function CategoryList({ categories, selectedCategoryId, selectCategory, loadProducts }) {
+export default function CategoryList({ categories, selectedCategoryId, selectCategory, updateScreen }) {
     const [openCategoryModal, setOpenCategoryModal] = useState(false);
 
     function handlOpenCategoryModal() {
@@ -157,12 +157,17 @@ export default function CategoryList({ categories, selectedCategoryId, selectCat
     }
 
     async function refresh() {
-        await loadProducts();
+        await updateScreen();
     }
 
     return (
         <div className="category-list-style">
             <CategoryHeader handleClickOpen={handlOpenCategoryModal} />
+            {categories.length == 0 && (
+                <div className="no-slection no-slection-border-top">
+                    Add categories to add products
+                </div>
+            )}
             {
                 categories.map((category => (
                     <CategoryItem

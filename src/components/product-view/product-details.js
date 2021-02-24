@@ -12,8 +12,8 @@ export function ProductDetails({ product, refresh, selectedCategoryId, hideShowA
             />
             : (
                 <div className="product-details-body">
-                    <div className="no-product-slected">
-                        No Product Selected
+                    <div className="no-slection">
+                        No product selected
                     </div>
                 </div>
             )

@@ -20,11 +20,11 @@ function getProductSizeAndPriceDetails(size, mrp, price) {
   );
 }
 
-function ProductHeader({ showProductAddForm }) {
+function ProductHeader({ showProductAddForm, isAddProductBtnDisabled }) {
   return (
     <div className="product-header-item">
       <div className="product-header-name">Product</div>
-      <Button className="product-header-btn" onClick={showProductAddForm}>+ ADD</Button>
+      <Button className="product-header-btn" disabled={isAddProductBtnDisabled} onClick={showProductAddForm}>+ ADD</Button>
     </div>
   );
 }
@@ -88,18 +88,23 @@ const ProductImage = React.memo(function ({ url, name }) {
   );
 });
 
-export default function ProductList({ products, selectProduct, selectedCategoryId, selectedProductId, showProductAddForm, loadProducts }) {
+export default function ProductList({ products, selectProduct, selectedCategoryId, selectedProductId, showProductAddForm, updateScreen, isAddProductBtnDisabled }) {
   const [isLoading, setIsLoading] = useState(false);
 
   async function refresh() {
-    loadProducts();
+    await updateScreen();
   }
 
   return (
     <div className={isLoading ? 'disable-container' : ''}>
       <div className="product-list-style">
         {isLoading && (<div className="view-loader"><CircularProgress /></div>)}
-        <ProductHeader showProductAddForm={showProductAddForm} />
+        <ProductHeader showProductAddForm={showProductAddForm} isAddProductBtnDisabled={isAddProductBtnDisabled} />
+        {products.length == 0 && (
+          <div className="no-slection no-slection-border-top">
+            0 products added
+          </div>
+        )}
         {
           products.map((product) => (
             <ProductItem

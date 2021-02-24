@@ -50,3 +50,25 @@ body{
     top: 50%;
     right: 50%;
 }
+
+
+.no-slection{
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Montserrat;
+    word-break: break-word;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 22px;
+    color: #000000;
+    padding: 20px;
+    text-align: center;
+    opacity: 0.5;
+}
+
+.no-slection-border-top{
+    border-top: 1px solid #DCDCDC;
+}
