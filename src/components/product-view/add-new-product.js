@@ -24,12 +24,23 @@ function isProductEmpty(product) {
     return Object.keys(product).length === 0;
 }
 
+function getMainProductImageObject(product) {
+    if (isProductEmpty(product)) {
+        return null;
+    } else {
+        if (product.imageUrlLarge && product.imageUrl) {
+            return { imageUrl: product.imageUrlLarge, imageUrlSmall: product.imageUrl }
+        }
+        return null;
+    }
+}
+
 export function AddNewProduct({ selectedCategoryId, refresh, product, hideShowAddProductForm }) {
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
     const [showDesc, setShowDesc] = useState(false);
-    const [mainImage, setMainImage] = useState(!isProductEmpty(product) ? { imageUrl: product.imageUrlLarge, imageUrlSmall: product.imageUrl } : null);
-    const [otherImages, setOtherImages] = useState(product.secondaryImageUrls || []);
+    const [mainImage, setMainImage] = useState(null);
+    const [otherImages, setOtherImages] = useState([]);
     const [quantity, unit] = (product.size || '').split(' ');
 
     const initialValue = {
@@ -44,7 +55,17 @@ export function AddNewProduct({ selectedCategoryId, refresh, product, hideShowAd
     useEffect(() => {
         const desc = product.description ? true : false;
         setShowDesc(desc);
-    }, [product.description])
+    }, [product.description]);
+
+    useEffect(() => {
+        setMainImage(getMainProductImageObject(product));
+    }, [product.imageUrlLarge, product.imageUrl]);
+
+    useEffect(() => {
+        setOtherImages(product.secondaryImageUrls || []);
+    }, [product.secondaryImageUrls]);
+
+
 
 
     function addOtherImages(image) {
@@ -66,8 +87,8 @@ export function AddNewProduct({ selectedCategoryId, refresh, product, hideShowAd
         finally {
             setIsLoading(false);
         }
-
     }
+
 
     return (
         <div className={isLoading ? 'disable-container' : ''}>
