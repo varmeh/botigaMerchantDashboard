@@ -186,12 +186,13 @@ export default function CategoryList({ categories, selectedCategoryId, selectCat
             <Formik
                 validationSchema={addCategoryValidators}
                 initialValues={{ category: '' }}
+                enableReinitialize
                 onSubmit={
-                    async (values, { setSubmitting }) => {
+                    async (values, { setSubmitting, resetForm }) => {
                         try {
                             await saveCategory(values.category);
                             await refresh();
-                            handleCloseCategoryModal()();
+                            handleCloseCategoryModal(resetForm)();
                         } catch (err) {
                             setError(true, err);
                         } finally {
