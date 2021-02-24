@@ -146,7 +146,9 @@ export function AddNewProduct({ selectedCategoryId, refresh, product, hideShowAd
                                 );
                             }
                             refresh();
-                        } catch (err) { }
+                        } catch (err) {
+                            console.log(err);
+                        }
                         finally {
                             setIsLoading(false);
                         }

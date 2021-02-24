@@ -86,7 +86,7 @@ export function StoreScreen() {
     async function updateScreen() {
         try {
             await fetchProductList();
-            setIsAddProduct(false);
+            hideShowAddProductForm();
         } catch (err) { }
         finally { }
     }
