@@ -3,7 +3,7 @@ import Button from "@material-ui/core/Button";
 import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import CircularProgress from '@material-ui/core/CircularProgress';
-
+import { Image } from "../common/Image/Image";
 import { updateProductStatus } from "../../services/product-service";
 
 import "./product-list.css";
@@ -84,7 +84,7 @@ const ProductImage = React.memo(function ({ url, name, tag }) {
   return (
     <div className="product-item-image-container">
       {tag && <span className="badge">Best Seller</span>}
-      <img className="product-item-image" src={url} alt={name} />
+      <Image className="product-item-image" src={url} alt={name} />
     </div>
   );
 });
