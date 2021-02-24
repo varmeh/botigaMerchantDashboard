@@ -30,7 +30,7 @@ function ProductHeader({ showProductAddForm, isAddProductBtnDisabled }) {
 }
 
 function ProductItem({ product, selectProduct, selectedProductId, selectedCategoryId, refresh, setIsLoading }) {
-  const { id, name, imageUrl, size, price, mrp, description, available } = product;
+  const { id, name, imageUrl, size, price, mrp, description, available, tag } = product;
   const [productStatus, setProductStatus] = useState(available);
   let productItemClass = "product-item";
 
@@ -73,16 +73,16 @@ function ProductItem({ product, selectProduct, selectedProductId, selectedCatego
             {description}
           </div>
         </div>
-        {imageUrl && <ProductImage url={imageUrl} />}
+        {imageUrl && <ProductImage url={imageUrl} name={name} tag={tag} />}
       </div>
     </div>
   );
 }
 
-const ProductImage = React.memo(function ({ url, name }) {
+const ProductImage = React.memo(function ({ url, name, tag }) {
   return (
     <div className="product-item-image-container">
-      <span className="badge">Best Seller</span>
+      {tag && <span className="badge">Best Seller</span>}
       <img className="product-item-image" src={url} alt={name} />
     </div>
   );

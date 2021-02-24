@@ -53,7 +53,7 @@
     align-items: center;
 }
 .product-item-row-description{
-    margin-top: 14px;
+    margin-top: 10px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -107,7 +107,7 @@
 .badge {
     position: absolute;
     top: -10px;
-    left: -10px;
+    left: -5px;
     background-color: #FFD953;
     align-items: center;
     padding: 4px;
