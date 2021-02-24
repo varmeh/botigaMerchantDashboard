@@ -1,4 +1,5 @@
 .product-list-style{
+    position: relative;
     width: 320px;
     border-left: 1px solid  #DCDCDC;
     border-right: 1px solid  #DCDCDC;

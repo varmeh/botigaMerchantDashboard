@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { updateProductStatus } from "../../services/product-service";
 
@@ -28,7 +29,7 @@ function ProductHeader({ showProductAddForm }) {
   );
 }
 
-function ProductItem({ product, selectProduct, selectedProductId, selectedCategoryId, refresh }) {
+function ProductItem({ product, selectProduct, selectedProductId, selectedCategoryId, refresh, setIsLoading }) {
   const { id, name, imageUrl, size, price, mrp, description, available } = product;
   const [productStatus, setProductStatus] = useState(available);
   let productItemClass = "product-item";
@@ -37,10 +38,14 @@ function ProductItem({ product, selectProduct, selectedProductId, selectedCatego
     let oldStatus = productStatus;
     setProductStatus(!productStatus);
     try {
+      setIsLoading(true);
       await updateProductStatus(selectedCategoryId, product, !productStatus);
       await refresh();
     } catch (err) {
       setProductStatus(oldStatus);
+    }
+    finally {
+      setIsLoading(false);
     }
   }
 
@@ -84,25 +89,30 @@ const ProductImage = React.memo(function ({ url, name }) {
 });
 
 export default function ProductList({ products, selectProduct, selectedCategoryId, selectedProductId, showProductAddForm, loadProducts }) {
+  const [isLoading, setIsLoading] = useState(false);
 
   async function refresh() {
     loadProducts();
   }
 
   return (
-    <div className="product-list-style">
-      <ProductHeader showProductAddForm={showProductAddForm} />
-      {
-        products.map((product) => (
-          <ProductItem
-            product={product}
-            key={product.id}
-            selectProduct={selectProduct}
-            refresh={refresh}
-            selectedCategoryId={selectedCategoryId}
-            selectedProductId={selectedProductId} />
-        ))
-      }
+    <div className={isLoading ? 'disable-container' : ''}>
+      <div className="product-list-style">
+        {isLoading && (<div className="view-loader"><CircularProgress /></div>)}
+        <ProductHeader showProductAddForm={showProductAddForm} />
+        {
+          products.map((product) => (
+            <ProductItem
+              setIsLoading={setIsLoading}
+              product={product}
+              key={product.id}
+              selectProduct={selectProduct}
+              refresh={refresh}
+              selectedCategoryId={selectedCategoryId}
+              selectedProductId={selectedProductId} />
+          ))
+        }
+      </div>
     </div>
   );
 }
