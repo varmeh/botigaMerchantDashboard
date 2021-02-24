@@ -6,6 +6,9 @@ import CloseIcon from '@material-ui/icons/Close';
 import appContext from "../../../contexts/AppContext";
 
 function getErrorMessage(err) {
+    if (typeof err === "string") {
+        return err;
+    }
     if (err) {
         const { response: { data: { message = '' } = {} } = {} } = err;
         return message || 'Some thing wrong happened';

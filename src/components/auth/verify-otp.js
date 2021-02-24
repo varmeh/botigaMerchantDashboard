@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import OtpInput from 'react-otp-input';
 import { withRouter } from "react-router-dom";
 import Button from '@material-ui/core/Button';
@@ -6,9 +6,11 @@ import Button from '@material-ui/core/Button';
 import { getOTP, verifyOtpValue } from "../../services/auth-service";
 import botigaMainLogo from "../../assets/icons/botiga-main-logo.svg";
 import { Token } from "../../helpers/Token";
+import appContext from "../../contexts/AppContext";
 import "./index.css";
 
 export const VerifyOtp = withRouter(({ history, location }) => {
+    const { setError } = useContext(appContext);
     const { state: { phone } } = location;
     const [otp, setOtp] = useState('');
     const [sessionId, setSessionId] = useState('');
@@ -32,38 +34,42 @@ export const VerifyOtp = withRouter(({ history, location }) => {
 
     function getOtp() {
         sendOtp();
-        setTimeRemaining(10);
+        setTimeRemaining(30);
         timerId = setInterval(tick, 1000);
     }
 
     function sendOtp() {
         getOTP(phone).then(res => {
             setSessionId(res.data['sessionId']);
-        }).catch(err => { })
+        }).catch(err => {
+            setError(true, err);
+        })
     }
 
     async function verifyEnterdOTP() {
+        const invalidOtpInput = (otp === '' || otp.length !== 6);
+        if (invalidOtpInput) {
+            setError(true, "Please enter 6 digits OTP sent to your mobile.");
+            return;
+        }
         try {
             const response = await verifyOtpValue(phone, sessionId, otp);
             if (response.data['message'] === 'createSeller') {
-                alert('seller doesnt not exists');
+                setError(true, "Seller doesn't exists");
             } else {
                 const { headers: { authorization } } = response;
                 const token = new Token();
                 await token.setAuthenticationToken(authorization);
                 goToStore();
             }
-
         } catch (err) {
-            alert(err);
+            setError(true, err);
         }
     }
 
     function goToStore() {
         history.replace("/store");
     }
-
-    const isVerifyOtpBtnEnabled = (otp != '' && otp.length === 6);
 
     return (
         <div className="verify-otp">
@@ -84,7 +90,7 @@ export const VerifyOtp = withRouter(({ history, location }) => {
                         : <div className="resendText">Resend OTP in {timeRemaining}s</div>
                     }
                 </div>
-                <Button disabled={!isVerifyOtpBtnEnabled} onClick={verifyEnterdOTP} variant="contained" color="primary" size="large" fullWidth disableElevation>Verify OTP</Button>
+                <Button onClick={verifyEnterdOTP} variant="contained" color="primary" size="large" fullWidth disableElevation>Verify OTP</Button>
             </div>
         </div>
     );
