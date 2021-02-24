@@ -12,12 +12,12 @@ import "./product-list.css";
 function getProductSizeAndPriceDetails(size, mrp, price) {
   const showMrp = mrp && mrp > price;
   return (
-    <React.Fragment>
-      <span className="text-light">
+    <div className="price-info">
+      <div className="text-light">
         {size} •{showMrp && <del>&#8377; {mrp}</del>}
-      </span>
-      <span className="text-dark">&nbsp;&#8377;{price}</span>
-    </React.Fragment>
+      </div>
+      <div className="text-dark">&nbsp;&#8377;{price}</div>
+    </div>
   );
 }
 
