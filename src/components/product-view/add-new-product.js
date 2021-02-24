@@ -9,7 +9,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import { SecondaryImageUploadComponent } from "./secondary-image-upload";
 import { MainImageUploadComponent } from "./main-image-upload";
-import { saveProduct, deleteProduct } from "../../services/product-service";
+import { saveProduct, deleteProduct, updateProduct } from "../../services/product-service";
 import { addProductValidators } from "../../helpers/validators";
 import { PreviewMainImage } from "./preview-main-image";
 import { PreviewSecondaryImage } from "./preview-secondary-image";
@@ -33,6 +33,16 @@ function getMainProductImageObject(product) {
         }
         return null;
     }
+}
+
+function shouldUpdateImage(product, mainImage, otherImages) {
+    if (!mainImage && otherImages.length == 0) {
+        return false;
+    }
+    const { secondaryImageUrls, imageUrl, imageUrlLarge } = product;
+    const isMainImageSame = (imageUrl === mainImage.imageUrlSmall && imageUrlLarge === mainImage.imageUrl);
+    const isOtherImagesSame = (otherImages.length === secondaryImageUrls.length) && (otherImages.every(val => secondaryImageUrls.includes(val)));
+    return !(isMainImageSame && isOtherImagesSame);
 }
 
 export function AddNewProduct({ selectedCategoryId, refresh, product, hideShowAddProductForm }) {
@@ -104,18 +114,37 @@ export function AddNewProduct({ selectedCategoryId, refresh, product, hideShowAd
                         const description = showDesc ? values.description : ''
                         try {
                             setIsLoading(true);
-                            await saveProduct(
-                                selectedCategoryId,
-                                values.productName,
-                                values.price,
-                                values.mrp,
-                                values.quantity,
-                                values.unit,
-                                imageurl,
-                                imageUrlLarge,
-                                description,
-                                otherImages
-                            );
+                            if (isProductEmpty(product)) {
+                                await saveProduct(
+                                    selectedCategoryId,
+                                    values.productName,
+                                    values.price,
+                                    values.mrp,
+                                    values.quantity,
+                                    values.unit,
+                                    imageurl,
+                                    imageUrlLarge,
+                                    description,
+                                    otherImages
+                                );
+                            } else {
+                                const updateImage = shouldUpdateImage(product, mainImage, otherImages);
+                                await updateProduct(
+                                    product.id,
+                                    selectedCategoryId,
+                                    values.productName,
+                                    values.price,
+                                    values.mrp,
+                                    values.quantity,
+                                    values.unit,
+                                    imageurl,
+                                    imageUrlLarge,
+                                    description,
+                                    otherImages,
+                                    updateImage,
+                                    product.available,
+                                );
+                            }
                             refresh();
                         } catch (err) { }
                         finally {
@@ -214,6 +243,6 @@ export function AddNewProduct({ selectedCategoryId, refresh, product, hideShowAd
                     </form>
                 )}
             </Formik >
-        </div>
+        </div >
     );
 }

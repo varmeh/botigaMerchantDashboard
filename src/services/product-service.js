@@ -23,6 +23,24 @@ async function saveProduct(categoryId, name, price, mrp, quantity, unit, imageUr
     });
 }
 
+async function updateProduct(productId, categoryId, name, price, mrp, quantity, unit, imageUrl, imageUrlLarge, description, secondaryImageUrls, updateImage, available) {
+    return axios().patch('/api/seller/products', {
+        'productId': productId,
+        'categoryId': categoryId,
+        'name': name,
+        'price': price,
+        ...(mrp ? { mrp } : {}),
+        quantity,
+        unit,
+        ...(imageUrl ? { imageUrl } : {}),
+        ...(imageUrlLarge ? { imageUrlLarge } : {}),
+        ...(description ? { description } : {}),
+        ...((secondaryImageUrls && secondaryImageUrls.length > 0) ? { secondaryImageUrls } : {}),
+        updateImage: updateImage,
+        available
+    });
+}
+
 async function updateProductStatus(categoryId, product, availableStatus) {
     const [quantity, unit] = product.size.split(' ');
     return axios().patch('/api/seller/products', {
@@ -55,4 +73,4 @@ async function uploadProductImage(image, isMainImage) {
     });
 }
 
-export { fetchProducts, saveProduct, updateProductStatus, uploadProductImage, deleteProductImage, deleteProduct };
+export { fetchProducts, saveProduct, updateProductStatus, uploadProductImage, deleteProductImage, deleteProduct, updateProduct };

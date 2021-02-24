@@ -5,6 +5,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Image } from "../common/Image/Image";
 import { updateProductStatus } from "../../services/product-service";
+import { capitalize } from "../../helpers/util";
 
 import "./product-list.css";
 
@@ -83,7 +84,7 @@ function ProductItem({ product, selectProduct, selectedProductId, selectedCatego
 const ProductImage = React.memo(function ({ url, name, tag }) {
   return (
     <div className="product-item-image-container">
-      {tag && <span className="badge">Best Seller</span>}
+      {tag && <span className="badge">{capitalize(tag)}</span>}
       <Image className="product-item-image" src={url} alt={name} />
     </div>
   );
