@@ -51,12 +51,20 @@ function ProductItem({ product, selectProduct, selectedProductId, selectedCatego
     }
   }
 
+  function handleItemRowClick(event) {
+    const className = event.target.className || '';
+    if (className.includes('MuiSwitch-input') || className.includes('MuiFormControlLabel-label')) {
+      return null;
+    }
+    selectProduct(id)
+  }
+
   if (id === selectedProductId) {
     productItemClass = `${productItemClass} item_selected`;
   }
 
   return (
-    <div className={productItemClass} onClick={() => selectProduct(id)}>
+    <div className={productItemClass} onClick={handleItemRowClick}>
       <div className="product-item-row-header">
         <div className="product-name">{name}</div>
         <FormControlLabel
