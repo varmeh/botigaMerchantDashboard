@@ -3,7 +3,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
-import appContext from "../../contexts/AppContext";
+import appContext from "../../../contexts/AppContext";
 
 function getErrorMessage(err) {
     if (err) {

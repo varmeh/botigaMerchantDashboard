@@ -1,8 +1,8 @@
 import React from "react";
 import { withRouter } from 'react-router-dom';
 import { AppRoutes } from "./components/AppRoutes";
-import { SideNav } from "./components/side-nav/side-nav";
-import { Error } from "./components/Error/Error";
+import { SideNav } from "./components/common/side-nav/side-nav";
+import { Error } from "./components/common/Error/Error";
 import { fetchProfile } from "./services/auth-service";
 import AppContext from "./contexts/AppContext";
 

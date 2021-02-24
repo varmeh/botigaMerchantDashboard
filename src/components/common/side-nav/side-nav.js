@@ -1,13 +1,13 @@
 import React from "react";
 import { NavLink, withRouter } from 'react-router-dom';
 
-import botigaLogo from "../../assets/icons/botiga_logo.svg";
-import storeIcon from "../../assets/icons/store.svg";
-import promoIcon from "../../assets/icons/promo.svg";
-import logoutIcon from "../../assets/icons/logout.svg";
+import botigaLogo from "../../../assets/icons/botiga_logo.svg";
+import storeIcon from "../../../assets/icons/store.svg";
+import promoIcon from "../../../assets/icons/promo.svg";
+import logoutIcon from "../../../assets/icons/logout.svg";
 
-import { Logout } from "../../services/auth-service";
-import { Token } from "../../helpers/Token";
+import { Logout } from "../../../services/auth-service";
+import { Token } from "../../../helpers/Token";
 
 import "./side-nav.css";
 export const SideNav = withRouter(({ history }) => {
