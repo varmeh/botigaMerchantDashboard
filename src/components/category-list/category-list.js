@@ -51,7 +51,7 @@ function CategoryItem({ category, selectedCategoryId, selectCategory, refresh, s
     async function deleteAddedCategory() {
         try {
             await deleteCategory(category.categoryId);
-            await refresh();
+            await refresh(true);
             closeDeleteModal();
         } catch (err) {
             setError(true, err);
@@ -156,9 +156,9 @@ export default function CategoryList({ categories, selectedCategoryId, selectCat
         }
     }
 
-    async function refresh() {
+    async function refresh(requiresInitialSelection) {
         try {
-            await updateScreen();
+            await updateScreen(requiresInitialSelection);
         } catch (err) {
             setError(true, err);
         }

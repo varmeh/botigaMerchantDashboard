@@ -3,6 +3,7 @@ import appContext from "../../contexts/AppContext";
 import CategoryList from "../../components/category-list/category-list";
 import ProductList from "../../components/product-list/product-list";
 import ProductView from "../../components/product-view/product-view";
+import SearchBar from "../../components/common/search-bar/search-bar";
 
 import "./store-screen.css";
 
@@ -32,10 +33,12 @@ function getSelectedProduct(products, selectedCategoryId, selectedProductId) {
 }
 
 export function StoreScreen() {
+    const screenName = 'Store';
     const { fetchProductList, products, setError } = useContext(appContext);
     const [selectedCategoryId, setSelectedCategoryId] = useState(null);
     const [selectedProductId, setSelectedProductId] = useState(null);
     const [isAddProduct, setIsAddProduct] = useState(false);
+    const [searchText, setSearchText] = useState('');
 
     useEffect(() => {
         initProductList();
@@ -84,42 +87,59 @@ export function StoreScreen() {
         }
     }
 
-    async function updateScreen() {
+    async function updateScreen(requiresInitialSelection) {
         try {
-            await fetchProductList();
+            const productList = await fetchProductList();
             hideShowAddProductForm();
+            if (typeof requiresInitialSelection === "boolean" && requiresInitialSelection) {
+                setInitialCategorySelection(productList);
+            }
         } catch (err) {
             setError(true, err);
         }
     }
 
+    function clearSearch() {
+        setSearchText('');
+    }
+
+    function setSearch(event) {
+        const { value } = event.target;
+        setSearchText(value);
+    }
+
     const isAddProductBtnDisabled = getCategoryList(products).length === 0;
+    const filterdCategories = getCategoryList(products).filter(category => category.name.toLowerCase().includes(searchText.toLowerCase()));
+    const filterProducts = getProductList(products, selectedCategoryId).filter(product => product.name.toLowerCase().includes(searchText.toLowerCase()));
 
     return (
-        <div className="store-screen-paper">
-            <CategoryList
-                categories={getCategoryList(products)}
-                selectedCategoryId={selectedCategoryId}
-                selectCategory={selectedCategory}
-                updateScreen={updateScreen}
-                setError={setError} />
-            <ProductList
-                isAddProductBtnDisabled={isAddProductBtnDisabled}
-                products={getProductList(products, selectedCategoryId)}
-                selectedProductId={selectedProductId}
-                selectedCategoryId={selectedCategoryId}
-                selectProduct={selectProduct}
-                showProductAddForm={showProductAddForm}
-                updateScreen={updateScreen}
-                setError={setError} />
-            <ProductView
-                selectedCategoryId={selectedCategoryId}
-                product={getSelectedProduct(products, selectedCategoryId, selectedProductId)}
-                isAddProduct={isAddProduct}
-                hideShowAddProductForm={hideShowAddProductForm}
-                updateScreen={updateScreen}
-                setError={setError} />
-        </div>
+        <React.Fragment>
+            <SearchBar screenName={screenName} reset={clearSearch} handleChange={setSearch} searchValue={searchText} />
+            <div className="store-screen-paper">
+                <CategoryList
+                    categories={filterdCategories}
+                    selectedCategoryId={selectedCategoryId}
+                    selectCategory={selectedCategory}
+                    updateScreen={updateScreen}
+                    setError={setError} />
+                <ProductList
+                    isAddProductBtnDisabled={isAddProductBtnDisabled}
+                    products={filterProducts}
+                    selectedProductId={selectedProductId}
+                    selectedCategoryId={selectedCategoryId}
+                    selectProduct={selectProduct}
+                    showProductAddForm={showProductAddForm}
+                    updateScreen={updateScreen}
+                    setError={setError} />
+                <ProductView
+                    selectedCategoryId={selectedCategoryId}
+                    product={getSelectedProduct(products, selectedCategoryId, selectedProductId)}
+                    isAddProduct={isAddProduct}
+                    hideShowAddProductForm={hideShowAddProductForm}
+                    updateScreen={updateScreen}
+                    setError={setError} />
+            </div>
+        </React.Fragment>
     )
 
 }

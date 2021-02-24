@@ -1,0 +1,16 @@
+.search-bar{
+    width: 1170px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 40px auto 20px auto;
+}
+
+.search-bar .screen-title{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 28px;
+    line-height: 150%;    
+    color: #000000;
+}
