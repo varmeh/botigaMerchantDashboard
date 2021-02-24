@@ -45,9 +45,8 @@ function shouldUpdateImage(product, mainImage, otherImages) {
     return !(isMainImageSame && isOtherImagesSame);
 }
 
-export function AddNewProduct({ selectedCategoryId, refresh, product, hideShowAddProductForm }) {
+export function AddNewProduct({ selectedCategoryId, refresh, product, hideShowAddProductForm, setError }) {
     const [isLoading, setIsLoading] = useState(false);
-    const [isError, setIsError] = useState(false);
     const [showDesc, setShowDesc] = useState(false);
     const [mainImage, setMainImage] = useState(null);
     const [otherImages, setOtherImages] = useState([]);
@@ -93,7 +92,9 @@ export function AddNewProduct({ selectedCategoryId, refresh, product, hideShowAd
             setIsLoading(true);
             await deleteProduct(product.id, selectedCategoryId);
             refresh();
-        } catch (err) { }
+        } catch (err) {
+            setError(true, err);
+        }
         finally {
             setIsLoading(false);
         }
@@ -147,7 +148,7 @@ export function AddNewProduct({ selectedCategoryId, refresh, product, hideShowAd
                             }
                             refresh();
                         } catch (err) {
-                            console.log(err);
+                            setError(true, err);
                         }
                         finally {
                             setIsLoading(false);
@@ -177,20 +178,22 @@ export function AddNewProduct({ selectedCategoryId, refresh, product, hideShowAd
                                 </TextField>
                             </div>
                             <div className="product-details-row">
-                                {mainImage ? <PreviewMainImage mainImage={mainImage} setMainImage={setMainImage} setIsLoading={setIsLoading} /> : <MainImageUploadComponent setMainImage={setMainImage} setIsLoading={setIsLoading} />}
+                                {mainImage
+                                    ? <PreviewMainImage mainImage={mainImage} setMainImage={setMainImage} setIsLoading={setIsLoading} setError={setError} />
+                                    : <MainImageUploadComponent setMainImage={setMainImage} setIsLoading={setIsLoading} setError={setError} />}
                                 <div className="product-details-spacer" />
                                 <div className="secondary-container">
                                     {
                                         otherImages.length > 0
                                             ? otherImages.length == 4
-                                                ? otherImages.map((image, index) => <PreviewSecondaryImage key={index} imageUrl={image} index={index} removeImageAtIndex={removeImageAtIndex} setIsLoading={setIsLoading} />)
+                                                ? otherImages.map((image, index) => <PreviewSecondaryImage key={index} imageUrl={image} index={index} removeImageAtIndex={removeImageAtIndex} setIsLoading={setIsLoading} setError={setError} />)
                                                 : (
                                                     <React.Fragment>
-                                                        {otherImages.map((image, index) => <PreviewSecondaryImage key={index} imageUrl={image} index={index} removeImageAtIndex={removeImageAtIndex} setIsLoading={setIsLoading} />)}
-                                                        <SecondaryImageUploadComponent isSmall={true} addOtherImages={addOtherImages} setIsLoading={setIsLoading} />
+                                                        {otherImages.map((image, index) => <PreviewSecondaryImage key={index} imageUrl={image} index={index} removeImageAtIndex={removeImageAtIndex} setIsLoading={setIsLoading} setError={setError} />)}
+                                                        <SecondaryImageUploadComponent isSmall={true} addOtherImages={addOtherImages} setIsLoading={setIsLoading} setError={setError} />
                                                     </React.Fragment>
                                                 )
-                                            : <SecondaryImageUploadComponent isSmall={false} addOtherImages={addOtherImages} setIsLoading={setIsLoading} />
+                                            : <SecondaryImageUploadComponent isSmall={false} addOtherImages={addOtherImages} setIsLoading={setIsLoading} setError={setError} />
                                     }
                                 </div>
                             </div>

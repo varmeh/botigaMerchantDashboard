@@ -13,7 +13,7 @@ function ProductDetailsHeader() {
     );
 }
 
-export default function ProductView({ product, selectedCategoryId, isAddProduct, hideShowAddProductForm, updateScreen }) {
+export default function ProductView({ product, selectedCategoryId, isAddProduct, hideShowAddProductForm, updateScreen, setError }) {
     const defaultProduct = {};
 
     async function refresh() {
@@ -28,12 +28,14 @@ export default function ProductView({ product, selectedCategoryId, isAddProduct,
                     refresh={refresh}
                     hideShowAddProductForm={hideShowAddProductForm}
                     selectedCategoryId={selectedCategoryId}
-                    product={defaultProduct} />
+                    product={defaultProduct}
+                    setError={setError} />
                 : <ProductDetails
                     refresh={refresh}
                     hideShowAddProductForm={hideShowAddProductForm}
                     selectedCategoryId={selectedCategoryId}
-                    product={product} />
+                    product={product}
+                    setError={setError} />
         }
     </div>
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { AddNewProduct } from "./add-new-product";
 
-export function ProductDetails({ product, refresh, selectedCategoryId, hideShowAddProductForm }) {
+export function ProductDetails({ product, refresh, selectedCategoryId, hideShowAddProductForm, setError }) {
     return (
         product != null
             ? <AddNewProduct
@@ -9,6 +9,7 @@ export function ProductDetails({ product, refresh, selectedCategoryId, hideShowA
                 refresh={refresh}
                 selectedCategoryId={selectedCategoryId}
                 hideShowAddProductForm={hideShowAddProductForm}
+                setError={setError}
             />
             : (
                 <div className="product-details-body">

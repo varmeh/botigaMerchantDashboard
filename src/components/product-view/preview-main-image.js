@@ -4,7 +4,7 @@ import { deleteProductImage } from "../../services/product-service";
 
 import { Image } from "../common/Image/Image";
 
-export function PreviewMainImage({ mainImage, setMainImage, setIsLoading }) {
+export function PreviewMainImage({ mainImage, setMainImage, setIsLoading, setError }) {
     async function removeImage() {
         try {
             setIsLoading(true);
@@ -12,7 +12,7 @@ export function PreviewMainImage({ mainImage, setMainImage, setIsLoading }) {
             await deleteProductImage(mainImage.imageUrlSmall);
             resetMainImage();
         } catch (err) {
-
+            setError(true, err);
         }
         finally {
             setIsLoading(false);

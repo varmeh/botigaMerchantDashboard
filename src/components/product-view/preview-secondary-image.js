@@ -4,14 +4,14 @@ import { deleteProductImage } from "../../services/product-service";
 
 import { Image } from "../common/Image/Image";
 
-export function PreviewSecondaryImage({ imageUrl, removeImageAtIndex, index, setIsLoading }) {
+export function PreviewSecondaryImage({ imageUrl, removeImageAtIndex, index, setIsLoading, setError }) {
     async function removeImage() {
         try {
             setIsLoading(true);
             await deleteProductImage(imageUrl);
             resetSecondaryImageAtPoisition(index)();
         } catch (err) {
-
+            setError(true, err);
         } finally {
             setIsLoading(false);
         }

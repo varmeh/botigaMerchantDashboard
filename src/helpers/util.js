@@ -6,7 +6,7 @@ export function capitalize(s) {
 }
 
 
-export async function getResizedFile(file, cbFunction, isMainImage, setIsLoading) {
+export async function getResizedFile(file, cbFunction, isMainImage, setIsLoading, setError) {
   if (!file) { return; }
   try {
     if (typeof setIsLoading === 'function') {
@@ -22,7 +22,9 @@ export async function getResizedFile(file, cbFunction, isMainImage, setIsLoading
       }
     }
   } catch (err) {
-    console.log(err);
+    if (typeof setError === 'function') {
+      setError(true, err);
+    }
   }
   finally {
     if (typeof setIsLoading === 'function') {

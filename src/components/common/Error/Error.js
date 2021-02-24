@@ -30,7 +30,7 @@ export function Error({ err }) {
                 horizontal: 'center',
             }}
             open
-            autoHideDuration={6000}
+            autoHideDuration={3000}
             onClose={handleClose}
             message={getErrorMessage(err)}
             action={

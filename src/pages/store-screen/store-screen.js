@@ -114,7 +114,8 @@ export function StoreScreen() {
                 product={getSelectedProduct(products, selectedCategoryId, selectedProductId)}
                 isAddProduct={isAddProduct}
                 hideShowAddProductForm={hideShowAddProductForm}
-                updateScreen={updateScreen} />
+                updateScreen={updateScreen}
+                setError={setError} />
         </div>
     )
 
