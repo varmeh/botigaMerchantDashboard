@@ -29,7 +29,7 @@ function ProductHeader({ showProductAddForm, isAddProductBtnDisabled }) {
   );
 }
 
-function ProductItem({ product, selectProduct, selectedProductId, selectedCategoryId, refresh, setIsLoading }) {
+function ProductItem({ product, selectProduct, selectedProductId, selectedCategoryId, refresh, setIsLoading, setError }) {
   const { id, name, imageUrl, size, price, mrp, description, available, tag } = product;
   const [productStatus, setProductStatus] = useState(available);
   let productItemClass = "product-item";
@@ -43,6 +43,7 @@ function ProductItem({ product, selectProduct, selectedProductId, selectedCatego
       await refresh();
     } catch (err) {
       setProductStatus(oldStatus);
+      setError(true, err);
     }
     finally {
       setIsLoading(false);
@@ -88,7 +89,7 @@ const ProductImage = React.memo(function ({ url, name, tag }) {
   );
 });
 
-export default function ProductList({ products, selectProduct, selectedCategoryId, selectedProductId, showProductAddForm, updateScreen, isAddProductBtnDisabled }) {
+export default function ProductList({ products, selectProduct, selectedCategoryId, selectedProductId, showProductAddForm, updateScreen, isAddProductBtnDisabled, setError }) {
   const [isLoading, setIsLoading] = useState(false);
 
   async function refresh() {
@@ -114,7 +115,8 @@ export default function ProductList({ products, selectProduct, selectedCategoryI
               selectProduct={selectProduct}
               refresh={refresh}
               selectedCategoryId={selectedCategoryId}
-              selectedProductId={selectedProductId} />
+              selectedProductId={selectedProductId}
+              setError={setError} />
           ))
         }
       </div>

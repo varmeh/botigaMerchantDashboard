@@ -7,7 +7,8 @@ import appContext from "../../contexts/AppContext";
 
 function getErrorMessage(err) {
     if (err) {
-        return err.message || 'Some thing wrong happened';
+        const { response: { data: { message = '' } = {} } = {} } = err;
+        return message || 'Some thing wrong happened';
     }
     return 'Some thing wrong happened';
 }

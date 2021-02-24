@@ -107,7 +107,8 @@ export function StoreScreen() {
                 selectedCategoryId={selectedCategoryId}
                 selectProduct={selectProduct}
                 showProductAddForm={showProductAddForm}
-                updateScreen={updateScreen} />
+                updateScreen={updateScreen}
+                setError={setError} />
             <ProductView
                 selectedCategoryId={selectedCategoryId}
                 product={getSelectedProduct(products, selectedCategoryId, selectedProductId)}
