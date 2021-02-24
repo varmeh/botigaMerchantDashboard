@@ -79,16 +79,18 @@ export function StoreScreen() {
                 const productList = await fetchProductList();
                 setInitialCategorySelection(productList);
             }
-        } catch (err) { }
-        finally { }
+        } catch (err) {
+            setError(true, err);
+        }
     }
 
     async function updateScreen() {
         try {
             await fetchProductList();
             hideShowAddProductForm();
-        } catch (err) { }
-        finally { }
+        } catch (err) {
+            setError(true, err);
+        }
     }
 
     const isAddProductBtnDisabled = getCategoryList(products).length === 0;
@@ -99,7 +101,8 @@ export function StoreScreen() {
                 categories={getCategoryList(products)}
                 selectedCategoryId={selectedCategoryId}
                 selectCategory={selectedCategory}
-                updateScreen={updateScreen} />
+                updateScreen={updateScreen}
+                setError={setError} />
             <ProductList
                 isAddProductBtnDisabled={isAddProductBtnDisabled}
                 products={getProductList(products, selectedCategoryId)}

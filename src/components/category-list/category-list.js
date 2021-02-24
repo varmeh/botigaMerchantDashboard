@@ -25,7 +25,7 @@ function CategoryHeader({ handleClickOpen }) {
 }
 
 
-function CategoryItem({ category, selectedCategoryId, selectCategory, refresh }) {
+function CategoryItem({ category, selectedCategoryId, selectCategory, refresh, setError }) {
     const [openEdit, setOpenEdit] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
 
@@ -54,7 +54,7 @@ function CategoryItem({ category, selectedCategoryId, selectCategory, refresh })
             await refresh();
             closeDeleteModal();
         } catch (err) {
-
+            setError(true, err);
         }
     }
 
@@ -82,7 +82,7 @@ function CategoryItem({ category, selectedCategoryId, selectCategory, refresh })
                             await refresh();
                             handleCloseEditCategoryModal();
                         } catch (err) {
-
+                            setError(true, err);
                         } finally {
                             setSubmitting(false);
                         }
@@ -140,7 +140,7 @@ function CategoryItem({ category, selectedCategoryId, selectCategory, refresh })
     );
 }
 
-export default function CategoryList({ categories, selectedCategoryId, selectCategory, updateScreen }) {
+export default function CategoryList({ categories, selectedCategoryId, selectCategory, updateScreen, setError }) {
     const [openCategoryModal, setOpenCategoryModal] = useState(false);
 
     function handlOpenCategoryModal() {
@@ -157,7 +157,11 @@ export default function CategoryList({ categories, selectedCategoryId, selectCat
     }
 
     async function refresh() {
-        await updateScreen();
+        try {
+            await updateScreen();
+        } catch (err) {
+            setError(true, err);
+        }
     }
 
     return (
@@ -175,7 +179,8 @@ export default function CategoryList({ categories, selectedCategoryId, selectCat
                         category={category}
                         key={category.categoryId}
                         selectedCategoryId={selectedCategoryId}
-                        selectCategory={selectCategory} />)
+                        selectCategory={selectCategory}
+                        setError={setError} />)
                 ))
             }
             <Formik
@@ -188,7 +193,7 @@ export default function CategoryList({ categories, selectedCategoryId, selectCat
                             await refresh();
                             handleCloseCategoryModal()();
                         } catch (err) {
-
+                            setError(true, err);
                         } finally {
                             setSubmitting(false);
                         }
