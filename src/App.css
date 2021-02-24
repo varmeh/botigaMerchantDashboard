@@ -1,3 +1,7 @@
-.app .main-content {
+.app .main-content-sidebar {
     margin-left: 120px;
+  }
+
+  .app .main-content-no-sidebar{
+    margin-left: 0px;
   }
