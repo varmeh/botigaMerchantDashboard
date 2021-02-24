@@ -296,7 +296,7 @@ export function AddNewProduct({
 								<div className='image_info_banner'>
 									<div className='block_section'>
 										<div className='primary'>format</div>
-										<div className='secondary'>JPG, PNG</div>
+										<div className='secondary'>PNG | JPG | JPEG</div>
 									</div>
 									<div className='block_section'>
 										<div className='primary'>dimension</div>
