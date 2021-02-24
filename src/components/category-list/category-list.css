@@ -100,7 +100,7 @@ button.save-category-btn .MuiButton-label{
     text-transform: initial !important;
     font-family: Montserrat;
     font-style: normal;
-    
+    color: white !important;
 }
 
 button.save-category-cancel .MuiButton-label{
@@ -125,4 +125,8 @@ button.save-category-cancel .MuiButton-label{
     padding: 8px 24px 8px 8px;
     align-items: center;
     justify-content: flex-end;
+}
+
+.delete-category-modal .MuiDialog-paper{
+    padding: 15px;
 }

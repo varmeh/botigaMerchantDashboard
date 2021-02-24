@@ -76,13 +76,19 @@ function CategoryItem({ category, selectedCategoryId, selectCategory, refresh })
                     category: category.name,
                 }}
                 onSubmit={
-                    async (values) => {
-                        await editCategory(category.categoryId, values.category);
-                        await refresh();
-                        handleCloseEditCategoryModal();
+                    async (values, { setSubmitting }) => {
+                        try {
+                            await editCategory(category.categoryId, values.category);
+                            await refresh();
+                            handleCloseEditCategoryModal();
+                        } catch (err) {
+
+                        } finally {
+                            setSubmitting(false);
+                        }
                     }
                 }>
-                {({ handleSubmit, getFieldProps, touched, errors }) => (
+                {({ handleSubmit, getFieldProps, touched, errors, isSubmitting }) => (
                     <Dialog fullWidth maxWidth="xs" open={openEdit} aria-labelledby="form-dialog-title" className="add-category-modal">
                         <DialogTitle className="add-category-modal-title">Add category</DialogTitle>
                         <form onSubmit={handleSubmit}>
@@ -102,15 +108,16 @@ function CategoryItem({ category, selectedCategoryId, selectCategory, refresh })
                                 <Button size="large" className="save-category-cancel" onClick={handleCloseEditCategoryModal} color="primary">
                                     Cancel
                             </Button>
-                                <Button type="submit" size="large" className="save-category-btn" variant="contained" color="primary" disableElevation>
-                                    Edit category
-                            </Button>
+                                <Button disabled={isSubmitting} type="submit" size="large" className="save-category-btn" variant="contained" color="primary" disableElevation>
+                                    {isSubmitting ? 'Edit category ...' : 'Edit category'}
+                                </Button>
                             </DialogActions>
                         </form>
                     </Dialog>
                 )}
             </Formik>
             <Dialog
+                className="delete-category-modal"
                 open={openDelete}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description">
@@ -170,17 +177,19 @@ export default function CategoryList({ categories, selectedCategoryId, selectCat
                 validationSchema={addCategoryValidators}
                 initialValues={{ category: '' }}
                 onSubmit={
-                    async (values) => {
+                    async (values, { setSubmitting }) => {
                         try {
                             await saveCategory(values.category);
                             await refresh();
                             handleCloseCategoryModal()();
                         } catch (err) {
 
+                        } finally {
+                            setSubmitting(false);
                         }
                     }
                 }>
-                {({ handleSubmit, getFieldProps, touched, errors, resetForm }) => (
+                {({ handleSubmit, getFieldProps, touched, errors, resetForm, isSubmitting }) => (
                     <Dialog fullWidth maxWidth="xs" open={openCategoryModal} aria-labelledby="form-dialog-title" className="add-category-modal">
                         <DialogTitle className="add-category-modal-title">Add category</DialogTitle>
                         <form onSubmit={handleSubmit}>
@@ -200,9 +209,9 @@ export default function CategoryList({ categories, selectedCategoryId, selectCat
                                 <Button size="large" className="save-category-cancel" onClick={handleCloseCategoryModal(resetForm)}>
                                     Cancel
                             </Button>
-                                <Button type="submit" size="large" className="save-category-btn" variant="contained" color="primary" disableElevation>
-                                    Save category
-                            </Button>
+                                <Button disabled={isSubmitting} type="submit" size="large" className="save-category-btn" variant="contained" color="primary" disableElevation>
+                                    {isSubmitting ? 'Save category ...' : 'Save category'}
+                                </Button>
                             </DialogActions>
                         </form>
                     </Dialog>
