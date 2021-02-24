@@ -125,20 +125,20 @@ export function AddNewProduct({ selectedCategoryId, refresh, product, hideShowAd
                                 </TextField>
                             </div>
                             <div className="product-details-row">
-                                {mainImage ? <PreviewMainImage mainImage={mainImage} setMainImage={setMainImage} /> : <MainImageUploadComponent setMainImage={setMainImage} />}
+                                {mainImage ? <PreviewMainImage mainImage={mainImage} setMainImage={setMainImage} setIsLoading={setIsLoading} /> : <MainImageUploadComponent setMainImage={setMainImage} setIsLoading={setIsLoading} />}
                                 <div className="product-details-spacer" />
                                 <div className="secondary-container">
                                     {
                                         otherImages.length > 0
                                             ? otherImages.length == 4
-                                                ? otherImages.map((image, index) => <PreviewSecondaryImage key={index} imageUrl={image} index={index} removeImageAtIndex={removeImageAtIndex} />)
+                                                ? otherImages.map((image, index) => <PreviewSecondaryImage key={index} imageUrl={image} index={index} removeImageAtIndex={removeImageAtIndex} setIsLoading={setIsLoading} />)
                                                 : (
                                                     <React.Fragment>
-                                                        {otherImages.map((image, index) => <PreviewSecondaryImage key={index} imageUrl={image} index={index} removeImageAtIndex={removeImageAtIndex} />)}
-                                                        <SecondaryImageUploadComponent isSmall={true} addOtherImages={addOtherImages} />
+                                                        {otherImages.map((image, index) => <PreviewSecondaryImage key={index} imageUrl={image} index={index} removeImageAtIndex={removeImageAtIndex} setIsLoading={setIsLoading} />)}
+                                                        <SecondaryImageUploadComponent isSmall={true} addOtherImages={addOtherImages} setIsLoading={setIsLoading} />
                                                     </React.Fragment>
                                                 )
-                                            : <SecondaryImageUploadComponent isSmall={false} addOtherImages={addOtherImages} />
+                                            : <SecondaryImageUploadComponent isSmall={false} addOtherImages={addOtherImages} setIsLoading={setIsLoading} />
                                     }
                                 </div>
                             </div>

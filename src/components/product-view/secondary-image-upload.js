@@ -5,11 +5,11 @@ import 'react-image-crop/dist/ReactCrop.css';
 import { getResizedFile } from "../../helpers/util";
 
 
-export function SecondaryImageUploadComponent({ addOtherImages, isSmall }) {
+export function SecondaryImageUploadComponent({ addOtherImages, isSmall, setIsLoading }) {
 
     const onDrop = useCallback(acceptedFiles => {
         acceptedFiles.forEach(file => {
-            getResizedFile(file, addOtherImages, false);
+            getResizedFile(file, addOtherImages, false, setIsLoading);
         });
     }, []);
 

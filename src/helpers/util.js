@@ -6,9 +6,12 @@ export function capitalize(s) {
 }
 
 
-export async function getResizedFile(file, cbFunction, isMainImage) {
+export async function getResizedFile(file, cbFunction, isMainImage, setIsLoading) {
   if (!file) { return; }
   try {
+    if (typeof setIsLoading === 'function') {
+      setIsLoading(true);
+    }
     const { data } = await uploadProductImage(file, isMainImage);
     if (typeof cbFunction === "function") {
       if (isMainImage) {
@@ -18,5 +21,12 @@ export async function getResizedFile(file, cbFunction, isMainImage) {
         cbFunction(imageUrl);
       }
     }
-  } catch (err) { console.log(err); }
+  } catch (err) {
+    console.log(err);
+  }
+  finally {
+    if (typeof setIsLoading === 'function') {
+      setIsLoading(false);
+    }
+  }
 }

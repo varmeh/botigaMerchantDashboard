@@ -4,10 +4,10 @@ import AddIcon from '@material-ui/icons/Add';
 import 'react-image-crop/dist/ReactCrop.css';
 import { getResizedFile } from "../../helpers/util";
 
-export function MainImageUploadComponent({ setMainImage }) {
+export function MainImageUploadComponent({ setMainImage, setIsLoading }) {
 
     const onDrop = useCallback(async (acceptedFiles) => {
-        getResizedFile(acceptedFiles.shift(), setMainImage, true);
+        getResizedFile(acceptedFiles.shift(), setMainImage, true, setIsLoading);
     }, []);
 
     const { getRootProps, getInputProps } = useDropzone({ onDrop, noDrag: true, accept: 'image/jpeg, image/png', maxFiles: 1, multiple: false })
