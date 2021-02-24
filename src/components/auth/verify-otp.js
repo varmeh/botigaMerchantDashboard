@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import OtpInput from 'react-otp-input';
 import { withRouter } from "react-router-dom";
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { getOTP, verifyOtpValue } from "../../services/auth-service";
 import botigaMainLogo from "../../assets/icons/botiga-main-logo.svg";
@@ -15,6 +16,7 @@ export const VerifyOtp = withRouter(({ history, location }) => {
     const [otp, setOtp] = useState('');
     const [sessionId, setSessionId] = useState('');
     const [timeRemaining, setTimeRemaining] = useState(-1);
+    const [isLoading, setIsLoading] = useState(false);
     let timerId;
 
     useEffect(() => {
@@ -49,10 +51,11 @@ export const VerifyOtp = withRouter(({ history, location }) => {
     async function verifyEnterdOTP() {
         const invalidOtpInput = (otp === '' || otp.length !== 6);
         if (invalidOtpInput) {
-            setError(true, "Please enter 6 digits OTP sent to your mobile.");
+            setError(true, "Please enter 6 digits OTP sent to your mobile");
             return;
         }
         try {
+            setIsLoading(true);
             const response = await verifyOtpValue(phone, sessionId, otp);
             if (response.data['message'] === 'createSeller') {
                 setError(true, "Seller doesn't exists");
@@ -64,6 +67,8 @@ export const VerifyOtp = withRouter(({ history, location }) => {
             }
         } catch (err) {
             setError(true, err);
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -71,8 +76,11 @@ export const VerifyOtp = withRouter(({ history, location }) => {
         history.replace("/store");
     }
 
+    const containerClass = isLoading ? 'verify-otp disable-container' : 'verify-otp';
+
     return (
-        <div className="verify-otp">
+        <div className={containerClass}>
+            {isLoading && (<div className="view-loader"><CircularProgress /></div>)}
             <div className="main-logo-conatiner">
                 <img className="main-logo" src={botigaMainLogo} />
             </div>
