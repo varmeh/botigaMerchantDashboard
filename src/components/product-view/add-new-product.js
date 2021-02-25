@@ -112,7 +112,7 @@ export function AddNewProduct({
 	}
 
 	return (
-		<div className={isLoading ? 'disable-container' : ''}>
+		<div className={isLoading ? 'disable-container' : 'no-css'}>
 			{isLoading && (
 				<div className='view-loader'>
 					<CircularProgress />

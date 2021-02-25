@@ -1,5 +1,6 @@
 .product-details-style{
     width: 530px;
+    height: 827px;
     position: relative;
 }
 .product-details-style .MuiFormLabel-root{
@@ -32,16 +33,23 @@
     display: flex;
     flex-direction: column;
     padding: 15px 30px 30px 30px;
+    height: 689px;
+    overflow-y: auto;
 }
 .product-details-row{
     display: flex;
     margin-top: 20px;
 }
 .product-details-row-action{
+    height: 70px;
     border-top: 1px solid #DCDCDC;
     padding: 18px 25px 18px 25px;
     display: flex;
     justify-content: space-between;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    background-color: white;
 }
 .product-details-row-action-btns{
     display: flex;

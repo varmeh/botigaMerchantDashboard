@@ -106,7 +106,7 @@ export default function ProductList({ products, selectProduct, selectedCategoryI
   }
 
   return (
-    <div className={isLoading ? 'disable-container' : ''}>
+    <div className={isLoading ? 'disable-container' : 'no-css'}>
       <div className="product-list-style">
         {isLoading && (<div className="view-loader"><CircularProgress /></div>)}
         <ProductHeader showProductAddForm={showProductAddForm} isAddProductBtnDisabled={isAddProductBtnDisabled} />
@@ -115,19 +115,21 @@ export default function ProductList({ products, selectProduct, selectedCategoryI
             0 products added
           </div>
         )}
-        {
-          products.map((product) => (
-            <ProductItem
-              setIsLoading={setIsLoading}
-              product={product}
-              key={product.id}
-              selectProduct={selectProduct}
-              refresh={refresh}
-              selectedCategoryId={selectedCategoryId}
-              selectedProductId={selectedProductId}
-              setError={setError} />
-          ))
-        }
+        <div className="product-list-body">
+          {
+            products.map((product) => (
+              <ProductItem
+                setIsLoading={setIsLoading}
+                product={product}
+                key={product.id}
+                selectProduct={selectProduct}
+                refresh={refresh}
+                selectedCategoryId={selectedCategoryId}
+                selectedProductId={selectedProductId}
+                setError={setError} />
+            ))
+          }
+        </div>
       </div>
     </div>
   );

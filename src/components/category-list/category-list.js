@@ -171,17 +171,19 @@ export default function CategoryList({ categories, selectedCategoryId, selectCat
                     Add categories to add products
                 </div>
             )}
-            {
-                categories.map((category => (
-                    <CategoryItem
-                        refresh={refresh}
-                        category={category}
-                        key={category.categoryId}
-                        selectedCategoryId={selectedCategoryId}
-                        selectCategory={selectCategory}
-                        setError={setError} />)
-                ))
-            }
+            <div className="category-list-body">
+                {
+                    categories.map((category => (
+                        <CategoryItem
+                            refresh={refresh}
+                            category={category}
+                            key={category.categoryId}
+                            selectedCategoryId={selectedCategoryId}
+                            selectCategory={selectCategory}
+                            setError={setError} />)
+                    ))
+                }
+            </div>
             <Formik
                 validationSchema={addCategoryValidators}
                 initialValues={{ category: '' }}

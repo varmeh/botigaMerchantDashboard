@@ -1,5 +1,8 @@
 .category-list-style{
     width: 320px;
+    height: 827px;
+    display: flex;
+    flex-direction: column;
 }
 
 .category-header-item{
@@ -33,6 +36,9 @@
 }
 
 
+.category-list-body{
+    overflow-y: auto;
+}
 
 
 .category-item{
