@@ -19,9 +19,11 @@ const useStyles = makeStyles((_) => ({
 }));
 
 export default function BotigaTextField(props) {
+    const { className = '', ...otherProps } = props;
     const classes = useStyles();
+    const classNameToApply = [classes.input, className].join(' ');
     return (
-        <TextField className={classes.input} {...props} />
+        <TextField className={classNameToApply} {...otherProps} />
     );
 }
 
