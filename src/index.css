@@ -46,6 +46,7 @@ body{
     pointer-events: none !important;
 }
 .view-loader{
+    z-index: 1000;
     position: absolute;
     top: 50%;
     right: 50%;
