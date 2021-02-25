@@ -5,7 +5,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import TextField from '@material-ui/core/TextField';
+import TextField from "../common/BotigatextField/botiga-textfield";
 import DeleteOutline from '@material-ui/icons/DeleteOutline';
 import Edit from '@material-ui/icons/Edit';
 import { Formik } from 'formik';
@@ -99,7 +99,6 @@ function CategoryItem({ category, selectedCategoryId, selectCategory, refresh, s
                                     label="Category name"
                                     type="text"
                                     variant="outlined"
-                                    className="category-name-textfield"
                                     error={touched.category && errors.category}
                                     helperText={errors.category}
                                     fullWidth />
@@ -211,7 +210,6 @@ export default function CategoryList({ categories, selectedCategoryId, selectCat
                                     label="Category name"
                                     type="text"
                                     variant="outlined"
-                                    className="category-name-textfield"
                                     error={touched.category && errors.category}
                                     helperText={errors.category}
                                     fullWidth />
