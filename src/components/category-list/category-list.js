@@ -130,7 +130,7 @@ function CategoryItem({ category, selectedCategoryId, selectCategory, refresh, s
                     <Button onClick={closeDeleteModal}>
                         Cancel
                     </Button>
-                    <Button startIcon={<DeleteOutline />} onClick={deleteAddedCategory} color="secondary" variant="contained">
+                    <Button startIcon={<DeleteOutline />} onClick={deleteAddedCategory} color="secondary" variant="contained" disableElevation>
                         Delete
                     </Button>
                 </DialogActions>

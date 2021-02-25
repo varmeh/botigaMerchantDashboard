@@ -23,6 +23,10 @@ body{
     background-color: #179F57 !important;
 }
 
+.MuiButton-containedSecondary{
+    background-color: #da3030 !important;
+}
+
 .MuiSwitch-colorPrimary.Mui-checked{
     color: #179F57 !important;
 }
