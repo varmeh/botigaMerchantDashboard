@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { Formik } from 'formik';
-import TextField from '@material-ui/core/TextField';
+import TextField from "../common/BotigatextField/botiga-textfield";
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Phone from '@material-ui/icons/Phone';

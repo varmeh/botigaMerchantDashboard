@@ -105,3 +105,9 @@
     border-radius: 8px;
     border: none;
 }
+.verify-otp-inputs input:focus{
+    outline: #179F57 auto 1px;
+    outline-color: #179F57;
+    outline-style: auto;
+    outline-width: 1px;
+}
