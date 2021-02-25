@@ -265,9 +265,10 @@
 .main-preview-container .main-preview-close {
     position: absolute;
     right: 0;
-    padding: 4.5px;
+    padding: 1px;
     color: #FFFFFF;
     cursor: pointer;
+    background: rgb(0,0,0,0.5);
 }
 
 
@@ -295,6 +296,7 @@
     padding: 1px;
     color: #FFFFFF;
     cursor: pointer;
+    background: rgb(0,0,0,0.5);
 }
 
 
