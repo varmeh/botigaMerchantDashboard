@@ -110,7 +110,7 @@ export default function ProductList({ products, selectProduct, selectedCategoryI
       <div className="product-list-style">
         {isLoading && (<div className="view-loader"><CircularProgress /></div>)}
         <ProductHeader showProductAddForm={showProductAddForm} isAddProductBtnDisabled={isAddProductBtnDisabled} />
-        {products.length == 0 && (
+        {products.length === 0 && (
           <div className="no-slection no-slection-border-top">
             0 products added
           </div>

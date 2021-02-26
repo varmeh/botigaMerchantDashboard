@@ -19,7 +19,7 @@ export const Login = withRouter(({ history }) => {
     return (
         <div className="login">
             <div className="main-logo-conatiner">
-                <img className="main-logo" src={botigaMainLogo} />
+                <img className="main-logo" alt="botiga-logo" src={botigaMainLogo} />
             </div>
             <Formik
                 enableReinitialize

@@ -167,7 +167,7 @@ export default function CategoryList({ categories, selectedCategoryId, selectCat
     return (
         <div className="category-list-style">
             <CategoryHeader handleClickOpen={handlOpenCategoryModal} />
-            {categories.length == 0 && (
+            {categories.length === 0 && (
                 <div className="no-slection no-slection-border-top">
                     Add categories to add products
                 </div>

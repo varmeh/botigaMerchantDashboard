@@ -26,7 +26,7 @@ export const VerifyOtp = withRouter(({ history, location }) => {
 
     function tick() {
         setTimeRemaining(t => {
-            if (t == 1) {
+            if (t === 1) {
                 clearInterval(timerId);
                 return 0;
             }
@@ -82,7 +82,7 @@ export const VerifyOtp = withRouter(({ history, location }) => {
         <div className={containerClass}>
             {isLoading && (<div className="view-loader"><CircularProgress /></div>)}
             <div className="main-logo-conatiner">
-                <img className="main-logo" src={botigaMainLogo} />
+                <img className="main-logo" alt="botiga-logo" src={botigaMainLogo} />
             </div>
             <div className="description">Please enter OTP sent to your phone number {phone}</div>
             <div className="otpForm">
@@ -93,7 +93,7 @@ export const VerifyOtp = withRouter(({ history, location }) => {
                     numInputs={6}
                     separator={<span className="otp-seprator" />} />
                 <div className="resend">
-                    {timeRemaining == 0
+                    {timeRemaining === 0
                         ? <div onClick={getOtp} className="resendbtn">Resend OTP</div>
                         : <div className="resendText">Resend OTP in {timeRemaining}s</div>
                     }

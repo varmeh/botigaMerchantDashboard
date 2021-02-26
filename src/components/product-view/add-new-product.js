@@ -42,7 +42,7 @@ function getMainProductImageObject(product) {
 }
 
 function shouldUpdateImage(product, mainImage, otherImages) {
-	if (!mainImage && otherImages.length == 0) {
+	if (!mainImage && otherImages.length === 0) {
 		return false
 	}
 	const { secondaryImageUrls, imageUrl, imageUrlLarge } = product
@@ -250,7 +250,7 @@ export function AddNewProduct({
 								<div className='product-details-spacer' />
 								<div className='secondary-container'>
 									{otherImages.length > 0 ? (
-										otherImages.length == 4 ? (
+										otherImages.length === 4 ? (
 											otherImages.map((image, index) => (
 												<PreviewSecondaryImage
 													key={index}
