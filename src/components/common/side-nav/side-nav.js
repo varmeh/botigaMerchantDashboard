@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink, withRouter } from 'react-router-dom';
 
 import botigaLogo from "../../../assets/icons/botiga_logo.svg";
@@ -8,18 +8,21 @@ import logoutIcon from "../../../assets/icons/logout.svg";
 
 import { Logout } from "../../../services/auth-service";
 import { Token } from "../../../helpers/Token";
+import AppContext from "../../../contexts/AppContext";
 
 import "./side-nav.css";
 export const SideNav = withRouter(({ history }) => {
+    const { setError, clearContext } = useContext(AppContext);
 
     async function handleLogout() {
         try {
             const token = new Token();
             await Logout();
             await token.setAuthenticationToken('');
+            clearContext();
             history.push("/");
         } catch (err) {
-
+            setError(true, err);
         }
     }
 
@@ -27,7 +30,7 @@ export const SideNav = withRouter(({ history }) => {
         <div className="sidenav">
             <img className="botiga_logo" src={botigaLogo} />
             <MenuIconItem image={storeIcon} text={"Store"} to="/store" />
-            <MenuIconItem image={promoIcon} text={"Promos"} to="/promos" />
+            {/* <MenuIconItem image={promoIcon} text={"Promos"} to="/promos" /> */}
             <MenuIconItem image={logoutIcon} text={"Logout"} isLogout handleLogout={handleLogout} />
         </div>
     );

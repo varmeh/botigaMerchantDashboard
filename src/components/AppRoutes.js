@@ -12,7 +12,7 @@ export function AppRoutes() {
             <Route path="/" exact><Login /></Route>
             <Route path="/verify-otp"><VerifyOtp /></Route>
             <Route path="/store" exact><StoreScreen /></Route>
-            <Route path="/promos" exact><PromoScreen /></Route>
+            {/* <Route path="/promos" exact><PromoScreen /></Route> */}
         </Switch>
     );
 }

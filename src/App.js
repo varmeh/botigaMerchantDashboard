@@ -19,20 +19,27 @@ class MyApp extends React.Component {
       error: null,
       isError: false,
       products: [],
-    }
+    };
   }
+
+  _clearContext = () => this.setState({
+    error: null,
+    isError: false,
+    products: [],
+  })
+
 
   async componentDidMount() {
     try {
       await fetchProfile();
       this.props.history.replace("/store");
     } catch (err) {
-      this.setError(true, err);
+      this._setError(true, err);
       this.props.history.replace("/");
     }
   }
 
-  async fetchProductList() {
+  async _fetchProductList() {
     try {
       const { data } = await fetchProducts();
       if (data) {
@@ -41,10 +48,10 @@ class MyApp extends React.Component {
         });
         return data;
       }
-    } catch (err) { this.setError(true, err); }
+    } catch (err) { this._setError(true, err); }
   }
 
-  setError = (value, err) => this.setState({
+  _setError = (value, err) => this.setState({
     isError: value, error: err ? err : null
   });
 
@@ -56,8 +63,9 @@ class MyApp extends React.Component {
     return (
       <AppContext.Provider value={{
         products: this.state.products,
-        fetchProductList: this.fetchProductList.bind(this),
-        setError: this.setError
+        fetchProductList: this._fetchProductList.bind(this),
+        setError: this._setError,
+        clearContext: this._clearContext
       }}>
         <div className="app">
           {includeSideBar && <SideNav />}
