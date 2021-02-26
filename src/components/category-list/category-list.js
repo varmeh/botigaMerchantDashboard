@@ -10,7 +10,7 @@ import DeleteOutline from '@material-ui/icons/DeleteOutline';
 import Edit from '@material-ui/icons/Edit';
 import { Formik } from 'formik';
 
-import { addCategoryValidators } from "../../helpers/validators";
+import { addCategoryValidators, MAX_CHAR_CATEGORY } from "../../helpers/validators";
 import { saveCategory, editCategory, deleteCategory } from "../../services/category-service";
 
 import "./category-list.css";
@@ -100,7 +100,8 @@ function CategoryItem({ category, selectedCategoryId, selectCategory, refresh, s
                                     type="text"
                                     variant="outlined"
                                     error={touched.category && errors.category}
-                                    helperText={errors.category}
+                                    maxLength={MAX_CHAR_CATEGORY}
+                                    requiresCounterValidation={true}
                                     fullWidth />
                             </DialogContent>
                             <DialogActions className="add-category-action">
@@ -213,8 +214,9 @@ export default function CategoryList({ categories, selectedCategoryId, selectCat
                                     type="text"
                                     variant="outlined"
                                     error={touched.category && errors.category}
-                                    helperText={errors.category}
-                                    fullWidth />
+                                    fullWidth
+                                    maxLength={MAX_CHAR_CATEGORY}
+                                    requiresCounterValidation={true} />
                             </DialogContent>
                             <DialogActions className="add-category-action">
                                 <Button size="large" className="save-category-cancel" onClick={handleCloseCategoryModal(resetForm)}>

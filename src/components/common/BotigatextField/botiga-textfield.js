@@ -33,11 +33,39 @@ const useStyles = makeStyles((_) => ({
 }));
 
 export default function BotigaTextField(props) {
-    const { className = '', ...otherProps } = props;
     const classes = useStyles();
+    const { className = '', maxLength, requiresCounterValidation, ...otherProps } = props;
+
+    function getHelperText() {
+        const { value = '', helperText = '', maxLength = 0, requiresCounterValidation = false } = props;
+        if (requiresCounterValidation) {
+            if (value.length < maxLength) { return `(${value.length}/${maxLength})`; }
+            return helperText;
+        }
+        return helperText;
+    }
+
+    function handleTextFieldChange(event) {
+        const { onChange, maxLength = 0, requiresCounterValidation = false } = props;
+        if (requiresCounterValidation) {
+            if (event.target.value.length > maxLength) { return null; }
+            else { onChange(event); }
+        } else {
+            onChange(event);
+        }
+    }
+
     const classNameToApply = [classes.input, className].join(' ');
+
+    const finalPropsToPass = {
+        className: classNameToApply,
+        ...otherProps,
+        helperText: getHelperText(),
+        onChange: handleTextFieldChange
+    };
+
     return (
-        <TextField className={classNameToApply} {...otherProps} />
+        <TextField {...finalPropsToPass} />
     );
 }
 

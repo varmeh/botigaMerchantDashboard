@@ -14,7 +14,7 @@ import {
 	deleteProduct,
 	updateProduct
 } from '../../services/product-service';
-import { addProductValidators } from '../../helpers/validators';
+import { addProductValidators, MAX_CHAR_DESCRIPTION } from '../../helpers/validators';
 import { PreviewMainImage } from './preview-main-image';
 import { PreviewSecondaryImage } from './preview-secondary-image';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -328,6 +328,8 @@ export function AddNewProduct({
 										fullWidth
 										rows={3}
 										variant='outlined'
+										maxLength={MAX_CHAR_DESCRIPTION}
+										requiresCounterValidation={true}
 									/>
 								</div>
 							) : null}
