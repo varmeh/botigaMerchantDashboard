@@ -269,6 +269,7 @@
     color: #FFFFFF;
     cursor: pointer;
     background: rgb(0,0,0,0.5);
+    border-radius: 8px;
 }
 
 
@@ -297,6 +298,7 @@
     color: #FFFFFF;
     cursor: pointer;
     background: rgb(0,0,0,0.5);
+    border-radius: 8px;
 }
 
 
