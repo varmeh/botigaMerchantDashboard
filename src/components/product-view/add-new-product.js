@@ -123,6 +123,13 @@ export function AddNewProduct({
 				validationSchema={addProductValidators}
 				initialValues={initialValue}
 				onSubmit={async values => {
+					const { mrp, price } = values;
+					if (mrp) {
+						if (mrp <= price) {
+							setError(true, "MRP should be greater than Price");
+							return null;
+						}
+					}
 					const imageurl = mainImage ? mainImage.imageUrlSmall : ''
 					const imageUrlLarge = mainImage ? mainImage.imageUrl : ''
 					const description = showDesc ? values.description : ''
@@ -132,8 +139,8 @@ export function AddNewProduct({
 							await saveProduct(
 								selectedCategoryId,
 								values.productName,
-								values.price,
-								values.mrp,
+								price,
+								mrp,
 								values.quantity,
 								values.unit,
 								imageurl,
