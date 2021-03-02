@@ -4,8 +4,7 @@ import CategoryList from "../../components/category-list/category-list";
 import ProductList from "../../components/product-list/product-list";
 import ProductView from "../../components/product-view/product-view";
 import SearchBar from "../../components/common/search-bar/search-bar";
-
-import "./store-screen.css";
+import BotigaPageView from "../../components/common/BotigaPageView/BotigaPageView";
 
 function getCategoryList(products) {
     return products.map(category => ({
@@ -115,7 +114,7 @@ export function StoreScreen() {
     return (
         <React.Fragment>
             <SearchBar screenName={screenName} reset={clearSearch} handleChange={setSearch} searchValue={searchText} />
-            <div className="store-screen-paper">
+            <BotigaPageView>
                 <CategoryList
                     categories={filterdCategories}
                     selectedCategoryId={selectedCategoryId}
@@ -138,7 +137,7 @@ export function StoreScreen() {
                     hideShowAddProductForm={hideShowAddProductForm}
                     updateScreen={updateScreen}
                     setError={setError} />
-            </div>
+            </BotigaPageView>
         </React.Fragment>
     )
 

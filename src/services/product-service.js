@@ -1,4 +1,5 @@
 import axios from "../helpers/axios";
+import { deleteProductImage } from "./common-service";
 
 async function fetchProducts() {
     return axios().get('/api/seller/products');
@@ -55,12 +56,6 @@ async function updateProductStatus(categoryId, product, availableStatus) {
         'updateImage': false,
         ...(product.imageUrl ? { 'imageUrl': product.imageUrl } : {}),
         ...(product.description ? { 'description': product.description } : {}),
-    });
-}
-
-async function deleteProductImage(imageUrl) {
-    return axios().post('/api/services/image/delete', {
-        'imageUrl': imageUrl
     });
 }
 

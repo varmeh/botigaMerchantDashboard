@@ -78,6 +78,6 @@ body{
     border-top: 1px solid #DCDCDC;
 }
 
- div.main-upload-image:focus,div.upload-image:focus,div.secondary-small-upload-image:focus{
+ div.main-upload-image:focus,div.upload-image:focus,div.secondary-small-upload-image:focus,div.banner-upload-image:focus{
     outline-color: #179F57;
 }

@@ -1,0 +1,33 @@
+.tab-list{
+    width: 1170px;
+    display: flex;
+    margin: 40px auto 20px auto;
+}
+.tab-item-active{
+    display: flex;
+    margin-right: 64px;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 150%;
+    text-transform: uppercase;
+    color: #121715;
+    cursor: pointer;
+    border-bottom: 3px solid #179F57;
+    padding: 7px 0px 7px 0px;
+}
+.tab-item-not-active{
+    display: flex;
+    margin-right: 64px;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 150%;
+    text-transform: uppercase;
+    color: #121715;
+    cursor: pointer;
+    opacity: 0.3;
+    padding: 7px 0px 7px 0px;
+}

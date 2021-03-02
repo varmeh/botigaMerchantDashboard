@@ -25,7 +25,6 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    height: 66px;
 }
 .product-header-name{
     font-family: Montserrat;
@@ -36,7 +35,6 @@
     letter-spacing: 0.5px;
     text-transform: uppercase;
     color: #000000;
-    height: 33px;
 }
 .product-header-btn.MuiButton-text{
     font-family: Montserrat;
