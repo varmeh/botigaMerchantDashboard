@@ -1,25 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { Formik } from 'formik';
-import TextField from "../common/BotigatextField/botiga-textfield";
-import MenuItem from '@material-ui/core/MenuItem';
-import Switch from '@material-ui/core/Switch';
-import DeleteOutlineSharp from '@material-ui/icons/DeleteOutlineSharp';
-import Button from '@material-ui/core/Button';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import React, { useState, useEffect } from 'react'
+import { Formik } from 'formik'
+import TextField from '../common/BotigatextField/botiga-textfield'
+import MenuItem from '@material-ui/core/MenuItem'
+import Switch from '@material-ui/core/Switch'
+import DeleteOutlineSharp from '@material-ui/icons/DeleteOutlineSharp'
+import Button from '@material-ui/core/Button'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 
-import { SecondaryImageUploadComponent } from './secondary-image-upload';
-import { MainImageUploadComponent } from './main-image-upload';
+import { SecondaryImageUploadComponent } from './secondary-image-upload'
+import { MainImageUploadComponent } from './main-image-upload'
 import {
 	saveProduct,
 	deleteProduct,
 	updateProduct
-} from '../../services/product-service';
-import { addProductValidators, MAX_CHAR_DESCRIPTION } from '../../helpers/validators';
-import { PreviewMainImage } from './preview-main-image';
-import { PreviewSecondaryImage } from './preview-secondary-image';
-import CircularProgress from '@material-ui/core/CircularProgress';
+} from '../../services/product-service'
+import {
+	addProductValidators,
+	MAX_CHAR_DESCRIPTION
+} from '../../helpers/validators'
+import { PreviewMainImage } from './preview-main-image'
+import { PreviewSecondaryImage } from './preview-secondary-image'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
-import 'react-image-crop/dist/ReactCrop.css';
+import 'react-image-crop/dist/ReactCrop.css'
 
 const units = ['kg', 'gms', 'lt', 'ml', 'piece', 'pieces']
 
@@ -123,11 +126,13 @@ export function AddNewProduct({
 				validationSchema={addProductValidators}
 				initialValues={initialValue}
 				onSubmit={async values => {
-					const { mrp, price } = values;
+					const { mrp, price } = values
 					if (mrp) {
-						if (mrp <= price) {
-							setError(true, "MRP should be greater than Price");
-							return null;
+						const mrpAsNumber = parseFloat(mrp)
+						const priceAsNumber = parseFloat(price)
+						if (mrpAsNumber <= priceAsNumber) {
+							setError(true, 'MRP should be greater than Price')
+							return null
 						}
 					}
 					const imageurl = mainImage ? mainImage.imageUrlSmall : ''
@@ -248,12 +253,12 @@ export function AddNewProduct({
 										setError={setError}
 									/>
 								) : (
-										<MainImageUploadComponent
-											setMainImage={setMainImage}
-											setIsLoading={setIsLoading}
-											setError={setError}
-										/>
-									)}
+									<MainImageUploadComponent
+										setMainImage={setMainImage}
+										setIsLoading={setIsLoading}
+										setError={setError}
+									/>
+								)}
 								<div className='product-details-spacer' />
 								<div className='secondary-container'>
 									{otherImages.length > 0 ? (
@@ -269,33 +274,33 @@ export function AddNewProduct({
 												/>
 											))
 										) : (
-												<React.Fragment>
-													{otherImages.map((image, index) => (
-														<PreviewSecondaryImage
-															key={index}
-															imageUrl={image}
-															index={index}
-															removeImageAtIndex={removeImageAtIndex}
-															setIsLoading={setIsLoading}
-															setError={setError}
-														/>
-													))}
-													<SecondaryImageUploadComponent
-														isSmall={true}
-														addOtherImages={addOtherImages}
+											<React.Fragment>
+												{otherImages.map((image, index) => (
+													<PreviewSecondaryImage
+														key={index}
+														imageUrl={image}
+														index={index}
+														removeImageAtIndex={removeImageAtIndex}
 														setIsLoading={setIsLoading}
 														setError={setError}
 													/>
-												</React.Fragment>
-											)
+												))}
+												<SecondaryImageUploadComponent
+													isSmall={true}
+													addOtherImages={addOtherImages}
+													setIsLoading={setIsLoading}
+													setError={setError}
+												/>
+											</React.Fragment>
+										)
 									) : (
-											<SecondaryImageUploadComponent
-												isSmall={false}
-												addOtherImages={addOtherImages}
-												setIsLoading={setIsLoading}
-												setError={setError}
-											/>
-										)}
+										<SecondaryImageUploadComponent
+											isSmall={false}
+											addOtherImages={addOtherImages}
+											setIsLoading={setIsLoading}
+											setError={setError}
+										/>
+									)}
 								</div>
 							</div>
 							<div className='product-details-row'>
