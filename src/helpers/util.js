@@ -1,9 +1,19 @@
+import { date } from "yup/lib/locale";
 import { uploadProductImage } from "../services/product-service";
 import { uploadBanner, updateBanners } from "../services/profile-service";
 
 export function capitalize(s) {
   if (typeof s !== 'string') return ''
   return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
+export function isBackDatedDate(_date) {
+  const givenDate = new Date(_date);
+  const currentDate = new Date();
+  if (currentDate > givenDate) {
+    return true;
+  }
+  return false;
 }
 
 

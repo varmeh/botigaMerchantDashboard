@@ -7,6 +7,7 @@ import { fetchProfile } from "./services/auth-service";
 import AppContext from "./contexts/AppContext";
 
 import { fetchProducts } from "./services/product-service";
+import { getCoupons } from "./services/profile-service";
 
 import "./App.css";
 
@@ -19,6 +20,7 @@ class MyApp extends React.Component {
       error: null,
       isError: false,
       products: [],
+      coupons: []
     };
   }
 
@@ -26,6 +28,7 @@ class MyApp extends React.Component {
     error: null,
     isError: false,
     products: [],
+    coupons: []
   })
 
 
@@ -48,6 +51,21 @@ class MyApp extends React.Component {
         });
         return data;
       }
+      return [];
+    } catch (err) { this._setError(true, err); }
+  }
+
+  async _fetchCouponList() {
+    try {
+      const { data } = await getCoupons();
+      if (data) {
+        const { coupons = [] } = data;
+        this.setState({
+          coupons: coupons
+        });
+        return coupons;
+      }
+      return [];
     } catch (err) { this._setError(true, err); }
   }
 
@@ -58,11 +76,13 @@ class MyApp extends React.Component {
 
   render() {
     const { location: { pathname = '' } } = this.props;
-    const { isError, error } = this.state;
+    const { isError, error, products, coupons } = this.state;
     const includeSideBar = !SIDE_NAVIGATION_HIDDEN_FOR_ROUTES.includes(pathname)
     return (
       <AppContext.Provider value={{
-        products: this.state.products,
+        products: products,
+        coupons: coupons,
+        fetchCouponList: this._fetchCouponList.bind(this),
         fetchProductList: this._fetchProductList.bind(this),
         setError: this._setError,
         clearContext: this._clearContext

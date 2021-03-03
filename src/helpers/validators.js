@@ -3,6 +3,7 @@ import * as Yup from 'yup'
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
 const numberErrorMessage = 'Please enter a number'
+const dateErrorMessage = 'Please provide a valid date'
 
 export const addProductValidators = Yup.object({
 	productName: Yup.string().required('Required'),
@@ -25,3 +26,13 @@ export const loginPhone = Yup.object({
 
 export const MAX_CHAR_CATEGORY = 24
 export const MAX_CHAR_DESCRIPTION = 140
+
+
+export const addCouponValidator = Yup.object({
+	couponCode: Yup.string().required('Required'),
+	discountType: Yup.string().required('Required').default('percentage'),
+	discountValue: Yup.number().required('Required').typeError(numberErrorMessage),
+	expiryDate: Yup.date().required('Required').typeError(dateErrorMessage),
+	minimumOrderValue: Yup.number().typeError(numberErrorMessage),
+	maxDiscountAmount: Yup.number().typeError(numberErrorMessage),
+})

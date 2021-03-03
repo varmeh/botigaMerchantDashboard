@@ -129,8 +129,8 @@
 }
 .banner-preview-container .banner-preview-close {
     position: absolute;
-    right: 5px;
-    top: 5px;
+    right: 3px;
+    top: 3px;
     padding: 1px;
     color: #FFFFFF;
     cursor: pointer;

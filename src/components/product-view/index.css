@@ -41,7 +41,6 @@
     margin-top: 20px;
 }
 .product-details-row-action{
-    height: 70px;
     border-top: 1px solid #DCDCDC;
     padding: 18px 25px 18px 25px;
     display: flex;
@@ -264,12 +263,13 @@
 }
 .main-preview-container .main-preview-close {
     position: absolute;
-    right: 0;
+    right: 1px;
+    top:1px;
     padding: 1px;
     color: #FFFFFF;
     cursor: pointer;
     background: rgb(0,0,0,0.5);
-    border-radius: 8px;
+    border-radius: 50%;
 }
 
 
@@ -293,12 +293,13 @@
 }
 .secondary-preview-container .secondary-preview-close {
     position: absolute;
-    right: 0;
+    right: 1px;
+    top:1px;
     padding: 1px;
     color: #FFFFFF;
     cursor: pointer;
     background: rgb(0,0,0,0.5);
-    border-radius: 8px;
+    border-radius: 50%;
 }
 
 

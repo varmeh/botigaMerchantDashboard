@@ -2,6 +2,7 @@ import React from "react";
 import BotigaTabs from "../../components/common/BotigaTabs/BotigaTabs";
 import BotigaPageView from "../../components/common/BotigaPageView/BotigaPageView";
 import { Banners } from "../../components/Banners/Banners";
+import { CouponScreen } from "./coupon-screen";
 
 const tabs = [{
     tabName: 'banners',
@@ -11,8 +12,8 @@ const tabs = [{
         </BotigaPageView>
     )
 }, {
-    tabName: 'coupans',
-    tabView: <BotigaPageView />
+    tabName: 'coupons',
+    tabView: <CouponScreen />
 
 }];
 

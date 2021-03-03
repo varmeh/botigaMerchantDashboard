@@ -81,3 +81,8 @@ body{
  div.main-upload-image:focus,div.upload-image:focus,div.secondary-small-upload-image:focus,div.banner-upload-image:focus{
     outline-color: #179F57;
 }
+
+.equal{
+    display: flex;
+    flex: 1;
+}

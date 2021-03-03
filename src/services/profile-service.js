@@ -17,4 +17,8 @@ async function getBanners() {
     return axios().get("/api/seller/profile/banners");
 }
 
-export { uploadBanner, updateBanners, getBanners, deleteProductImage }
+async function getCoupons() {
+    return axios().get('/api/seller/profile/coupons');
+}
+
+export { uploadBanner, updateBanners, getBanners, deleteProductImage, getCoupons }

@@ -1,0 +1,11 @@
+.botiga-calendar .MuiOutlinedInput-adornedEnd{
+    padding-right: 4px;
+}
+
+.MuiPickersDay-current{
+    color: #179F57 !important;
+}
+.MuiPickersDay-daySelected{
+    color: white !important;
+    background-color:#179F57 !important; 
+}

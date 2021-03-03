@@ -1,0 +1,111 @@
+.coupon-settings-style{
+    width: 100%;
+    height: 100%;
+    border-left: 1px solid  #DCDCDC;
+    position: relative;
+}
+.coupon-settings-header-item{
+    padding: 20px 25px 20px 25px;
+    height: 74px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid  #DCDCDC;
+}
+.coupon-settings-header-name{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 150%;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #000000;
+}
+
+
+
+
+.coupon-settings-body{
+    display: flex;
+    flex-direction: column;
+    padding: 15px 30px 30px 30px;
+    height: 689px;
+    width: 530px;
+    overflow-y: auto;
+}
+.coupon-settings-row{
+    display: flex;
+    margin-top: 20px;
+}
+.coupon-settings-row .purchase-label{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: 0.15px;
+    color: #121715;
+    margin-bottom: 12px;
+}
+.coupon-settings-row .expiry-date-label{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 18px;
+    letter-spacing: 0.15px;
+    color: #121715;
+    opacity: 0.5;
+    margin-bottom: 4px;
+}
+#minPurchaseAmount,#maxDiscountvalue{
+    margin-top: 8px;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 18px;
+    letter-spacing: 0.15px;
+    color: #121715;
+    opacity: 0.5;
+}
+
+
+
+
+.coupon-settings-row-action{
+    border-top: 1px solid #DCDCDC;
+    padding: 18px 25px 18px 25px;
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    background-color: white;
+}
+.coupon-settings-row-action-btns{
+    display: flex;
+}
+.coupon-settings-spacer{
+    width: 22px;
+}
+.coupon-settings-style .MuiButton-root{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    text-transform: capitalize;
+    padding-left: 14px;
+    padding-right: 14px;
+}
+.menu-item-unit{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+    color: rgba(0, 0, 0, 0.6);
+}
