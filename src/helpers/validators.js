@@ -36,3 +36,5 @@ export const addCouponValidator = Yup.object({
 	minimumOrderValue: Yup.number().max(501, ' Should be less than or equal to 500').typeError(numberErrorMessage),
 	maxDiscountAmount: Yup.number().typeError(numberErrorMessage),
 })
+
+export const NUMBER_OF_BANNERS = 3;

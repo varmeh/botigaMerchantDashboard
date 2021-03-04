@@ -63,7 +63,7 @@ export function CouponScreen() {
     }
 
     function getSelectedCoupon(_selectedCouponId) {
-        return coupons.find(coupon => coupon.couponId == _selectedCouponId);
+        return coupons.find(coupon => coupon.couponId === _selectedCouponId);
     }
 
     return (

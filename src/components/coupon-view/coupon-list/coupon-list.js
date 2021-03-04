@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 import { isBackDatedDate } from "../../../helpers/util";
 
@@ -43,8 +43,8 @@ export default function CouponList({ coupons, selectedCouponId, selectCoupon, op
             <CouponListHeader openAddCouponForm={openAddCouponForm} />
             <div className="coupon-list-body">
                 {
-                    coupons.map((coupon => (
-                        <CouponItem coupon={coupon} selectedCouponId={selectedCouponId} selectCoupon={selectCoupon} />
+                    coupons.map(((coupon, i) => (
+                        <CouponItem key={i} coupon={coupon} selectedCouponId={selectedCouponId} selectCoupon={selectCoupon} />
                     )))
                 }
             </div>

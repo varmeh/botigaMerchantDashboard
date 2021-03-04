@@ -1,4 +1,3 @@
-import { date } from "yup/lib/locale";
 import { uploadProductImage } from "../services/product-service";
 import { uploadBanner, updateBanners } from "../services/profile-service";
 

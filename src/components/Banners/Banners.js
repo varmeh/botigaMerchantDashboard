@@ -1,15 +1,14 @@
-import React from 'react'
-import AppContext from '../../contexts/AppContext'
+import React, { useEffect, useState, useContext } from 'react'
+import appContext from "../../contexts/AppContext";
 import { UploadBannerComponent } from './UploadBanner'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { Image } from '../../components/common/Image/Image'
 import CloseIcon from '@material-ui/icons/Close'
 import { deleteProductImage } from '../../services/common-service'
-import { getBanners, updateBanners } from '../../services/profile-service'
+import { updateBanners } from '../../services/profile-service'
 
 import './index.css'
 
-const NUMBER_OF_BANNERS = 3
 
 function BannersHeader() {
 	return (
@@ -57,116 +56,95 @@ function UploadBanner({
 					<CloseIcon className='banner-preview-close' onClick={deleteBanner} />
 				</div>
 			) : (
-				<UploadBannerComponent
-					setError={setError}
-					setIsLoading={setIsLoading}
-					setBannerAtIndex={setBannerAtIndex}
-					banners={banners}
-					index={index}
-				/>
-			)}
+					<UploadBannerComponent
+						setError={setError}
+						setIsLoading={setIsLoading}
+						setBannerAtIndex={setBannerAtIndex}
+						banners={banners}
+						index={index}
+					/>
+				)}
 		</div>
 	)
 }
 
-export class Banners extends React.Component {
-	constructor(props) {
-		super(props)
-		this.state = {
-			isLoading: false,
-			banners: [...Array(NUMBER_OF_BANNERS).keys()].map(_ => null)
-		}
-	}
 
-	componentDidMount() {
-		this._fetchBanners()
-	}
+export function Banners() {
+	const [isLoading, setIsLoading] = useState(false);
+	const { banners, fetchBannerList, updateLocalBannersList, setError } = useContext(appContext);
 
-	_fetchBanners = async () => {
+	useEffect(() => {
+		initBannerList()
+	}, [])
+
+	async function initBannerList() {
 		try {
-			this._setIsLoading(true)
-			const { data: { banners = [] } = {} } = await getBanners()
-			const bannersList = [...banners, ...this.state.banners].filter(
-				(_, index) => index < NUMBER_OF_BANNERS
-			)
-			this.setState({
-				banners: bannersList
-			})
+			if (banners.filter(banner => banner).length === 0) {
+				await fetchBannerList();
+			}
 		} catch (err) {
-		} finally {
-			this._setIsLoading(false)
+			setError(true, err);
 		}
 	}
 
-	_setBannerAtIndex = (banner, index) => {
-		const bannerList = [...this.state.banners]
-		bannerList[index] = banner
-		this.setState({
-			banners: bannerList
-		})
+	function setBannerAtIndex(banner, index) {
+		const bannerList = [...banners]
+		bannerList[index] = banner;
+		updateLocalBannersList(bannerList);
 	}
 
-	_removeBannerAtIndex = index => {
-		const bannerList = [...this.state.banners]
+	function removeBannerAtIndex(index) {
+		const bannerList = [...banners]
 		bannerList[index] = null
-		this.setState({
-			banners: bannerList
-		})
+		updateLocalBannersList(bannerList);
 	}
 
-	_setIsLoading = value =>
-		this.setState({
-			isLoading: value
-		})
+	function _setIsLoading(value) {
+		setIsLoading(value);
+	}
 
-	render() {
-		const { isLoading, banners } = this.state
-		const containerClass = isLoading
-			? 'banner-list-style disable-container'
-			: 'banner-list-style'
-		return (
-			<AppContext.Consumer>
-				{({ setError }) => (
-					<div className={containerClass}>
-						{isLoading && (
-							<div className='view-loader'>
-								<CircularProgress />
-							</div>
-						)}
-						<BannersHeader />
-						<div className='banner-body'>
-							<div className='banner-row'>
-								<div className='banner_info'>
-									<div className='block_section'>
-										<div className='primary'>format</div>
-										<div className='secondary'>PNG | JPG | JPEG</div>
-									</div>
-									<div className='block_section'>
-										<div className='primary'>dimension</div>
-										<div className='secondary'> 960 px x 480 px</div>
-									</div>
-									<div className='block_section'>
-										<div className='primary'>size</div>
-										<div className='secondary'>20 MB Max.</div>
-									</div>
-								</div>
-							</div>
-							{banners.map((_banner, index) => (
-								<UploadBanner
-									key={index}
-									index={index}
-									setError={setError}
-									setIsLoading={this._setIsLoading}
-									banner={_banner}
-									banners={banners}
-									setBannerAtIndex={this._setBannerAtIndex}
-									removeBannerAtIndex={this._removeBannerAtIndex}
-								/>
-							))}
+	const containerClass = isLoading
+		? 'banner-list-style disable-container'
+		: 'banner-list-style';
+
+	return (
+		<div className={containerClass}>
+			{isLoading && (
+				<div className='view-loader'>
+					<CircularProgress />
+				</div>
+			)}
+			<BannersHeader />
+			<div className='banner-body'>
+				<div className='banner-row'>
+					<div className='banner_info'>
+						<div className='block_section'>
+							<div className='primary'>format</div>
+							<div className='secondary'>PNG | JPG | JPEG</div>
+						</div>
+						<div className='block_section'>
+							<div className='primary'>dimension</div>
+							<div className='secondary'> 960 px x 480 px</div>
+						</div>
+						<div className='block_section'>
+							<div className='primary'>size</div>
+							<div className='secondary'>20 MB Max.</div>
 						</div>
 					</div>
-				)}
-			</AppContext.Consumer>
-		)
-	}
+				</div>
+				{banners.map((_banner, index) => (
+					<UploadBanner
+						key={index}
+						index={index}
+						setError={setError}
+						setIsLoading={_setIsLoading}
+						banner={_banner}
+						banners={banners}
+						setBannerAtIndex={setBannerAtIndex}
+						removeBannerAtIndex={removeBannerAtIndex}
+					/>
+				))}
+			</div>
+		</div>
+	);
 }

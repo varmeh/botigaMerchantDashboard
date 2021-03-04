@@ -1,16 +1,11 @@
 import React from "react";
 import BotigaTabs from "../../components/common/BotigaTabs/BotigaTabs";
-import BotigaPageView from "../../components/common/BotigaPageView/BotigaPageView";
-import { Banners } from "../../components/Banners/Banners";
 import { CouponScreen } from "./coupon-screen";
+import { BannerScreen } from "./banner-screen";
 
 const tabs = [{
     tabName: 'banners',
-    tabView: (
-        <BotigaPageView>
-            <Banners />
-        </BotigaPageView>
-    )
+    tabView: <BannerScreen />
 }, {
     tabName: 'coupons',
     tabView: <CouponScreen />
@@ -19,8 +14,7 @@ const tabs = [{
 
 export function PromoScreen() {
     return (
-        <React.Fragment>
-            <BotigaTabs tabs={tabs} />
-        </React.Fragment>
-    )
+        <BotigaTabs tabs={tabs} />
+    );
+
 }

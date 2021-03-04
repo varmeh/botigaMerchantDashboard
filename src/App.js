@@ -4,10 +4,12 @@ import { AppRoutes } from "./components/AppRoutes";
 import { SideNav } from "./components/common/side-nav/side-nav";
 import { Error } from "./components/common/Error/Error";
 import { fetchProfile } from "./services/auth-service";
+import { getBanners } from './services/profile-service';
 import AppContext from "./contexts/AppContext";
 
 import { fetchProducts } from "./services/product-service";
 import { getCoupons } from "./services/profile-service";
+import { NUMBER_OF_BANNERS } from "./helpers/validators";
 
 import "./App.css";
 
@@ -20,7 +22,8 @@ class MyApp extends React.Component {
       error: null,
       isError: false,
       products: [],
-      coupons: []
+      coupons: [],
+      banners: [...Array(NUMBER_OF_BANNERS).keys()].map(_ => null)
     };
   }
 
@@ -28,7 +31,8 @@ class MyApp extends React.Component {
     error: null,
     isError: false,
     products: [],
-    coupons: []
+    coupons: [],
+    banners: [...Array(NUMBER_OF_BANNERS).keys()].map(_ => null)
   })
 
 
@@ -69,6 +73,22 @@ class MyApp extends React.Component {
     } catch (err) { this._setError(true, err); }
   }
 
+  _fetchBanners = async () => {
+    try {
+      const { data: { banners = [] } = {} } = await getBanners()
+      const bannersList = [...banners, ...this.state.banners].filter(
+        (_, index) => index < NUMBER_OF_BANNERS
+      )
+      this.setState({
+        banners: bannersList
+      })
+    } catch (err) { this._setError(true, err); }
+  }
+
+  _updateLocalBannersList = (_bannerList) => this.setState({
+    banners: _bannerList
+  });
+
   _setError = (value, err) => this.setState({
     isError: value, error: err ? err : null
   });
@@ -76,14 +96,17 @@ class MyApp extends React.Component {
 
   render() {
     const { location: { pathname = '' } } = this.props;
-    const { isError, error, products, coupons } = this.state;
+    const { isError, error, products, coupons, banners } = this.state;
     const includeSideBar = !SIDE_NAVIGATION_HIDDEN_FOR_ROUTES.includes(pathname)
     return (
       <AppContext.Provider value={{
         products: products,
         coupons: coupons,
+        banners: banners,
         fetchCouponList: this._fetchCouponList.bind(this),
         fetchProductList: this._fetchProductList.bind(this),
+        fetchBannerList: this._fetchBanners.bind(this),
+        updateLocalBannersList: this._updateLocalBannersList.bind(this),
         setError: this._setError,
         clearContext: this._clearContext
       }}>

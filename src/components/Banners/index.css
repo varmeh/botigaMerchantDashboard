@@ -37,6 +37,7 @@
     display: flex;
     margin-bottom: 30px;
     width: 100%;
+    justify-content: center;
 }
 .banner_info{
     display: flex;
@@ -81,11 +82,11 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 136px;
+    width: 320px;
+    height: 160px;
     border: 1px dashed rgba(18, 23, 21, 0.25);
     box-sizing: border-box;
     border-radius: 8px;
-    flex:1
 }
 .banner-upload-image .add-image-btn{
     display: flex;
@@ -120,12 +121,13 @@
 .banner-preview-container {
     display: inline;
     position: relative;
-    width: 100%;
+    width: 320px;
+    height: 160px;
 }
 .banner-preview-container .banner-preview-img{
-    height: 136px;
+    width: 320px;
+    height: 160px;
     border-radius: 8px;
-    width: 100%;
 }
 .banner-preview-container .banner-preview-close {
     position: absolute;
