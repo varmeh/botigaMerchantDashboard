@@ -8,11 +8,12 @@ import { getOTP, verifyOtpValue } from "../../services/auth-service";
 import botigaMainLogo from "../../assets/icons/botiga-main-logo.svg";
 import { Token } from "../../helpers/Token";
 import appContext from "../../contexts/AppContext";
+import { HOME_VIEW } from "../../helpers/BotigaRouteFile";
 import "./index.css";
 
 export const VerifyOtp = withRouter(({ history, location }) => {
     const { setError } = useContext(appContext);
-    const { state: { phone } } = location;
+    const { state: { phone = '' } = {} } = location;
     const [otp, setOtp] = useState('');
     const [sessionId, setSessionId] = useState('');
     const [timeRemaining, setTimeRemaining] = useState(-1);
@@ -63,7 +64,7 @@ export const VerifyOtp = withRouter(({ history, location }) => {
                 const { headers: { authorization } } = response;
                 const token = new Token();
                 await token.setAuthenticationToken(authorization);
-                goToStore();
+                goToHomeView();
             }
         } catch (err) {
             setError(true, err);
@@ -72,8 +73,8 @@ export const VerifyOtp = withRouter(({ history, location }) => {
         }
     }
 
-    function goToStore() {
-        history.replace("/store");
+    function goToHomeView() {
+        history.replace(HOME_VIEW);
     }
 
     const containerClass = isLoading ? 'verify-otp disable-container' : 'verify-otp';

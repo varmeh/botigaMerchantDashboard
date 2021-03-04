@@ -9,6 +9,7 @@ import logoutIcon from "../../../assets/icons/logout.svg";
 import { Logout } from "../../../services/auth-service";
 import { Token } from "../../../helpers/Token";
 import AppContext from "../../../contexts/AppContext";
+import { LOGIN_VIEW, STORE_VIEW, PROMO_VIEW } from "../../../helpers/BotigaRouteFile";
 
 import "./side-nav.css";
 export const SideNav = withRouter(({ history }) => {
@@ -20,7 +21,7 @@ export const SideNav = withRouter(({ history }) => {
             await Logout();
             await token.setAuthenticationToken('');
             clearContext();
-            history.push("/");
+            history.push(LOGIN_VIEW);
         } catch (err) {
             setError(true, err);
         }
@@ -29,8 +30,8 @@ export const SideNav = withRouter(({ history }) => {
     return (
         <div className="sidenav">
             <img className="botiga_logo" alt="botiga-logo" src={botigaLogo} />
-            <MenuIconItem image={storeIcon} text={"Store"} to="/store" />
-            <MenuIconItem image={promoIcon} text={"Promos"} to="/promos" />
+            <MenuIconItem image={storeIcon} text={"Store"} to={STORE_VIEW} />
+            <MenuIconItem image={promoIcon} text={"Promos"} to={PROMO_VIEW} />
             <MenuIconItem image={logoutIcon} text={"Logout"} isLogout handleLogout={handleLogout} />
         </div>
     );

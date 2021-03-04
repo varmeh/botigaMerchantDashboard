@@ -7,13 +7,14 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Phone from '@material-ui/icons/Phone';
 import { loginPhone } from "../../helpers/validators";
 import botigaMainLogo from "../../assets/icons/botiga-main-logo.svg";
+import { VERIFY_OTP_VIEW } from "../../helpers/BotigaRouteFile";
 
 import "./index.css";
 
 export const Login = withRouter(({ history }) => {
 
     function goToOtpPage(phone) {
-        history.push("/verify-otp", { phone });
+        history.push(VERIFY_OTP_VIEW, { phone });
     }
 
     return (

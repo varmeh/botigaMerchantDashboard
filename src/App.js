@@ -10,6 +10,7 @@ import AppContext from "./contexts/AppContext";
 import { fetchProducts } from "./services/product-service";
 import { getCoupons } from "./services/profile-service";
 import { NUMBER_OF_BANNERS } from "./helpers/validators";
+import { LOGIN_VIEW, HOME_VIEW } from "./helpers/BotigaRouteFile";
 
 import "./App.css";
 
@@ -39,10 +40,10 @@ class MyApp extends React.Component {
   async componentDidMount() {
     try {
       await fetchProfile();
-      this.props.history.replace("/store");
+      this.props.history.replace(HOME_VIEW);
     } catch (err) {
       this._setError(true, err);
-      this.props.history.replace("/");
+      this.props.history.replace(LOGIN_VIEW);
     }
   }
 
