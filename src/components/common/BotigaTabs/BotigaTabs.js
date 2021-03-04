@@ -14,7 +14,7 @@ export default function BotigaTabs({ tabs = [] }) {
         return (
             <div className="tab-list">
                 {tabs.map(({ tabName }, index) => (
-                    <div className={index === activeIndex ? "tab-item-active" : "tab-item-not-active"} onClick={setActiveTab(index)}>
+                    <div key={index} className={index === activeIndex ? "tab-item-active" : "tab-item-not-active"} onClick={setActiveTab(index)}>
                         {tabName}
                     </div>
                 ))}
@@ -26,7 +26,7 @@ export default function BotigaTabs({ tabs = [] }) {
         return (
             <React.Fragment>
                 {tabs.map(({ tabView }, index) => (
-                    index === activeIndex ? tabView : null
+                    index === activeIndex ? <React.Fragment key={index}>{tabView}</React.Fragment> : null
                 ))}
             </React.Fragment>
         )
