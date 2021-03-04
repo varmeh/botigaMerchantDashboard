@@ -9,19 +9,40 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import { BotigaCalendar } from "../../common/BotigaCalendar/BotigaCalendar";
 import InputAdornment from '@material-ui/core/InputAdornment';
+import { addCoupon, deleteCoupon, updateCoupon } from "../../../services/profile-service";
 
 const discountType = [{ key: 'Percentage', val: 'percentage' }, { key: 'Fixed Value', val: 'value' }];
 
-export function AddNewCoupon({ coupon, closeAddCouponForm, setError }) {
+export function AddNewCoupon({ coupon, closeAddCouponForm, setError, isAddCoupon, updateScreen }) {
     const [isLoading, setIsLoading] = useState(false);
 
     const initialValue = {
-        couponCode: coupon.couponCode || '',
+        couponCode: coupon.couponCode,
         discountType: coupon.discountType || 'percentage',
-        discountValue: coupon.discountValue || 0,
-        expiryDate: coupon.expiryDate ? new Date(coupon.expiryDate).toISOString() : new Date().toISOString(),
-        minimumOrderValue: coupon.minimumOrderValue || 0,
-        maxDiscountAmount: coupon.maxDiscountAmount || 0,
+        discountValue: coupon.discountValue,
+        expiryDate: coupon.expiryDate ? coupon.expiryDate : new Date(),
+        minimumOrderValue: coupon.minimumOrderValue,
+        maxDiscountAmount: coupon.maxDiscountAmount,
+    }
+
+    async function deleteExistingCoupon() {
+        try {
+            setIsLoading(true);
+            await deleteCoupon(coupon.couponId);
+            await _updateScreen(true);
+        } catch (err) {
+            setError(true, err);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    async function _updateScreen(value) {
+        try {
+            updateScreen(value);
+        } catch (err) {
+            setError(true, err);
+        }
     }
 
     return (
@@ -36,6 +57,32 @@ export function AddNewCoupon({ coupon, closeAddCouponForm, setError }) {
                 validationSchema={addCouponValidator}
                 initialValues={initialValue}
                 onSubmit={async values => {
+                    const {
+                        couponCode,
+                        discountType,
+                        discountValue,
+                        expiryDate,
+                        minimumOrderValue = 0,
+                        maxDiscountAmount = 0
+                    } = values;
+                    try {
+                        setIsLoading(true);
+                        if (isAddCoupon) {
+                            await addCoupon(
+                                couponCode, discountType, discountValue, expiryDate, minimumOrderValue, maxDiscountAmount
+                            );
+                            await _updateScreen(true);
+                        } else {
+                            await updateCoupon(
+                                coupon.couponId, couponCode, discountType, discountValue, expiryDate, minimumOrderValue, maxDiscountAmount
+                            );
+                            await _updateScreen(false);
+                        }
+                    } catch (err) {
+                        setError(true, err);
+                    } finally {
+                        setIsLoading(false);
+                    }
 
                 }}>
                 {({ handleSubmit, getFieldProps, touched, errors, setFieldValue, values }) => (
@@ -102,6 +149,8 @@ export function AddNewCoupon({ coupon, closeAddCouponForm, setError }) {
                                             fullWidth
                                             placeholder="Ex:500"
                                             {...getFieldProps('minimumOrderValue')}
+                                            error={touched.minimumOrderValue && errors.minimumOrderValue}
+                                            helperText={errors.minimumOrderValue}
                                         />
                                         <FormHelperText id="minPurchaseAmount">Keep the value 0, if there is no min. amount</FormHelperText>
                                     </div>
@@ -122,6 +171,8 @@ export function AddNewCoupon({ coupon, closeAddCouponForm, setError }) {
                                                         fullWidth
                                                         placeholder="Ex:500"
                                                         {...getFieldProps('maxDiscountAmount')}
+                                                        error={touched.maxDiscountAmount && errors.maxDiscountAmount}
+                                                        helperText={errors.maxDiscountAmount}
                                                     />
                                                     <FormHelperText id="maxDiscountvalue">Keep the value 0, to give flat discount on any value</FormHelperText>
                                                 </React.Fragment>
@@ -134,7 +185,7 @@ export function AddNewCoupon({ coupon, closeAddCouponForm, setError }) {
                                     <div className="no-css">
                                         <div className="expiry-date-label">Expiry date</div>
                                         <BotigaCalendar
-                                            InputAdornmentProps={{ variant: 'outlined', position: 'end' }}
+                                            InputAdornmentProps={{ position: 'end' }}
                                             disableToolbar
                                             inputVariant="outlined"
                                             variant="inline"
@@ -160,8 +211,8 @@ export function AddNewCoupon({ coupon, closeAddCouponForm, setError }) {
                         </div>
                         <div className='coupon-settings-row-action'>
                             <Button
-                                disabled
-                                onClick={null}
+                                disabled={isAddCoupon}
+                                onClick={deleteExistingCoupon}
                                 startIcon={<DeleteOutlineSharp />}>
                                 Delete Coupon
 							    </Button>

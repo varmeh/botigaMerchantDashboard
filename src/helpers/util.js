@@ -16,6 +16,13 @@ export function isBackDatedDate(_date) {
   return false;
 }
 
+export function convertTo_YYYY_MM_DD(dateString) {
+  if (typeof dateString !== "string") {
+    return dateString.toISOString().split('T')[0];
+  }
+  return dateString.split('T')[0];
+}
+
 
 export async function getResizedFile(file, cbFunction, isMainImage, setIsLoading, setError) {
   if (!file) { return; }

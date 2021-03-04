@@ -33,6 +33,6 @@ export const addCouponValidator = Yup.object({
 	discountType: Yup.string().required('Required').default('percentage'),
 	discountValue: Yup.number().required('Required').typeError(numberErrorMessage),
 	expiryDate: Yup.date().required('Required').typeError(dateErrorMessage),
-	minimumOrderValue: Yup.number().typeError(numberErrorMessage),
+	minimumOrderValue: Yup.number().max(501, ' Should be less than or equal to 500').typeError(numberErrorMessage),
 	maxDiscountAmount: Yup.number().typeError(numberErrorMessage),
 })

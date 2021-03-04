@@ -10,13 +10,15 @@ function CouponSettingsHeader() {
     );
 }
 
-function CouponDetail({ coupon, closeAddCouponForm, setError }) {
+function CouponDetail({ coupon, closeAddCouponForm, setError, isAddCoupon, updateScreen }) {
     return (
         coupon != null
             ? <AddNewCoupon
                 coupon={coupon}
                 closeAddCouponForm={closeAddCouponForm}
                 setError={setError}
+                isAddCoupon={isAddCoupon}
+                updateScreen={updateScreen}
             />
             : (
                 <div className="coupon-settings-body">
@@ -28,7 +30,7 @@ function CouponDetail({ coupon, closeAddCouponForm, setError }) {
     );
 }
 
-export default function CouponSettings({ isAddCoupon, closeAddCouponForm, coupon, setError }) {
+export default function CouponSettings({ isAddCoupon, closeAddCouponForm, coupon, setError, updateScreen }) {
     const defaultCoupon = {};
     return (
         <div className="coupon-settings-style">
@@ -36,14 +38,19 @@ export default function CouponSettings({ isAddCoupon, closeAddCouponForm, coupon
             {
                 isAddCoupon
                     ? <AddNewCoupon
+                        isAddCoupon={isAddCoupon}
                         closeAddCouponForm={closeAddCouponForm}
                         coupon={defaultCoupon}
                         setError={setError}
+                        updateScreen={updateScreen}
                     />
                     : <CouponDetail
+                        isAddCoupon={isAddCoupon}
                         closeAddCouponForm={closeAddCouponForm}
                         coupon={coupon}
-                        setError={setError} />
+                        setError={setError}
+                        updateScreen={updateScreen}
+                    />
             }
         </div>
     )

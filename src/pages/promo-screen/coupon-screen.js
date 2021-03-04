@@ -35,6 +35,18 @@ export function CouponScreen() {
         }
     }
 
+    async function updateScreen(requiresInitialSelection) {
+        try {
+            const couponsList = await fetchCouponList();
+            setIsAddCoupon(false);
+            if (typeof requiresInitialSelection === "boolean" && requiresInitialSelection) {
+                setInitialCouponSelection(couponsList);
+            }
+        } catch (err) {
+            setError(true, err);
+        }
+    }
+
     function selectCoupon(couponId) {
         setSelectedCouponId(couponId);
         setIsAddCoupon(false);
@@ -66,7 +78,9 @@ export function CouponScreen() {
                 isAddCoupon={isAddCoupon}
                 closeAddCouponForm={closeAddCouponForm}
                 coupon={getSelectedCoupon(selectedCouponId)}
-                setError={setError} />
+                setError={setError}
+                updateScreen={updateScreen}
+            />
         </BotigaPageView>
     )
 }
