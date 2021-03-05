@@ -8,21 +8,29 @@ const positiveNumberMsg = 'Please enter positive value'
 
 export const addProductValidators = Yup.object({
 	productName: Yup.string().required('Required'),
-	mrp: Yup.number().test(
-		'Is positive?',
-		positiveNumberMsg,
-		(value) => value === undefined || value === null || value >= 0
-	).typeError(numberErrorMessage),
-	price: Yup.number().test(
-		'Is positive?',
-		positiveNumberMsg,
-		(value) => value === undefined || value === null || value >= 0
-	).required('Required').typeError(numberErrorMessage),
-	quantity: Yup.number().test(
-		'Is positive?',
-		positiveNumberMsg,
-		(value) => value === undefined || value === null || value >= 0
-	).required('Required').typeError(numberErrorMessage),
+	mrp: Yup.number()
+		.test(
+			'Is positive?',
+			positiveNumberMsg,
+			value => value === undefined || value === null || value >= 0
+		)
+		.typeError(numberErrorMessage),
+	price: Yup.number()
+		.test(
+			'Is positive?',
+			positiveNumberMsg,
+			value => value === undefined || value === null || value >= 0
+		)
+		.required('Required')
+		.typeError(numberErrorMessage),
+	quantity: Yup.number()
+		.test(
+			'Is positive?',
+			positiveNumberMsg,
+			value => value === undefined || value === null || value >= 0
+		)
+		.required('Required')
+		.typeError(numberErrorMessage),
 	unit: Yup.string().required('Required'),
 	description: Yup.string()
 })
@@ -40,26 +48,32 @@ export const loginPhone = Yup.object({
 export const MAX_CHAR_CATEGORY = 24
 export const MAX_CHAR_DESCRIPTION = 140
 
-
 export const addCouponValidator = Yup.object({
 	couponCode: Yup.string().required('Required'),
 	discountType: Yup.string().required('Required').default('percentage'),
-	discountValue: Yup.number().test(
-		'Is positive?',
-		positiveNumberMsg,
-		(value) => value === undefined || value === null || value >= 0
-	).required('Required').typeError(numberErrorMessage),
+	discountValue: Yup.number()
+		.test(
+			'Is positive?',
+			positiveNumberMsg,
+			value => value === undefined || value === null || value >= 0
+		)
+		.required('Required')
+		.typeError(numberErrorMessage),
 	expiryDate: Yup.date().required('Required').typeError(dateErrorMessage),
-	minimumOrderValue: Yup.number().test(
-		'Is positive?',
-		positiveNumberMsg,
-		(value) => value === undefined || value === null || value >= 0
-	).max(501, ' Should be less than or equal to 500').typeError(numberErrorMessage),
-	maxDiscountAmount: Yup.number().test(
-		'Is positive?',
-		positiveNumberMsg,
-		(value) => value === undefined || value === null || value >= 0
-	).typeError(numberErrorMessage),
+	minimumOrderValue: Yup.number()
+		.test(
+			'Is positive?',
+			positiveNumberMsg,
+			value => value === undefined || value === null || value >= 0
+		)
+		.typeError(numberErrorMessage),
+	maxDiscountAmount: Yup.number()
+		.test(
+			'Is positive?',
+			positiveNumberMsg,
+			value => value === undefined || value === null || value >= 0
+		)
+		.typeError(numberErrorMessage)
 })
 
-export const NUMBER_OF_BANNERS = 3;
+export const NUMBER_OF_BANNERS = 3
