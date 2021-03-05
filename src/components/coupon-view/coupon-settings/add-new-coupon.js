@@ -104,6 +104,7 @@ export function AddNewCoupon({ coupon, closeAddCouponForm, setError, isAddCoupon
                             <div className='coupon-settings-row'>
                                 <div className="equal">
                                     <TextField
+                                        disabled={!isAddCoupon}
                                         style={{ width: '100%' }}
                                         id='discountType'
                                         select
