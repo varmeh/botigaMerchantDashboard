@@ -23,6 +23,9 @@ const useStyles = makeStyles((_) => ({
             '&.Mui-focused fieldset': {
                 borderColor: '#179F57',
             },
+            '&.Mui-disabled': {
+                backgroundColor: '#F7F7F7',
+            }
         },
         '& label.Mui-error': {
             fontFamily: 'Montserrat',
