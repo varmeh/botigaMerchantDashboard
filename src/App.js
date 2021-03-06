@@ -9,6 +9,7 @@ import AppContext from "./contexts/AppContext";
 
 import { fetchProducts } from "./services/product-service";
 import { getCoupons } from "./services/profile-service";
+import { fetchApartments } from "./services/apartment-service";
 import { NUMBER_OF_BANNERS } from "./helpers/validators";
 import { LOGIN_VIEW, HOME_VIEW } from "./helpers/BotigaRouteFile";
 
@@ -24,7 +25,8 @@ class MyApp extends React.Component {
       isError: false,
       products: [],
       coupons: [],
-      banners: [...Array(NUMBER_OF_BANNERS).keys()].map(_ => null)
+      banners: [...Array(NUMBER_OF_BANNERS).keys()].map(_ => null),
+      apartments: [],
     };
   }
 
@@ -33,7 +35,8 @@ class MyApp extends React.Component {
     isError: false,
     products: [],
     coupons: [],
-    banners: [...Array(NUMBER_OF_BANNERS).keys()].map(_ => null)
+    banners: [...Array(NUMBER_OF_BANNERS).keys()].map(_ => null),
+    apartments: []
   })
 
 
@@ -90,6 +93,14 @@ class MyApp extends React.Component {
     banners: _bannerList
   });
 
+  async _fetchApartments() {
+    try {
+      const { data: { apartments = [] } = {} } = await fetchApartments();
+      this.setState({ apartments: apartments });
+      return apartments;
+    } catch (err) { this._setError(true, err); }
+  }
+
   _setError = (value, err) => this.setState({
     isError: value, error: err ? err : null
   });
@@ -97,19 +108,21 @@ class MyApp extends React.Component {
 
   render() {
     const { location: { pathname = '' } } = this.props;
-    const { isError, error, products, coupons, banners } = this.state;
+    const { isError, error, products, coupons, banners, apartments } = this.state;
     const includeSideBar = !SIDE_NAVIGATION_HIDDEN_FOR_ROUTES.includes(pathname)
     return (
       <AppContext.Provider value={{
         products: products,
         coupons: coupons,
         banners: banners,
+        apartments: apartments,
         fetchCouponList: this._fetchCouponList.bind(this),
         fetchProductList: this._fetchProductList.bind(this),
         fetchBannerList: this._fetchBanners.bind(this),
         updateLocalBannersList: this._updateLocalBannersList.bind(this),
+        fetchApartments: this._fetchApartments.bind(this),
         setError: this._setError,
-        clearContext: this._clearContext
+        clearContext: this._clearContext,
       }}>
         <div className="app">
           {includeSideBar && <SideNav />}
