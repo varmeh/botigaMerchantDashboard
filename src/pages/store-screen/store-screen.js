@@ -113,7 +113,7 @@ export function StoreScreen() {
 
     return (
         <React.Fragment>
-            <SearchBar screenName={screenName} reset={clearSearch} handleChange={setSearch} searchValue={searchText} />
+            <SearchBar screenName={screenName} reset={clearSearch} handleChange={setSearch} searchValue={searchText} placeHolder={"Search an item or category..."} />
             <BotigaPageView>
                 <CategoryList
                     categories={filterdCategories}

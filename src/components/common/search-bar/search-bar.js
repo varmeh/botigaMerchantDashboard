@@ -26,7 +26,7 @@ const useStyles = makeStyles((_) => ({
     }
 }));
 
-export default function SearchBar({ screenName, reset, handleChange, searchValue }) {
+export default function SearchBar({ screenName, reset, handleChange, searchValue, placeHolder = '' }) {
     const classes = useStyles();
     return (
         <div className="search-bar">
@@ -35,7 +35,7 @@ export default function SearchBar({ screenName, reset, handleChange, searchValue
                 value={searchValue}
                 onChange={handleChange}
                 id="search"
-                placeholder="Search an item or category..."
+                placeholder={placeHolder}
                 variant="outlined"
                 className={classes.input}
                 InputProps={{
@@ -46,10 +46,10 @@ export default function SearchBar({ screenName, reset, handleChange, searchValue
                             </IconButton>
                         </InputAdornment>
                     ) : (
-                            <InputAdornment position="start">
-                                <Search />
-                            </InputAdornment>
-                        ),
+                        <InputAdornment position="start">
+                            <Search />
+                        </InputAdornment>
+                    ),
                 }} />
         </div>
     );
