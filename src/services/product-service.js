@@ -16,15 +16,15 @@ async function saveProduct(categoryId, name, price, mrp, quantity, unit, imageUr
         'price': price,
         ...(mrp ? { mrp } : {}),
         'size': { 'quantity': `${quantity}`, 'unit': unit },
-        ...(imageUrl ? { imageUrl } : {}),
-        ...(imageUrlLarge ? { imageUrlLarge } : {}),
+        imageUrl: imageUrl ? imageUrl : '',
+        imageUrlLarge: imageUrlLarge ? imageUrlLarge : '',
         ...(description ? { description } : {}),
-        ...((secondaryImageUrls && secondaryImageUrls.length > 0) ? { secondaryImageUrls } : {}),
+        secondaryImageUrls: secondaryImageUrls ? secondaryImageUrls : [],
         'available': true
     });
 }
 
-async function updateProduct(productId, categoryId, name, price, mrp, quantity, unit, imageUrl, imageUrlLarge, description, secondaryImageUrls, updateImage, available) {
+async function updateProduct(productId, categoryId, name, price, mrp, quantity, unit, imageUrl, imageUrlLarge, description, secondaryImageUrls, available) {
     return axios().patch('/api/seller/products', {
         'productId': productId,
         'categoryId': categoryId,
@@ -33,17 +33,17 @@ async function updateProduct(productId, categoryId, name, price, mrp, quantity, 
         ...(mrp ? { mrp } : {}),
         quantity,
         unit,
-        ...(imageUrl ? { imageUrl } : {}),
-        ...(imageUrlLarge ? { imageUrlLarge } : {}),
+        imageUrl: imageUrl ? imageUrl : '',
+        imageUrlLarge: imageUrlLarge ? imageUrlLarge : '',
         ...(description ? { description } : {}),
-        ...((secondaryImageUrls && secondaryImageUrls.length > 0) ? { secondaryImageUrls } : {}),
-        updateImage: updateImage,
+        secondaryImageUrls: secondaryImageUrls ? secondaryImageUrls : [],
         available
     });
 }
 
 async function updateProductStatus(categoryId, product, availableStatus) {
     const [quantity, unit] = product.size.split(' ');
+    const { imageUrl, imageUrlLarge, secondaryImageUrls } = product;
     return axios().patch('/api/seller/products', {
         'productId': product.id,
         'categoryId': categoryId,
@@ -53,8 +53,9 @@ async function updateProductStatus(categoryId, product, availableStatus) {
         'quantity': quantity,
         'unit': unit,
         'available': availableStatus,
-        'updateImage': false,
-        ...(product.imageUrl ? { 'imageUrl': product.imageUrl } : {}),
+        imageUrl: imageUrl ? imageUrl : '',
+        imageUrlLarge: imageUrlLarge ? imageUrlLarge : '',
+        secondaryImageUrls: secondaryImageUrls ? secondaryImageUrls : [],
         ...(product.description ? { 'description': product.description } : {}),
     });
 }
