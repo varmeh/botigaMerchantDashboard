@@ -89,14 +89,14 @@ function ProductItem({ product, selectProduct, selectedProductId, selectedCatego
   );
 }
 
-const ProductImage = React.memo(function ({ url, name, tag }) {
+function ProductImage({ url, name, tag }) {
   return (
     <div className="product-item-image-container">
       {tag && <span className="badge">{capitalize(tag)}</span>}
       <Image className="product-item-image" src={url} alt={name} />
     </div>
   );
-});
+}
 
 export default function ProductList({ products, selectProduct, selectedCategoryId, selectedProductId, showProductAddForm, updateScreen, isAddProductBtnDisabled, setError }) {
   const [isLoading, setIsLoading] = useState(false);

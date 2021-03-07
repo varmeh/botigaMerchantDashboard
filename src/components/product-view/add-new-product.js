@@ -44,19 +44,6 @@ function getMainProductImageObject(product) {
 	}
 }
 
-function shouldUpdateImage(product, mainImage, otherImages) {
-	if (!mainImage && otherImages.length === 0) {
-		return false
-	}
-	const { secondaryImageUrls, imageUrl, imageUrlLarge } = product
-	const isMainImageSame =
-		imageUrl === mainImage.imageUrlSmall && imageUrlLarge === mainImage.imageUrl
-	const isOtherImagesSame =
-		otherImages.length === secondaryImageUrls.length &&
-		otherImages.every(val => secondaryImageUrls.includes(val))
-	return !(isMainImageSame && isOtherImagesSame)
-}
-
 export function AddNewProduct({
 	selectedCategoryId,
 	refresh,
@@ -152,13 +139,8 @@ export function AddNewProduct({
 								imageUrlLarge,
 								description,
 								otherImages
-							)
+							);
 						} else {
-							const updateImage = shouldUpdateImage(
-								product,
-								mainImage,
-								otherImages
-							)
 							await updateProduct(
 								product.id,
 								selectedCategoryId,
@@ -171,9 +153,8 @@ export function AddNewProduct({
 								imageUrlLarge,
 								description,
 								otherImages,
-								updateImage,
 								product.available
-							)
+							);
 						}
 						refresh()
 					} catch (err) {
