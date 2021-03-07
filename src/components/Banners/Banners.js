@@ -128,7 +128,7 @@ export function Banners() {
 						</div>
 						<div className='block_section'>
 							<div className='primary'>size</div>
-							<div className='secondary'>20 MB Max.</div>
+							<div className='secondary'>1 MB Max.</div>
 						</div>
 					</div>
 				</div>
