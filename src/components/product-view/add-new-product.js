@@ -139,7 +139,7 @@ export function AddNewProduct({
 								imageUrlLarge,
 								description,
 								otherImages
-							);
+							)
 						} else {
 							await updateProduct(
 								product.id,
@@ -154,7 +154,7 @@ export function AddNewProduct({
 								description,
 								otherImages,
 								product.available
-							);
+							)
 						}
 						refresh()
 					} catch (err) {
@@ -296,7 +296,7 @@ export function AddNewProduct({
 									</div>
 									<div className='block_section'>
 										<div className='primary'>size</div>
-										<div className='secondary'>20 MB Max.</div>
+										<div className='secondary'>1 MB Max.</div>
 									</div>
 								</div>
 							</div>
