@@ -9,3 +9,7 @@
     color: white !important;
     background-color:#179F57 !important; 
 }
+
+.MuiTextField-root.botiga-calendar-withbtn{
+    width: 0px !important;
+}

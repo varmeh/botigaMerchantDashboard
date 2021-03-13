@@ -14,3 +14,28 @@
     line-height: 150%;    
     color: #000000;
 }
+
+
+
+.search-bar .screen-title-conatiner{
+    display: flex;
+    justify-content: center;
+}
+
+.search-bar .screen-search-container{
+    display: flex;
+    justify-content: center;
+}
+.search-bar .spacer{
+    width: 20px;
+}
+.delivery-date-selection-btn.MuiButton-text {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 150%;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #179F57;
+}

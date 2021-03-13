@@ -15,6 +15,7 @@ export function isBackDatedDate(_date) {
   return false;
 }
 
+// This is to be used in request format date
 export function convertTo_YYYY_MM_DD(date) {
   if (typeof date !== "string") {
     return date.toISOString().split('T')[0];
@@ -22,6 +23,13 @@ export function convertTo_YYYY_MM_DD(date) {
   return date.split('T')[0];
 }
 
+// This is to be used in display date in ui
+export function convertTo_DD_MM_YYY(date) {
+  if (typeof date !== "string") {
+    return date.toLocaleDateString();
+  }
+  return date.toLocaleDateString();
+}
 
 export async function getResizedFile(file, cbFunction, isMainImage, setIsLoading, setError) {
   if (!file) { return; }
@@ -88,7 +96,7 @@ export const isCompleted = (status) => isDelivered(status) || isCancelled(status
 
 export function statusMessage(status) {
   if (isOpen(status)) {
-    return 'Open';
+    return 'Order Placed';
   } else if (isOutForDelivery(status)) {
     return 'Out for delivery';
   } else if (isDelivered(status)) {
@@ -103,11 +111,16 @@ export function statusMessage(status) {
 }
 
 export function statusColor(status) {
-  if (isOpen(status) || isDelayed(status)) {
-    return 'order-open-delayed';
-  } else if (isCancelled(status)) {
-    return 'order-cancelled';
+  if (isDelivered(status)) {
+    return 'delivered';
+  } else if (isOpen(status)) {
+    return 'open';
+  } else if (isOutForDelivery(status)) {
+    return 'out-for-delivery';
+  } else if (isDelayed(status)) {
+    return 'delayed';
   } else {
-    return 'order-default';
+    // Cancelled
+    return 'canelled';
   }
 }

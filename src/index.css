@@ -91,29 +91,43 @@ body{
 }
 
 
-.order-open-delayed{
+.delivered{
     display: inline-block;
     height: 8px;
     width: 8px;
-    background: rgb(233, 161, 54, 1);
     border-radius: 50%;
     margin-right: 4px;
+    background-color: #179f57;
 }
-
-.order-cancelled{
+.open{
     display: inline-block;
     height: 8px;
     width: 8px;
-    background: rgb(33, 86, 54, 1);
     border-radius: 50%;
     margin-right: 4px;
+    background-color:#e9a136;
 }
-
-.order-default{
+.out-for-delivery{
     display: inline-block;
     height: 8px;
     width: 8px;
-    background: rgb(54, 185, 233, 1);
     border-radius: 50%;
     margin-right: 4px;
+    background-color: #36b9e9;
+}
+.delayed{
+    display: inline-block;
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    margin-right: 4px;
+    background-color: #e95636;
+}
+.canelled{
+    display: inline-block;
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    margin-right: 4px;
+    background-color: #787371;
 }

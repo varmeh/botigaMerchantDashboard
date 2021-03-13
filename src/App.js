@@ -27,6 +27,7 @@ class MyApp extends React.Component {
       coupons: [],
       banners: [...Array(NUMBER_OF_BANNERS).keys()].map(_ => null),
       aggregateDelivery: [],
+      selectedDeliverydate: null
     };
   }
 
@@ -36,7 +37,8 @@ class MyApp extends React.Component {
     products: [],
     coupons: [],
     banners: [...Array(NUMBER_OF_BANNERS).keys()].map(_ => null),
-    aggregateDelivery: []
+    aggregateDelivery: [],
+    selectedDeliverydate: null
   })
 
 
@@ -101,6 +103,12 @@ class MyApp extends React.Component {
     } catch (err) { this._setError(true, err); }
   }
 
+  _setSelectedDeliveryDate = (date) => {
+    this.setState({
+      selectedDeliverydate: date
+    }, () => this._fetchAggregateDelivery(this.state.selectedDeliverydate))
+  }
+
   _setError = (value, err) => this.setState({
     isError: value, error: err ? err : null
   });
@@ -108,7 +116,7 @@ class MyApp extends React.Component {
 
   render() {
     const { location: { pathname = '' } } = this.props;
-    const { isError, error, products, coupons, banners, aggregateDelivery } = this.state;
+    const { isError, error, products, coupons, banners, aggregateDelivery, selectedDeliverydate } = this.state;
     const includeSideBar = !SIDE_NAVIGATION_HIDDEN_FOR_ROUTES.includes(pathname)
     return (
       <AppContext.Provider value={{
@@ -116,11 +124,13 @@ class MyApp extends React.Component {
         coupons: coupons,
         banners: banners,
         aggregateDelivery: aggregateDelivery,
+        selectedDeliverydate: selectedDeliverydate,
         fetchCouponList: this._fetchCouponList.bind(this),
         fetchProductList: this._fetchProductList.bind(this),
         fetchBannerList: this._fetchBanners.bind(this),
         updateLocalBannersList: this._updateLocalBannersList.bind(this),
         fetchAggregateDelivery: this._fetchAggregateDelivery.bind(this),
+        setSelectedDeliveryDate: this._setSelectedDeliveryDate,
         setError: this._setError,
         clearContext: this._clearContext,
       }}>

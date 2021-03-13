@@ -1,13 +1,13 @@
 import React, { useContext, useEffect } from "react";
 import appContext from "../../contexts/AppContext";
 import BotigaPageView from "../../components/common/BotigaPageView/BotigaPageView";
-import SearchBar from "../../components/common/search-bar/search-bar";
+import { SearchBarDelivery } from "../../components/common/search-bar/search-bar";
 import CommunityList from "../../components/community-list/community-list";
 import DeliveryList from "../../components/delivery-view/delivery-list/delivery-list";
 
 export function DeliveryScreen() {
     const screenName = 'Delivery';
-    const { aggregateDelivery, fetchAggregateDelivery, setError } = useContext(appContext);
+    const { aggregateDelivery, fetchAggregateDelivery, setError, setSelectedDeliveryDate, selectedDeliverydate } = useContext(appContext);
 
     useEffect(() => {
         initApartmentList();
@@ -29,7 +29,14 @@ export function DeliveryScreen() {
 
     return (
         <React.Fragment>
-            <SearchBar screenName={screenName} reset={() => { }} handleChange={() => { }} searchValue={""} placeHolder={"Enter order or phone number..."} />
+            <SearchBarDelivery
+                selectedDeliverydate={selectedDeliverydate}
+                onDateChange={setSelectedDeliveryDate}
+                screenName={screenName}
+                reset={() => { }}
+                handleChange={() => { }}
+                searchValue={""}
+                placeHolder={"Enter order or phone number..."} />
             <BotigaPageView>
                 <CommunityList
                     aggregateDelivery={aggregateDelivery} />
