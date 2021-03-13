@@ -6,6 +6,7 @@ import Popover from '@material-ui/core/Popover';
 import IconButton from '@material-ui/core/IconButton';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import Checkbox from '@material-ui/core/Checkbox';
+import Badge from '@material-ui/core/Badge';
 
 function DeliveryListHeader() {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -34,7 +35,9 @@ function DeliveryListHeader() {
             <div className="community-header-name">DELIVERIES</div>
             <div className="no-class">
                 <IconButton aria-label="delete" size="small" onClick={handleClick}>
-                    <FilterListIcon fontSize="small" />
+                    <Badge color="primary" variant="dot">
+                        <FilterListIcon fontSize="small" />
+                    </Badge>
                 </IconButton>
                 <Popover
                     id={id}

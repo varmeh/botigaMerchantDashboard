@@ -135,3 +135,7 @@ body{
 .MuiCheckbox-colorPrimary.Mui-checked{
     color: #179F57 !important;
 }
+.MuiBadge-colorPrimary {
+    color: #fff;
+    background-color: #179F57 !important;
+}
