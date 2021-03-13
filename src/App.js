@@ -9,7 +9,7 @@ import AppContext from "./contexts/AppContext";
 
 import { fetchProducts } from "./services/product-service";
 import { getCoupons } from "./services/profile-service";
-import { fetchApartments } from "./services/apartment-service";
+import { getAggregateDelivery } from './services/delivery-service';
 import { NUMBER_OF_BANNERS } from "./helpers/validators";
 import { LOGIN_VIEW, HOME_VIEW } from "./helpers/BotigaRouteFile";
 
@@ -26,7 +26,7 @@ class MyApp extends React.Component {
       products: [],
       coupons: [],
       banners: [...Array(NUMBER_OF_BANNERS).keys()].map(_ => null),
-      apartments: [],
+      aggregateDelivery: [],
     };
   }
 
@@ -36,7 +36,7 @@ class MyApp extends React.Component {
     products: [],
     coupons: [],
     banners: [...Array(NUMBER_OF_BANNERS).keys()].map(_ => null),
-    apartments: []
+    aggregateDelivery: []
   })
 
 
@@ -93,11 +93,11 @@ class MyApp extends React.Component {
     banners: _bannerList
   });
 
-  async _fetchApartments() {
+  async _fetchAggregateDelivery(date) {
     try {
-      const { data: { apartments = [] } = {} } = await fetchApartments();
-      this.setState({ apartments: apartments });
-      return apartments;
+      const { data } = await getAggregateDelivery(date);
+      this.setState({ aggregateDelivery: data });
+      return data;
     } catch (err) { this._setError(true, err); }
   }
 
@@ -108,19 +108,19 @@ class MyApp extends React.Component {
 
   render() {
     const { location: { pathname = '' } } = this.props;
-    const { isError, error, products, coupons, banners, apartments } = this.state;
+    const { isError, error, products, coupons, banners, aggregateDelivery } = this.state;
     const includeSideBar = !SIDE_NAVIGATION_HIDDEN_FOR_ROUTES.includes(pathname)
     return (
       <AppContext.Provider value={{
         products: products,
         coupons: coupons,
         banners: banners,
-        apartments: apartments,
+        aggregateDelivery: aggregateDelivery,
         fetchCouponList: this._fetchCouponList.bind(this),
         fetchProductList: this._fetchProductList.bind(this),
         fetchBannerList: this._fetchBanners.bind(this),
         updateLocalBannersList: this._updateLocalBannersList.bind(this),
-        fetchApartments: this._fetchApartments.bind(this),
+        fetchAggregateDelivery: this._fetchAggregateDelivery.bind(this),
         setError: this._setError,
         clearContext: this._clearContext,
       }}>

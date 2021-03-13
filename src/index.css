@@ -86,3 +86,34 @@ body{
     display: flex;
     flex: 1;
 }
+.uppercase{
+    text-transform: uppercase;
+}
+
+
+.order-open-delayed{
+    display: inline-block;
+    height: 8px;
+    width: 8px;
+    background: rgb(233, 161, 54, 1);
+    border-radius: 50%;
+    margin-right: 4px;
+}
+
+.order-cancelled{
+    display: inline-block;
+    height: 8px;
+    width: 8px;
+    background: rgb(33, 86, 54, 1);
+    border-radius: 50%;
+    margin-right: 4px;
+}
+
+.order-default{
+    display: inline-block;
+    height: 8px;
+    width: 8px;
+    background: rgb(54, 185, 233, 1);
+    border-radius: 50%;
+    margin-right: 4px;
+}

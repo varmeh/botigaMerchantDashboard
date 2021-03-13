@@ -15,11 +15,11 @@ export function isBackDatedDate(_date) {
   return false;
 }
 
-export function convertTo_YYYY_MM_DD(dateString) {
-  if (typeof dateString !== "string") {
-    return dateString.toISOString().split('T')[0];
+export function convertTo_YYYY_MM_DD(date) {
+  if (typeof date !== "string") {
+    return date.toISOString().split('T')[0];
   }
-  return dateString.split('T')[0];
+  return date.split('T')[0];
 }
 
 
@@ -72,5 +72,42 @@ export async function getResizedBanner(file, cbFunction, setIsLoading, setError,
     if (typeof setIsLoading === 'function') {
       setIsLoading(false);
     }
+  }
+}
+
+
+// utilities related to delivery
+
+export const isOpen = (status) => status === 'open';
+export const isDelayed = (status) => status === 'delayed';
+export const isOutForDelivery = (status) => status === 'out';
+export const isDelivered = (status) => status === 'delivered';
+export const isCancelled = (status) => status === 'cancelled';
+
+export const isCompleted = (status) => isDelivered(status) || isCancelled(status);
+
+export function statusMessage(status) {
+  if (isOpen(status)) {
+    return 'Open';
+  } else if (isOutForDelivery(status)) {
+    return 'Out for delivery';
+  } else if (isDelivered(status)) {
+    return 'Delivered';
+  } else if (isDelayed(status)) {
+    return 'Delayed';
+  } else if (isCancelled(status)) {
+    return 'Cancelled';
+  } else {
+    return status;
+  }
+}
+
+export function statusColor(status) {
+  if (isOpen(status) || isDelayed(status)) {
+    return 'order-open-delayed';
+  } else if (isCancelled(status)) {
+    return 'order-cancelled';
+  } else {
+    return 'order-default';
   }
 }
