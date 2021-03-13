@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./delivery-list.css";
 import paidStamp from "../../../assets/icons/paid.svg";
 import { statusMessage, statusColor } from "../../../helpers/util";
@@ -8,8 +8,8 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import Checkbox from '@material-ui/core/Checkbox';
 import Badge from '@material-ui/core/Badge';
 
-function DeliveryListHeader() {
-    const [anchorEl, setAnchorEl] = React.useState(null);
+function DeliveryListHeader({ deliveryFilterList, setUnsetFilterList }) {
+    const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -30,14 +30,17 @@ function DeliveryListHeader() {
         { status: 'cancelled', displayText: 'Cancelled' }
     ];
 
+    const isfilterWithStatusChecked = status => deliveryFilterList.includes(status);
+
     return (
         <div className="community-header-item">
             <div className="community-header-name">DELIVERIES</div>
             <div className="no-class">
                 <IconButton aria-label="delete" size="small" onClick={handleClick}>
-                    <Badge color="primary" variant="dot">
-                        <FilterListIcon fontSize="small" />
-                    </Badge>
+                    {deliveryFilterList.length > 0
+                        ? (<Badge color="primary" variant="dot"><FilterListIcon fontSize="small" /></Badge>)
+                        : <FilterListIcon fontSize="small" />
+                    }
                 </IconButton>
                 <Popover
                     id={id}
@@ -56,8 +59,8 @@ function DeliveryListHeader() {
                                 <Checkbox
                                     color="primary"
                                     size="small"
-                                    checked={true}
-                                    onChange={null}
+                                    checked={isfilterWithStatusChecked(_entry.status)}
+                                    onChange={() => setUnsetFilterList(_entry.status)}
                                     inputProps={{ 'aria-label': _entry.displayText }}
                                 />
                             </div>
@@ -70,9 +73,14 @@ function DeliveryListHeader() {
 }
 
 
-function DeliveryItem({ delivery }) {
+function DeliveryItem({ delivery, deliveryFilterList }) {
     const { buyer: { house, name }, order: { number, products, totalAmount, status: orderStatus }, payment: { status: paymentStatus } } = delivery;
     const itemText = products.length > 1 ? `${products.length} items` : `${products.length} item`;
+
+    if (deliveryFilterList.length > 0 && !deliveryFilterList.includes(orderStatus)) {
+        return null;
+    }
+
     return (
         <div className="delivery-item">
             <div className="delivery-item-row">
@@ -100,7 +108,7 @@ function DeliveryItem({ delivery }) {
 }
 
 
-export default function DeliveryList({ aggregateDelivery }) {
+export default function DeliveryList({ aggregateDelivery, deliveryFilterList, setUnsetFilterList }) {
     if (aggregateDelivery.length == 0) {
         return null;
     }
@@ -108,11 +116,16 @@ export default function DeliveryList({ aggregateDelivery }) {
     const selectedCommuntityForDelivery = aggregateDelivery[0];
     return (
         <div className="product-list-style">
-            <DeliveryListHeader />
+            <DeliveryListHeader
+                deliveryFilterList={deliveryFilterList}
+                setUnsetFilterList={setUnsetFilterList} />
             <div className="delivery-list-body">
                 {
                     selectedCommuntityForDelivery.deliveries.map(((_delivery, i) => (
-                        <DeliveryItem key={i} delivery={_delivery} />
+                        <DeliveryItem
+                            key={i}
+                            delivery={_delivery}
+                            deliveryFilterList={deliveryFilterList} />
                     )))
                 }
             </div>

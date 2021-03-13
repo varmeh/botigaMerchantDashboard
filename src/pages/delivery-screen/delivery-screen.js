@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import appContext from "../../contexts/AppContext";
 import BotigaPageView from "../../components/common/BotigaPageView/BotigaPageView";
 import { SearchBarDelivery } from "../../components/common/search-bar/search-bar";
@@ -7,7 +7,14 @@ import DeliveryList from "../../components/delivery-view/delivery-list/delivery-
 
 export function DeliveryScreen() {
     const screenName = 'Delivery';
-    const { aggregateDelivery, fetchAggregateDelivery, setError, setSelectedDeliveryDate, selectedDeliverydate } = useContext(appContext);
+    const {
+        aggregateDelivery,
+        fetchAggregateDelivery,
+        setError,
+        setSelectedDeliveryDate,
+        selectedDeliverydate
+    } = useContext(appContext);
+    const [deliveryFilterList, setDeliveryFilterList] = useState([]);
 
     useEffect(() => {
         initApartmentList();
@@ -26,6 +33,16 @@ export function DeliveryScreen() {
         }
     }
 
+    function setUnsetFilterList(status) {
+        let tempStatusList = [...deliveryFilterList];
+        if (tempStatusList.includes(status)) {
+            tempStatusList = tempStatusList.filter(_status => _status !== status);
+        } else {
+            tempStatusList = [...tempStatusList, status];
+        }
+        setDeliveryFilterList(tempStatusList);
+    }
+
 
     return (
         <React.Fragment>
@@ -41,7 +58,9 @@ export function DeliveryScreen() {
                 <CommunityList
                     aggregateDelivery={aggregateDelivery} />
                 <DeliveryList
-                    aggregateDelivery={aggregateDelivery} />
+                    aggregateDelivery={aggregateDelivery}
+                    setUnsetFilterList={setUnsetFilterList}
+                    deliveryFilterList={deliveryFilterList} />
             </BotigaPageView>
         </React.Fragment>
     );
