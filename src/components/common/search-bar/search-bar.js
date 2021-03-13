@@ -76,14 +76,12 @@ export function SearchBarDelivery({
                 <div className="screen-title">{screenName}</div>
                 <div className="spacer" />
                 <BotigaCalendarWithButton
-                    variant="inline"
                     disableToolbar
-                    format="dd-MM-yyyy"
-                    id="delivery-date"
-                    showButtonDatePicker={true}
                     currentSelectedDate={selectedDeliverydate}
                     onDateChange={onDateChange}
-                    btnClassName="delivery-date-selection-btn" />
+                    btnClassName="delivery-date-selection-btn"
+                    id="delivery-date"
+                    variant="inline" />
             </div>
             <div className="screen-search-container">
                 <Button startIcon={<ArrowDownward />}>Download Excel</Button>

@@ -38,7 +38,7 @@ export function BotigaCalendar(props) {
 }
 
 export function BotigaCalendarWithButton(props) {
-    const { currentSelectedDate, showButtonDatePicker, btnClassName, onDateChange, ...otherProps } = props;
+    const { currentSelectedDate, onDateChange, btnClassName, ...otherProps } = props;
 
     const [isOpen, setIsOpen] = useState(false);
     const [selectedDate, handleDateChange] = useState(null);
