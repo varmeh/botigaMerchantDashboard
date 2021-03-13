@@ -2,13 +2,67 @@ import React from "react";
 import "./delivery-list.css";
 import paidStamp from "../../../assets/icons/paid.svg";
 import { statusMessage, statusColor } from "../../../helpers/util";
+import Popover from '@material-ui/core/Popover';
+import IconButton from '@material-ui/core/IconButton';
+import FilterListIcon from '@material-ui/icons/FilterList';
+import Checkbox from '@material-ui/core/Checkbox';
 
 function DeliveryListHeader() {
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const open = Boolean(anchorEl);
+    const id = open ? 'delivery-filter' : undefined;
+
+    const avialbleStatus = [
+        { status: 'open', displayText: 'Order Placed' },
+        { status: 'delayed', displayText: 'Delayed' },
+        { status: 'out', displayText: 'Out for delivery' },
+        { status: 'delivered', displayText: 'Delivered' },
+        { status: 'cancelled', displayText: 'Cancelled' }
+    ];
+
     return (
         <div className="community-header-item">
             <div className="community-header-name">DELIVERIES</div>
+            <div className="no-class">
+                <IconButton aria-label="delete" size="small" onClick={handleClick}>
+                    <FilterListIcon fontSize="small" />
+                </IconButton>
+                <Popover
+                    id={id}
+                    open={open}
+                    anchorEl={anchorEl}
+                    onClose={handleClose}
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                    transformOrigin={{ vertical: 'top', horizontal: 'right' }}>
+                    <div className="delivery-filter-container">
+                        {avialbleStatus.map(_entry => (
+                            <div className="delivery-filter-item">
+                                <div className="delivery-item-delivery-info">
+                                    <span className={statusColor(_entry.status)} />
+                                    <span>{_entry.displayText}</span>
+                                </div>
+                                <Checkbox
+                                    size="small"
+                                    checked={false}
+                                    onChange={null}
+                                    inputProps={{ 'aria-label': _entry.displayText }}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </Popover>
+            </div>
         </div>
-    )
+    );
 }
 
 

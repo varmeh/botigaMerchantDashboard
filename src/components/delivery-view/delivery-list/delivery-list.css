@@ -17,6 +17,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    height: 66px;
 }
 .delivery-header-name{
     font-family: Montserrat;
@@ -27,6 +28,21 @@
     letter-spacing: 0.5px;
     text-transform: uppercase;
     color: #000000;
+}
+.delivery-filter-container{
+    display: flex;
+    flex-direction: column;
+    padding: 20px 15px 20px 15px;
+    border: 1px solid #F4F4F4;
+    box-sizing: border-box;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.07);
+    border-radius: 8px;
+    width: 200px;
+}
+.delivery-filter-container .delivery-filter-item{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .paid-stamp-conatiner{

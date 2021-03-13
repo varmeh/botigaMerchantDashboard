@@ -11,6 +11,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    height: 66px;
 }
 .community-header-name{
     font-family: Montserrat;
