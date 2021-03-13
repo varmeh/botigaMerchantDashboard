@@ -37,7 +37,7 @@ function CommunityItem({
 }
 
 export default function CommunityList({
-    aggregateDelivery,
+    aggregateDeliveryForCommunity,
     setSelectedCommunityId,
     selectedCommunityId,
 }) {
@@ -46,7 +46,7 @@ export default function CommunityList({
             <CommunityistHeader />
             <div className="coupon-list-body">
                 {
-                    aggregateDelivery.map(((_delivery, i) => (
+                    aggregateDeliveryForCommunity.map(((_delivery, i) => (
                         <CommunityItem
                             key={i}
                             apartment={_delivery.apartment}

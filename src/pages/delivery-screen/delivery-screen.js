@@ -17,6 +17,7 @@ export function DeliveryScreen() {
 
     const [deliveryFilterList, setDeliveryFilterList] = useState([]);
     const [selectedCommunityId, setSelectedCommunityId] = useState(null);
+    const [searchText, setSearchText] = useState('');
 
     useEffect(() => {
         initAggregateDeliveryList();
@@ -37,11 +38,20 @@ export function DeliveryScreen() {
 
     function setInitialCommunitySelection(aggregateData) {
         if (aggregateData.length > 0) {
-            const { apartment: { _id: aptId } } = (aggregateData[0] || {});
-            if (aptId) {
-                setSelectedCommunityId(aptId);
+            const { apartment: { _id } } = (aggregateData[0] || {});
+            if (_id) {
+                setSelectedCommunityId(_id);
             }
         }
+    }
+
+    function clearSearch() {
+        setSearchText('');
+    }
+
+    function setSearch(event) {
+        const { value } = event.target;
+        setSearchText(value);
     }
 
     function setUnsetFilterList(status) {
@@ -54,12 +64,15 @@ export function DeliveryScreen() {
         setDeliveryFilterList(tempStatusList);
     }
 
-    function getDeliveryOfApartment(aptId) {
-        if (!aptId) {
+    function getDeliveryForSelectedCommunity(id) {
+        if (!id) {
             return [];
         }
-        const deliveryForApt = aggregateDelivery.find(_delivery => _delivery.apartment._id === aptId) || {};
-        return (deliveryForApt.deliveries || []);
+        const deliveryForApt = aggregateDelivery.find(_delivery => _delivery.apartment._id === id) || {};
+        return (deliveryForApt.deliveries || []).filter(
+            _delivery => (_delivery.buyer.phone || '').includes(searchText)
+                || (_delivery.order.number || '').includes(searchText)
+        );
     }
 
     return (
@@ -68,20 +81,20 @@ export function DeliveryScreen() {
                 selectedDeliverydate={selectedDeliverydate}
                 onDateChange={setSelectedDeliveryDate}
                 screenName={screenName}
-                reset={() => { }}
-                handleChange={() => { }}
-                searchValue={""}
+                reset={clearSearch}
+                handleChange={setSearch}
+                searchValue={searchText}
                 placeHolder={"Enter order or phone number..."} />
             <BotigaPageView>
                 <CommunityList
-                    aggregateDelivery={aggregateDelivery}
+                    aggregateDeliveryForCommunity={aggregateDelivery}
                     setSelectedCommunityId={setSelectedCommunityId}
                     selectedCommunityId={selectedCommunityId} />
                 <DeliveryList
                     setUnsetFilterList={setUnsetFilterList}
                     deliveryFilterList={deliveryFilterList}
                     selectedCommunityId={selectedCommunityId}
-                    deliveries={getDeliveryOfApartment(selectedCommunityId)} />
+                    deliveriesForSelectedCommunity={getDeliveryForSelectedCommunity(selectedCommunityId)} />
             </BotigaPageView>
         </React.Fragment>
     );

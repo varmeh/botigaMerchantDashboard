@@ -108,7 +108,11 @@ function DeliveryItem({ delivery, deliveryFilterList }) {
 }
 
 
-export default function DeliveryList({ deliveries, deliveryFilterList, setUnsetFilterList }) {
+export default function DeliveryList({
+    deliveriesForSelectedCommunity,
+    deliveryFilterList,
+    setUnsetFilterList
+}) {
     return (
         <div className="product-list-style">
             <DeliveryListHeader
@@ -116,7 +120,7 @@ export default function DeliveryList({ deliveries, deliveryFilterList, setUnsetF
                 setUnsetFilterList={setUnsetFilterList} />
             <div className="delivery-list-body">
                 {
-                    deliveries.map(((_delivery, i) => (
+                    deliveriesForSelectedCommunity.map(((_delivery, i) => (
                         <DeliveryItem
                             key={i}
                             delivery={_delivery}
