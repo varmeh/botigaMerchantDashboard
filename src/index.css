@@ -131,3 +131,7 @@ body{
     margin-right: 4px;
     background-color: #787371;
 }
+
+.MuiCheckbox-colorPrimary.Mui-checked{
+    color: #179F57 !important;
+}

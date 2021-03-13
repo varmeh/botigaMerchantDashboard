@@ -51,8 +51,9 @@ function DeliveryListHeader() {
                                     <span>{_entry.displayText}</span>
                                 </div>
                                 <Checkbox
+                                    color="primary"
                                     size="small"
-                                    checked={false}
+                                    checked={true}
                                     onChange={null}
                                     inputProps={{ 'aria-label': _entry.displayText }}
                                 />
