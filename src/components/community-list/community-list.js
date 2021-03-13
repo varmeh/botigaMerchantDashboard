@@ -10,23 +10,50 @@ function CommunityistHeader() {
 }
 
 
-function CommunityItem({ apartment: { apartmentName = '' }, count }) {
+function CommunityItem({
+    apartment: {
+        apartmentName = '',
+        _id: aptid
+    },
+    count,
+    setSelectedCommunityId,
+    selectedCommunityId
+}) {
+
+    const selectedClass = selectedCommunityId === aptid
+        ? 'community-item item_selected'
+        : 'community-item';
+
+    function selectCommunity() {
+        setSelectedCommunityId(aptid)
+    }
+
     return (
-        <div className={"community-item"}>
+        <div className={selectedClass} onClick={selectCommunity}>
             <div className="community-name">{apartmentName}</div>
             <div className="community-delivery">{count} deliveries</div>
         </div>
     );
 }
 
-export default function CommunityList({ aggregateDelivery }) {
+export default function CommunityList({
+    aggregateDelivery,
+    setSelectedCommunityId,
+    selectedCommunityId,
+}) {
     return (
         <div className="community-list-style">
             <CommunityistHeader />
             <div className="coupon-list-body">
                 {
                     aggregateDelivery.map(((_delivery, i) => (
-                        <CommunityItem key={i} apartment={_delivery.apartment} count={_delivery.count} />
+                        <CommunityItem
+                            key={i}
+                            apartment={_delivery.apartment}
+                            count={_delivery.count}
+                            setSelectedCommunityId={setSelectedCommunityId}
+                            selectedCommunityId={selectedCommunityId}
+                        />
                     )))
                 }
             </div>

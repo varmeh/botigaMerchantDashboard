@@ -14,22 +14,33 @@ export function DeliveryScreen() {
         setSelectedDeliveryDate,
         selectedDeliverydate
     } = useContext(appContext);
+
     const [deliveryFilterList, setDeliveryFilterList] = useState([]);
+    const [selectedCommunityId, setSelectedCommunityId] = useState(null);
 
     useEffect(() => {
-        initApartmentList();
+        initAggregateDeliveryList();
     }, []);
 
-    async function initApartmentList() {
+    async function initAggregateDeliveryList() {
         try {
             if (aggregateDelivery.length > 0) {
-                // set selection logic
+                setInitialCommunitySelection(aggregateDelivery);
             } else {
-                //fetch list and set initial selection logic
-                await fetchAggregateDelivery(new Date());
+                const data = await fetchAggregateDelivery(new Date());
+                setInitialCommunitySelection(data);
             }
         } catch (err) {
             setError(true, err);
+        }
+    }
+
+    function setInitialCommunitySelection(aggregateData) {
+        if (aggregateData.length > 0) {
+            const { apartment: { _id: aptId } } = (aggregateData[0] || {});
+            if (aptId) {
+                setSelectedCommunityId(aptId);
+            }
         }
     }
 
@@ -43,6 +54,13 @@ export function DeliveryScreen() {
         setDeliveryFilterList(tempStatusList);
     }
 
+    function getDeliveryOfApartment(aptId) {
+        if (!aptId) {
+            return [];
+        }
+        const deliveryForApt = aggregateDelivery.find(_delivery => _delivery.apartment._id === aptId) || {};
+        return (deliveryForApt.deliveries || []);
+    }
 
     return (
         <React.Fragment>
@@ -56,11 +74,14 @@ export function DeliveryScreen() {
                 placeHolder={"Enter order or phone number..."} />
             <BotigaPageView>
                 <CommunityList
-                    aggregateDelivery={aggregateDelivery} />
-                <DeliveryList
                     aggregateDelivery={aggregateDelivery}
+                    setSelectedCommunityId={setSelectedCommunityId}
+                    selectedCommunityId={selectedCommunityId} />
+                <DeliveryList
                     setUnsetFilterList={setUnsetFilterList}
-                    deliveryFilterList={deliveryFilterList} />
+                    deliveryFilterList={deliveryFilterList}
+                    selectedCommunityId={selectedCommunityId}
+                    deliveries={getDeliveryOfApartment(selectedCommunityId)} />
             </BotigaPageView>
         </React.Fragment>
     );

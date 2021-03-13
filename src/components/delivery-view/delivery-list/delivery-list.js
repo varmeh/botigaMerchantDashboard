@@ -108,12 +108,7 @@ function DeliveryItem({ delivery, deliveryFilterList }) {
 }
 
 
-export default function DeliveryList({ aggregateDelivery, deliveryFilterList, setUnsetFilterList }) {
-    if (aggregateDelivery.length == 0) {
-        return null;
-    }
-    console.log(aggregateDelivery);
-    const selectedCommuntityForDelivery = aggregateDelivery[0];
+export default function DeliveryList({ deliveries, deliveryFilterList, setUnsetFilterList }) {
     return (
         <div className="product-list-style">
             <DeliveryListHeader
@@ -121,7 +116,7 @@ export default function DeliveryList({ aggregateDelivery, deliveryFilterList, se
                 setUnsetFilterList={setUnsetFilterList} />
             <div className="delivery-list-body">
                 {
-                    selectedCommuntityForDelivery.deliveries.map(((_delivery, i) => (
+                    deliveries.map(((_delivery, i) => (
                         <DeliveryItem
                             key={i}
                             delivery={_delivery}
