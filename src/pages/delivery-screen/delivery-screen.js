@@ -4,6 +4,7 @@ import BotigaPageView from "../../components/common/BotigaPageView/BotigaPageVie
 import { SearchBarDelivery } from "../../components/common/search-bar/search-bar";
 import CommunityList from "../../components/community-list/community-list";
 import DeliveryList from "../../components/delivery-view/delivery-list/delivery-list";
+import DeliveryDetails from "../../components/delivery-view/delivery-details/delivery-details";
 
 export function DeliveryScreen() {
     const screenName = 'Delivery';
@@ -17,6 +18,7 @@ export function DeliveryScreen() {
 
     const [deliveryFilterList, setDeliveryFilterList] = useState([]);
     const [selectedCommunityId, setSelectedCommunityId] = useState(null);
+    const [selectedDeliveryId, setSelectedDeliveryId] = useState(null);
     const [searchText, setSearchText] = useState('');
 
     useEffect(() => {
@@ -64,7 +66,7 @@ export function DeliveryScreen() {
         setDeliveryFilterList(tempStatusList);
     }
 
-    function getDeliveryForSelectedCommunity(id) {
+    function getAllDeliveryForSelectedCommunity(id) {
         if (!id) {
             return [];
         }
@@ -73,6 +75,27 @@ export function DeliveryScreen() {
             _delivery => (_delivery.buyer.phone || '').includes(searchText)
                 || (_delivery.order.number || '').includes(searchText)
         );
+    }
+
+    function getSelectedDelivery(selectedCommunityId, selectedDeliveryId) {
+        if (selectedCommunityId && selectedDeliveryId) {
+            const deliveryForApt = aggregateDelivery.find(_delivery => _delivery.apartment._id === selectedCommunityId) || {};
+            return (deliveryForApt.deliveries || []).find(_delivery => _delivery.order.number === selectedDeliveryId);
+        }
+        return null;
+    }
+
+    function getSelectedCommunity(selectedCommunityId) {
+        if (selectedCommunityId) {
+            const deliveryForApt = aggregateDelivery.find(_delivery => _delivery.apartment._id === selectedCommunityId) || {};
+            return (deliveryForApt.apartment || {});
+        }
+        return null;
+    }
+
+    function selectCommunity(id) {
+        setSelectedCommunityId(id);
+        setSelectedDeliveryId(null);
     }
 
     return (
@@ -88,13 +111,19 @@ export function DeliveryScreen() {
             <BotigaPageView>
                 <CommunityList
                     aggregateDeliveryForCommunity={aggregateDelivery}
-                    setSelectedCommunityId={setSelectedCommunityId}
+                    selectCommunity={selectCommunity}
                     selectedCommunityId={selectedCommunityId} />
                 <DeliveryList
                     setUnsetFilterList={setUnsetFilterList}
                     deliveryFilterList={deliveryFilterList}
                     selectedCommunityId={selectedCommunityId}
-                    deliveriesForSelectedCommunity={getDeliveryForSelectedCommunity(selectedCommunityId)} />
+                    selectedDeliveryId={selectedDeliveryId}
+                    setSelectedDeliveryId={setSelectedDeliveryId}
+                    deliveriesForSelectedCommunity={getAllDeliveryForSelectedCommunity(selectedCommunityId)} />
+                <DeliveryDetails
+                    selectedDelivery={getSelectedDelivery(selectedCommunityId, selectedDeliveryId)}
+                    selectedCommunity={getSelectedCommunity(selectedCommunityId)}
+                />
             </BotigaPageView>
         </React.Fragment>
     );

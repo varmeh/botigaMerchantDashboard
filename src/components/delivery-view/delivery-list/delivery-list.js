@@ -73,16 +73,29 @@ function DeliveryListHeader({ deliveryFilterList, setUnsetFilterList }) {
 }
 
 
-function DeliveryItem({ delivery, deliveryFilterList }) {
-    const { buyer: { house, name }, order: { number, products, totalAmount, status: orderStatus }, payment: { status: paymentStatus } } = delivery;
+function DeliveryItem({ delivery, deliveryFilterList, setSelectedDeliveryId, selectedDeliveryId }) {
+    const {
+        buyer: { house, name },
+        order: { number, products, totalAmount, status: orderStatus },
+        payment: { status: paymentStatus }
+    } = delivery;
     const itemText = products.length > 1 ? `${products.length} items` : `${products.length} item`;
+
+
+    function selectDeliveryId() {
+        setSelectedDeliveryId(number)
+    }
 
     if (deliveryFilterList.length > 0 && !deliveryFilterList.includes(orderStatus)) {
         return null;
     }
 
+    const selectedClass = selectedDeliveryId === number
+        ? 'delivery-item item_selected'
+        : 'delivery-item';
+
     return (
-        <div className="delivery-item">
+        <div className={selectedClass} onClick={selectDeliveryId}>
             <div className="delivery-item-row">
                 <div className="no-class">
                     <div className="delivery-item-order-info">{house}, {name}</div>
@@ -111,7 +124,9 @@ function DeliveryItem({ delivery, deliveryFilterList }) {
 export default function DeliveryList({
     deliveriesForSelectedCommunity,
     deliveryFilterList,
-    setUnsetFilterList
+    setUnsetFilterList,
+    setSelectedDeliveryId,
+    selectedDeliveryId
 }) {
     return (
         <div className="product-list-style">
@@ -124,6 +139,8 @@ export default function DeliveryList({
                         <DeliveryItem
                             key={i}
                             delivery={_delivery}
+                            selectedDeliveryId={selectedDeliveryId}
+                            setSelectedDeliveryId={setSelectedDeliveryId}
                             deliveryFilterList={deliveryFilterList} />
                     )))
                 }

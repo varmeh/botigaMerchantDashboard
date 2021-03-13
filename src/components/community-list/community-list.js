@@ -16,7 +16,7 @@ function CommunityItem({
         _id: aptid
     },
     count,
-    setSelectedCommunityId,
+    selectCommunity,
     selectedCommunityId
 }) {
 
@@ -24,12 +24,12 @@ function CommunityItem({
         ? 'community-item item_selected'
         : 'community-item';
 
-    function selectCommunity() {
-        setSelectedCommunityId(aptid)
+    function _selectCommunity() {
+        selectCommunity(aptid)
     }
 
     return (
-        <div className={selectedClass} onClick={selectCommunity}>
+        <div className={selectedClass} onClick={_selectCommunity}>
             <div className="community-name">{apartmentName}</div>
             <div className="community-delivery">{count} deliveries</div>
         </div>
@@ -38,7 +38,7 @@ function CommunityItem({
 
 export default function CommunityList({
     aggregateDeliveryForCommunity,
-    setSelectedCommunityId,
+    selectCommunity,
     selectedCommunityId,
 }) {
     return (
@@ -51,7 +51,7 @@ export default function CommunityList({
                             key={i}
                             apartment={_delivery.apartment}
                             count={_delivery.count}
-                            setSelectedCommunityId={setSelectedCommunityId}
+                            selectCommunity={selectCommunity}
                             selectedCommunityId={selectedCommunityId}
                         />
                     )))

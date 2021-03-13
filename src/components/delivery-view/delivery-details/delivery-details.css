@@ -1,0 +1,31 @@
+.delivery-details-style{
+    width: 530px;
+    height: 827px;
+    position: relative;
+}
+.delivery-details-header-item{
+    padding: 20px 25px 20px 25px;
+    height: 67px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid  #DCDCDC;
+}
+.delivery-details-header-name{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 150%;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #000000;
+}
+.delivery-details-body{
+    display: flex;
+    flex-direction: column;
+    padding: 15px 30px 30px 30px;
+    height: 689px;
+    overflow-y: auto;
+}
