@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -13,7 +13,7 @@ import Edit from '@material-ui/icons/Edit';
 import { Formik } from 'formik';
 
 import { addCategoryValidators, MAX_CHAR_CATEGORY } from "../../helpers/validators";
-import { saveCategory, editCategory, deleteCategory } from "../../services/category-service";
+import { saveCategory, editCategory, deleteCategory, updateCategoryVisiblity } from "../../services/category-service";
 
 import "./category-list.css";
 
@@ -27,12 +27,17 @@ function CategoryHeader({ handleClickOpen }) {
 }
 
 
-function CategoryItem({ category, selectedCategoryId, selectCategory, refresh, setError }) {
+function CategoryItem({ category, selectedCategoryId, selectCategory, refresh, setError, updateCategoryVisiblityInProductList }) {
     const [openEdit, setOpenEdit] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
+    const [categoryVisiblity, setCategoryVisiblity] = useState(false);
 
-    const { categoryId, name, displaytext, count } = category;
+    const { categoryId, name, displaytext, count, visible } = category;
     let categortItemClass = "category-item";
+
+    useEffect(() => {
+        setCategoryVisiblity(visible);
+    }, [visible])
 
     function handlOpenEditCategoryModal() {
         setOpenEdit(true);
@@ -60,6 +65,18 @@ function CategoryItem({ category, selectedCategoryId, selectCategory, refresh, s
         }
     }
 
+    async function _updateCategoryVisiblity(event) {
+        const value = event.target.checked;
+        try {
+            setCategoryVisiblity(value);
+            await updateCategoryVisiblity(category.categoryId, value);
+            updateCategoryVisiblityInProductList(category.categoryId, value);
+        } catch (err) {
+            setCategoryVisiblity(!value);
+            setError(true, err);
+        }
+    }
+
     function _selectCategory() {
         selectCategory(categoryId)
     }
@@ -74,6 +91,8 @@ function CategoryItem({ category, selectedCategoryId, selectCategory, refresh, s
                 <div className="category-name">{name}</div>
                 <Switch
                     color="primary"
+                    checked={categoryVisiblity}
+                    onChange={_updateCategoryVisiblity}
                     name={`categor-${categoryId}`}
                 />
             </div>
@@ -164,7 +183,7 @@ function CategoryItem({ category, selectedCategoryId, selectCategory, refresh, s
     );
 }
 
-export default function CategoryList({ categories, selectedCategoryId, selectCategory, updateScreen, setError }) {
+export default function CategoryList({ categories, selectedCategoryId, selectCategory, updateScreen, setError, updateCategoryVisiblityInProductList }) {
     const [openCategoryModal, setOpenCategoryModal] = useState(false);
 
     function handlOpenCategoryModal() {
@@ -205,8 +224,10 @@ export default function CategoryList({ categories, selectedCategoryId, selectCat
                             key={category.categoryId}
                             selectedCategoryId={selectedCategoryId}
                             selectCategory={selectCategory}
-                            setError={setError} />)
-                    ))
+                            setError={setError}
+                            updateCategoryVisiblityInProductList={updateCategoryVisiblityInProductList}
+                        />
+                    )))
                 }
             </div>
             <Formik

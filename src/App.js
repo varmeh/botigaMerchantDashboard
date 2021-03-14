@@ -74,6 +74,29 @@ class MyApp extends React.Component {
     } catch (err) { this._setError(true, err); }
   }
 
+  _updateCategoryVisiblityInProductList(categoryId, value) {
+    const tempProductsWithCategory = [...this.state.products];
+    if (tempProductsWithCategory.length > 0) {
+      const categoryToBeUpdated = tempProductsWithCategory.find(_category => _category.categoryId === categoryId);
+      if (categoryToBeUpdated) {
+        const updatedCategory = {
+          ...categoryToBeUpdated,
+          visible: value
+        };
+        const updatedProductsWithCategory = tempProductsWithCategory.map(_category => {
+          if (_category.categoryId !== categoryId) {
+            return _category;
+          } else {
+            return updatedCategory;
+          }
+        });
+        this.setState({
+          products: updatedProductsWithCategory
+        });
+      }
+    }
+  }
+
   _fetchBanners = async () => {
     try {
       const { data: { banners = [] } = {} } = await getBanners()
@@ -106,6 +129,7 @@ class MyApp extends React.Component {
         banners: banners,
         fetchCouponList: this._fetchCouponList.bind(this),
         fetchProductList: this._fetchProductList.bind(this),
+        updateCategoryVisiblityInProductList: this._updateCategoryVisiblityInProductList.bind(this),
         fetchBannerList: this._fetchBanners.bind(this),
         updateLocalBannersList: this._updateLocalBannersList.bind(this),
         setError: this._setError,

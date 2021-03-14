@@ -17,4 +17,11 @@ async function deleteCategory(categoryId) {
     return axios().delete(`/api/seller/categories/${categoryId}`);
 }
 
-export { saveCategory, editCategory, deleteCategory };
+async function updateCategoryVisiblity(categoryId, value) {
+    return axios().patch('/api/seller/categories/visible', {
+        "categoryId": categoryId,
+        "visible": value
+    })
+}
+
+export { saveCategory, editCategory, deleteCategory, updateCategoryVisiblity };
