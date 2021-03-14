@@ -25,7 +25,100 @@
 .delivery-details-body{
     display: flex;
     flex-direction: column;
-    padding: 15px 30px 30px 30px;
+    padding: 25px 0px 25px 0px;
     height: 689px;
     overflow-y: auto;
+}
+.delivery-details-row{
+    padding-top: 14px;
+    padding-bottom: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+.delivery-details-row .buyer-name{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 27px;    
+    color: #121714;
+}
+
+
+
+.delivery-details-row .delivery-info{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    color: rgba(18, 23, 21, 0.5);
+    word-break: break-word;
+}
+.delivery-details-row .delivery-info-black{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    color: rgba(18, 23, 21);
+    word-break: break-word;
+}
+.delivery-details-row .delivery-info-primary{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    color: #179F57;
+    word-break: break-word;
+}
+.delivery-details-row .delivery-info-row{
+    margin-top: 4px;
+}
+.delivery-details-row .delivery-info-bold{
+    font-weight: 600;
+}
+
+
+.delivery-query-info-box{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #E0E0E0;
+    border-radius: 4px;
+    padding: 17px;
+}
+.contact-tooltip{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 22px;
+    color: #FFFFFF;
+    box-shadow: 0px 8px 28px rgba(18, 23, 21, 0.3);
+    border-radius: 8px;
+}
+.delivery-query-info-box .delivery-contact-info{
+    background: rgba(18, 23, 21, 0.05);
+    border-radius: 6.85714px;
+    padding: 6px;
+    justify-content: center;
+}
+
+.delivery-summary-full-divider{
+    margin-top: 24px;
+    border-top: 1px solid #F4F4F4;
+}
+.delivery-summary-row-divider{
+    margin-left: 25px;
+    margin-right: 25px;
+    border-bottom: 1px solid #F4F4F4;
+}
+
+.delivery-summary-shade-row{
+    background: #F9F9F9;
 }

@@ -139,3 +139,11 @@ body{
     color: #fff;
     background-color: #179F57 !important;
 }
+
+.left-align-item{
+    text-align: left;
+}
+
+.right-align-item{
+    text-align: right;
+}
