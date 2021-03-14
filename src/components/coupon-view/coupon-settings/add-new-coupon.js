@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Formik } from 'formik';
 import TextField from '../../common/BotigatextField/botiga-textfield';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Switch from '@material-ui/core/Switch'
 import { addCouponValidator } from "../../../helpers/validators";
 import DeleteOutlineSharp from '@material-ui/icons/DeleteOutlineSharp';
 import Button from '@material-ui/core/Button';
@@ -23,6 +24,7 @@ export function AddNewCoupon({ coupon, closeAddCouponForm, setError, isAddCoupon
         expiryDate: coupon.expiryDate ? coupon.expiryDate : new Date(),
         minimumOrderValue: coupon.minimumOrderValue,
         maxDiscountAmount: coupon.maxDiscountAmount,
+        visibleToAllCustomers: coupon.visibleToAllCustomers || false
     }
 
     async function deleteExistingCoupon() {
@@ -63,18 +65,19 @@ export function AddNewCoupon({ coupon, closeAddCouponForm, setError, isAddCoupon
                         discountValue,
                         expiryDate,
                         minimumOrderValue = 0,
-                        maxDiscountAmount = 0
+                        maxDiscountAmount = 0,
+                        visibleToAllCustomers = false
                     } = values;
                     try {
                         setIsLoading(true);
                         if (isAddCoupon) {
                             await addCoupon(
-                                couponCode, discountType, discountValue, expiryDate, minimumOrderValue, maxDiscountAmount
+                                couponCode, discountType, discountValue, expiryDate, minimumOrderValue, maxDiscountAmount, visibleToAllCustomers
                             );
                             await _updateScreen(true);
                         } else {
                             await updateCoupon(
-                                coupon.couponId, couponCode, discountType, discountValue, expiryDate, minimumOrderValue, maxDiscountAmount
+                                coupon.couponId, couponCode, discountType, discountValue, expiryDate, minimumOrderValue, maxDiscountAmount, visibleToAllCustomers
                             );
                             await _updateScreen(false);
                         }
@@ -207,6 +210,24 @@ export function AddNewCoupon({ coupon, closeAddCouponForm, setError, isAddCoupon
                                 <div className='coupon-settings-spacer' />
                                 <div className="equal">
                                     <React.Fragment />
+                                </div>
+                            </div>
+                            <div className='coupon-settings-row'>
+                                <div className="coupon-visiblity-container equal">
+                                    <div className="coupon-visiblity-body">
+                                        <div className="coupon-visiblity-header-text">
+                                            Hide Coupon
+                                            <div className="coupon-visiblity-subheader-text">
+                                                Customers cannot find the coupon in the coupon list, but you can still share it
+                                             </div>
+                                        </div>
+                                        <Switch
+                                            color='primary'
+                                            id='visibleToAllCustomers'
+                                            checked={values.visibleToAllCustomers}
+                                            onChange={event => setFieldValue("visibleToAllCustomers", event.target.checked)}
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
