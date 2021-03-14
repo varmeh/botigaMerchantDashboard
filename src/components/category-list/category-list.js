@@ -7,6 +7,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import TextField from "../common/BotigatextField/botiga-textfield";
 import DeleteOutline from '@material-ui/icons/DeleteOutline';
+import Switch from '@material-ui/core/Switch';
+import IconButton from '@material-ui/core/IconButton';
 import Edit from '@material-ui/icons/Edit';
 import { Formik } from 'formik';
 
@@ -58,17 +60,39 @@ function CategoryItem({ category, selectedCategoryId, selectCategory, refresh, s
         }
     }
 
+    function _selectCategory() {
+        selectCategory(categoryId)
+    }
+
     if (categoryId === selectedCategoryId) {
         categortItemClass = `${categortItemClass} item_selected`;
     }
 
     return (
-        <div className={categortItemClass} onClick={() => selectCategory(categoryId)}>
-            <div className="category-name">{name}</div>
-            <div className="category-item-action">
+        <div className={categortItemClass} onClick={_selectCategory}>
+            <div className="category-item-row">
+                <div className="category-name">{name}</div>
+                <Switch
+                    color="primary"
+                    name={`categor-${categoryId}`}
+                />
+            </div>
+            <div className="category-item-row">
                 <div className="category-quantity">{displaytext}</div>
-                {count !== 0 ? <Edit onClick={handlOpenEditCategoryModal} /> : null}
-                {count === 0 && <DeleteOutline onClick={openDeleteModal} />}
+                <div className="no-classs">
+                    {count !== 0 ? (
+                        <IconButton aria-label="edit-category" onClick={handlOpenEditCategoryModal}>
+                            <Edit />
+                        </IconButton>
+                    ) : null}
+                    {count === 0 && (
+                        (
+                            <IconButton aria-label="delete-category" onClick={openDeleteModal}>
+                                <DeleteOutline />
+                            </IconButton>
+                        )
+                    )}
+                </div>
             </div>
             <Formik
                 validationSchema={addCategoryValidators}
