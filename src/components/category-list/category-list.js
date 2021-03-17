@@ -143,7 +143,7 @@ function CategoryItem({ category, selectedCategoryId, selectCategory, refresh, s
                                     type="text"
                                     variant="outlined"
                                     error={touched.category && errors.category}
-                                    maxLength={MAX_CHAR_CATEGORY}
+                                    inputProps={{ maxLength: MAX_CHAR_CATEGORY }}
                                     requiresCounterValidation={true}
                                     fullWidth />
                             </DialogContent>
@@ -260,7 +260,7 @@ export default function CategoryList({ categories, selectedCategoryId, selectCat
                                     variant="outlined"
                                     error={touched.category && errors.category}
                                     fullWidth
-                                    maxLength={MAX_CHAR_CATEGORY}
+                                    inputProps={{ maxLength: MAX_CHAR_CATEGORY }}
                                     requiresCounterValidation={true} />
                             </DialogContent>
                             <DialogActions className="add-category-action">
