@@ -22,7 +22,7 @@ async function getCoupons() {
     return axios().get('/api/seller/profile/coupons');
 }
 
-async function addCoupon(couponCode, discountType, discountValue, expiryDate, minimumOrderValue, maxDiscountAmount) {
+async function addCoupon(couponCode, discountType, discountValue, expiryDate, minimumOrderValue, maxDiscountAmount, visibleToAllCustomers) {
     const url = '/api/seller/profile/coupons';
     if (discountType === "percentage") {
         return axios().post(url, {
@@ -31,7 +31,8 @@ async function addCoupon(couponCode, discountType, discountValue, expiryDate, mi
             discountValue,
             expiryDate: convertTo_YYYY_MM_DD(expiryDate),
             minimumOrderValue,
-            maxDiscountAmount
+            maxDiscountAmount,
+            visibleToAllCustomers
         });
     } else {
         return axios().post(url, {
@@ -40,11 +41,12 @@ async function addCoupon(couponCode, discountType, discountValue, expiryDate, mi
             discountValue,
             expiryDate: convertTo_YYYY_MM_DD(expiryDate),
             minimumOrderValue,
+            visibleToAllCustomers
         });
     }
 }
 
-async function updateCoupon(couponId, couponCode, discountType, discountValue, expiryDate, minimumOrderValue, maxDiscountAmount) {
+async function updateCoupon(couponId, couponCode, discountType, discountValue, expiryDate, minimumOrderValue, maxDiscountAmount, visibleToAllCustomers) {
     const url = '/api/seller/profile/coupons';
     if (discountType === "percentage") {
         return axios().patch(url, {
@@ -54,7 +56,8 @@ async function updateCoupon(couponId, couponCode, discountType, discountValue, e
             discountValue,
             expiryDate: convertTo_YYYY_MM_DD(expiryDate),
             minimumOrderValue,
-            maxDiscountAmount
+            maxDiscountAmount,
+            visibleToAllCustomers
         });
     } else {
         return axios().patch(url, {
@@ -64,6 +67,7 @@ async function updateCoupon(couponId, couponCode, discountType, discountValue, e
             discountValue,
             expiryDate: convertTo_YYYY_MM_DD(expiryDate),
             minimumOrderValue,
+            visibleToAllCustomers
         });
     }
 }

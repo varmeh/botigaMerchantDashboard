@@ -73,7 +73,8 @@ export const addCouponValidator = Yup.object({
 			positiveNumberMsg,
 			value => value === undefined || value === null || value >= 0
 		)
-		.typeError(numberErrorMessage)
+		.typeError(numberErrorMessage),
+	visibleToAllCustomers: Yup.bool()
 })
 
 export const NUMBER_OF_BANNERS = 3

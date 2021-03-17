@@ -8,6 +8,7 @@ import BotigaPageView from "../../components/common/BotigaPageView/BotigaPageVie
 
 function getCategoryList(products) {
     return products.map(category => ({
+        visible: category.visible,
         categoryId: category.categoryId,
         name: category.name,
         count: category.products.length,
@@ -33,7 +34,7 @@ function getSelectedProduct(products, selectedCategoryId, selectedProductId) {
 
 export function StoreScreen() {
     const screenName = 'Store';
-    const { fetchProductList, products, setError } = useContext(appContext);
+    const { fetchProductList, products, setError, updateCategoryVisiblityInProductList } = useContext(appContext);
     const [selectedCategoryId, setSelectedCategoryId] = useState(null);
     const [selectedProductId, setSelectedProductId] = useState(null);
     const [isAddProduct, setIsAddProduct] = useState(false);
@@ -120,7 +121,8 @@ export function StoreScreen() {
                     selectedCategoryId={selectedCategoryId}
                     selectCategory={selectedCategory}
                     updateScreen={updateScreen}
-                    setError={setError} />
+                    setError={setError}
+                    updateCategoryVisiblityInProductList={updateCategoryVisiblityInProductList} />
                 <ProductList
                     isAddProductBtnDisabled={isAddProductBtnDisabled}
                     products={filterProducts}

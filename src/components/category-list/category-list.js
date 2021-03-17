@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -7,11 +7,13 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import TextField from "../common/BotigatextField/botiga-textfield";
 import DeleteOutline from '@material-ui/icons/DeleteOutline';
+import Switch from '@material-ui/core/Switch';
+import IconButton from '@material-ui/core/IconButton';
 import Edit from '@material-ui/icons/Edit';
 import { Formik } from 'formik';
 
 import { addCategoryValidators, MAX_CHAR_CATEGORY } from "../../helpers/validators";
-import { saveCategory, editCategory, deleteCategory } from "../../services/category-service";
+import { saveCategory, editCategory, deleteCategory, updateCategoryVisiblity } from "../../services/category-service";
 
 import "./category-list.css";
 
@@ -25,12 +27,17 @@ function CategoryHeader({ handleClickOpen }) {
 }
 
 
-function CategoryItem({ category, selectedCategoryId, selectCategory, refresh, setError }) {
+function CategoryItem({ category, selectedCategoryId, selectCategory, refresh, setError, updateCategoryVisiblityInProductList }) {
     const [openEdit, setOpenEdit] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
+    const [categoryVisiblity, setCategoryVisiblity] = useState(false);
 
-    const { categoryId, name, displaytext, count } = category;
+    const { categoryId, name, displaytext, count, visible } = category;
     let categortItemClass = "category-item";
+
+    useEffect(() => {
+        setCategoryVisiblity(visible);
+    }, [visible])
 
     function handlOpenEditCategoryModal() {
         setOpenEdit(true);
@@ -58,17 +65,53 @@ function CategoryItem({ category, selectedCategoryId, selectCategory, refresh, s
         }
     }
 
+    async function _updateCategoryVisiblity(event) {
+        const value = event.target.checked;
+        try {
+            setCategoryVisiblity(value);
+            await updateCategoryVisiblity(category.categoryId, value);
+            updateCategoryVisiblityInProductList(category.categoryId, value);
+        } catch (err) {
+            setCategoryVisiblity(!value);
+            setError(true, err);
+        }
+    }
+
+    function _selectCategory() {
+        selectCategory(categoryId)
+    }
+
     if (categoryId === selectedCategoryId) {
         categortItemClass = `${categortItemClass} item_selected`;
     }
 
     return (
-        <div className={categortItemClass} onClick={() => selectCategory(categoryId)}>
-            <div className="category-name">{name}</div>
-            <div className="category-item-action">
+        <div className={categortItemClass} onClick={_selectCategory}>
+            <div className="category-item-row">
+                <div className="category-name">{name}</div>
+                <Switch
+                    color="primary"
+                    checked={categoryVisiblity}
+                    onChange={_updateCategoryVisiblity}
+                    name={`categor-${categoryId}`}
+                />
+            </div>
+            <div className="category-item-row">
                 <div className="category-quantity">{displaytext}</div>
-                {count !== 0 ? <Edit onClick={handlOpenEditCategoryModal} /> : null}
-                {count === 0 && <DeleteOutline onClick={openDeleteModal} />}
+                <div className="no-classs">
+                    {count !== 0 ? (
+                        <IconButton aria-label="edit-category" onClick={handlOpenEditCategoryModal}>
+                            <Edit />
+                        </IconButton>
+                    ) : null}
+                    {count === 0 && (
+                        (
+                            <IconButton aria-label="delete-category" onClick={openDeleteModal}>
+                                <DeleteOutline />
+                            </IconButton>
+                        )
+                    )}
+                </div>
             </div>
             <Formik
                 validationSchema={addCategoryValidators}
@@ -100,7 +143,7 @@ function CategoryItem({ category, selectedCategoryId, selectCategory, refresh, s
                                     type="text"
                                     variant="outlined"
                                     error={touched.category && errors.category}
-                                    maxLength={MAX_CHAR_CATEGORY}
+                                    inputProps={{ maxLength: MAX_CHAR_CATEGORY }}
                                     requiresCounterValidation={true}
                                     fullWidth />
                             </DialogContent>
@@ -140,7 +183,7 @@ function CategoryItem({ category, selectedCategoryId, selectCategory, refresh, s
     );
 }
 
-export default function CategoryList({ categories, selectedCategoryId, selectCategory, updateScreen, setError }) {
+export default function CategoryList({ categories, selectedCategoryId, selectCategory, updateScreen, setError, updateCategoryVisiblityInProductList }) {
     const [openCategoryModal, setOpenCategoryModal] = useState(false);
 
     function handlOpenCategoryModal() {
@@ -181,8 +224,10 @@ export default function CategoryList({ categories, selectedCategoryId, selectCat
                             key={category.categoryId}
                             selectedCategoryId={selectedCategoryId}
                             selectCategory={selectCategory}
-                            setError={setError} />)
-                    ))
+                            setError={setError}
+                            updateCategoryVisiblityInProductList={updateCategoryVisiblityInProductList}
+                        />
+                    )))
                 }
             </div>
             <Formik
@@ -215,7 +260,7 @@ export default function CategoryList({ categories, selectedCategoryId, selectCat
                                     variant="outlined"
                                     error={touched.category && errors.category}
                                     fullWidth
-                                    maxLength={MAX_CHAR_CATEGORY}
+                                    inputProps={{ maxLength: MAX_CHAR_CATEGORY }}
                                     requiresCounterValidation={true} />
                             </DialogContent>
                             <DialogActions className="add-category-action">

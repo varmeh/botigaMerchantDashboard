@@ -63,7 +63,7 @@ export function AddNewProduct({
 		price: product.price || '',
 		quantity: quantity || '',
 		unit: unit || '',
-		description: product.description || ''
+		description: (product.description || '').replace(/(\r\n|\n|\r)/gm, "")
 	}
 
 	useEffect(() => {
@@ -321,7 +321,7 @@ export function AddNewProduct({
 										fullWidth
 										rows={3}
 										variant='outlined'
-										maxLength={MAX_CHAR_DESCRIPTION}
+										inputProps={{ maxLength: MAX_CHAR_DESCRIPTION }}
 										requiresCounterValidation={true}
 									/>
 								</div>
