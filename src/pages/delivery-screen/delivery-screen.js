@@ -5,6 +5,9 @@ import { SearchBarDelivery } from "../../components/common/search-bar/search-bar
 import CommunityList from "../../components/community-list/community-list";
 import DeliveryList from "../../components/delivery-view/delivery-list/delivery-list";
 import DeliveryDetails from "../../components/delivery-view/delivery-details/delivery-details";
+import { setDeliveryStatus, setDeliveryDelayed, getDeliveryByApartment } from "../../services/delivery-service";
+import { cancelOrder, setRefundCompleted } from '../../services/order-service';
+
 
 export function DeliveryScreen() {
     const screenName = 'Delivery';
@@ -13,7 +16,8 @@ export function DeliveryScreen() {
         fetchAggregateDelivery,
         setError,
         setSelectedDeliveryDate,
-        selectedDeliverydate
+        selectedDeliverydate,
+        setAggregateDelivery
     } = useContext(appContext);
 
     const [deliveryFilterList, setDeliveryFilterList] = useState([]);
@@ -23,6 +27,9 @@ export function DeliveryScreen() {
 
     useEffect(() => {
         initAggregateDeliveryList();
+        if (!selectedDeliverydate) {
+            setSelectedDeliveryDate(new Date())
+        }
     }, []);
 
     async function initAggregateDeliveryList() {
@@ -98,6 +105,76 @@ export function DeliveryScreen() {
         setSelectedDeliveryId(null);
     }
 
+    async function setDeliveryStausForOrder(orderId, status) {
+        try {
+            await setDeliveryStatus(orderId, status);
+            await getDeliverListByApartmentAndUpdateDelivery();
+        } catch (err) {
+            setError(true, err);
+        } finally {
+
+        }
+    }
+
+    async function setOrderDelayed(orderId, newDate) {
+        try {
+            await setDeliveryDelayed(orderId, newDate);
+            getDeliverListByApartmentAndUpdateDelivery();
+        } catch (err) {
+            setError(true, err);
+        } finally {
+
+        }
+    }
+
+    async function setOrderCancelled(orderId) {
+        try {
+            await cancelOrder(orderId);
+            getDeliverListByApartmentAndUpdateDelivery();
+        } catch (err) {
+            setError(true, err);
+        } finally {
+
+        }
+    }
+
+    async function setOrderRefundComplete(orderId) {
+        try {
+            await setRefundCompleted(orderId);
+            getDeliverListByApartmentAndUpdateDelivery();
+        } catch (err) {
+            setError(true, err);
+        } finally {
+
+        }
+    }
+
+    async function getDeliverListByApartmentAndUpdateDelivery() {
+        try {
+            const { data: { deliveries = [] } } = await getDeliveryByApartment(selectedCommunityId, selectedDeliverydate);
+            const selectectedCommunity = aggregateDelivery.find(_delivery => _delivery.apartment._id === selectedCommunityId);
+            if (selectectedCommunity) {
+                const updatedAggregateDelivery = aggregateDelivery.map(_delivery => {
+                    if (_delivery.apartment._id === selectedCommunityId) {
+                        return {
+                            ..._delivery,
+                            deliveries: deliveries.map(_eachDelivery => ({
+                                ..._eachDelivery,
+                                _id: _eachDelivery.id
+                            }))
+                        }
+                    }
+                    return _delivery;
+                });
+                setAggregateDelivery(updatedAggregateDelivery);
+            }
+        } catch (err) {
+            setError(true, err);
+        } finally {
+
+        }
+    }
+
     return (
         <React.Fragment>
             <SearchBarDelivery
@@ -121,6 +198,10 @@ export function DeliveryScreen() {
                     setSelectedDeliveryId={setSelectedDeliveryId}
                     deliveriesForSelectedCommunity={getAllDeliveryForSelectedCommunity(selectedCommunityId)} />
                 <DeliveryDetails
+                    setOrderDelayed={setOrderDelayed}
+                    setDeliveryStausForOrder={setDeliveryStausForOrder}
+                    setOrderCancelled={setOrderCancelled}
+                    setOrderRefundComplete={setOrderRefundComplete}
                     selectedDelivery={getSelectedDelivery(selectedCommunityId, selectedDeliveryId)}
                     selectedCommunity={getSelectedCommunity(selectedCommunityId)}
                 />

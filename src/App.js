@@ -136,6 +136,10 @@ class MyApp extends React.Component {
     isError: value, error: err ? err : null
   });
 
+  _setAggregateDelivery = (deliveryList) => this.setState({
+    aggregateDelivery: deliveryList
+  });
+
 
   render() {
     const { location: { pathname = '' } } = this.props;
@@ -156,6 +160,7 @@ class MyApp extends React.Component {
         fetchAggregateDelivery: this._fetchAggregateDelivery.bind(this),
         setSelectedDeliveryDate: this._setSelectedDeliveryDate,
         setError: this._setError,
+        setAggregateDelivery: this._setAggregateDelivery,
         clearContext: this._clearContext,
       }}>
         <div className="app">

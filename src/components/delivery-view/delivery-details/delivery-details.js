@@ -15,10 +15,9 @@ import { BotigaCalendarWithButton } from "../../common/BotigaCalendar/BotigaCale
 
 import "./delivery-details.css";
 
-function DeliveryDetailsHeader({ selectedDelivery }) {
+function DeliveryDetailsHeader({ selectedDelivery, setOrderCancelled }) {
     const [openCancel, setOpenCancel] = useState(false);
-    const { order } = selectedDelivery;
-
+    const { order, _id } = selectedDelivery;
 
     function openCancelModal() {
         setOpenCancel(true);
@@ -30,6 +29,11 @@ function DeliveryDetailsHeader({ selectedDelivery }) {
 
     function cancelOrder() {
         setOpenCancel(false);
+    }
+
+    function _setOrderCancelled() {
+        setOrderCancelled(_id);
+        cancelOrder();
     }
 
     return (
@@ -53,7 +57,7 @@ function DeliveryDetailsHeader({ selectedDelivery }) {
                             <Button onClick={closeCancelModal}>
                                 {'Don\'t Cancel'}
                             </Button>
-                            <Button onClick={cancelOrder} color="secondary" variant="contained" disableElevation>
+                            <Button onClick={_setOrderCancelled} color="secondary" variant="contained" disableElevation>
                                 Confirm
                     </Button>
                         </DialogActions>
@@ -285,8 +289,27 @@ function DeliveryTotal({ selectedDelivery }) {
     );
 }
 
-function RenderFooterBtn({ selectedDelivery }) {
-    const { order, refund = {} } = selectedDelivery;
+function RenderFooterBtn({
+    selectedDelivery,
+    setDeliveryStausForOrder,
+    setOrderDelayed,
+    setOrderRefundComplete
+}) {
+    const { order, refund = {}, _id } = selectedDelivery;
+
+    function _setDeliveryStausForOrder(status) {
+        return function () {
+            setDeliveryStausForOrder(_id, status);
+        }
+    }
+
+    function _setOrderDelayed(date) {
+        setOrderDelayed(_id, date);
+    }
+
+    function setRefundComplete() {
+        setOrderRefundComplete(_id);
+    }
 
     if (isOpen(order.status) || isDelayed(order.status)) {
         return (
@@ -300,15 +323,17 @@ function RenderFooterBtn({ selectedDelivery }) {
                     btnClassName="no-class"
                     btnVarient="default"
                     btnLabel="Mark as Delay"
-                    showBtnIcon={false} />
+                    showBtnIcon={false}
+                    onDateChange={_setOrderDelayed} />
                 <div className='delivery-details-spacer' />
                 <Button
                     type='submit'
                     variant='contained'
                     color='primary'
+                    onClick={_setDeliveryStausForOrder('out')}
                     disableElevation>
                     Out for Delivery
-        </Button>
+                </Button>
             </div>
         );
     } else if (isOutForDelivery(order.status)) {
@@ -318,6 +343,7 @@ function RenderFooterBtn({ selectedDelivery }) {
                     type='submit'
                     variant='contained'
                     color='primary'
+                    onClick={_setDeliveryStausForOrder('delivered')}
                     disableElevation>
                     Mark as delivered
                 </Button>
@@ -330,6 +356,7 @@ function RenderFooterBtn({ selectedDelivery }) {
                     type='submit'
                     variant='contained'
                     color='primary'
+                    onClick={setRefundComplete}
                     disableElevation>
                     Mark as Refunded
                 </Button>
@@ -340,13 +367,23 @@ function RenderFooterBtn({ selectedDelivery }) {
     }
 }
 
-export default function DeliveryDetails({ selectedDelivery, selectedCommunity }) {
+export default function DeliveryDetails({
+    selectedDelivery,
+    selectedCommunity,
+    setDeliveryStausForOrder,
+    setOrderDelayed,
+    setOrderCancelled,
+    setOrderRefundComplete
+}) {
     if (!selectedDelivery || !selectedCommunity) {
         return null;
     }
     return (
         <div className="delivery-details-style">
-            <DeliveryDetailsHeader selectedDelivery={selectedDelivery} />
+            <DeliveryDetailsHeader
+                selectedDelivery={selectedDelivery}
+                setOrderCancelled={setOrderCancelled}
+            />
             <div className="delivery-details-body">
                 <DeliveryOverview selectedDelivery={selectedDelivery} selectedCommunity={selectedCommunity} />
                 <DeliveryPaymentSection selectedDelivery={selectedDelivery} />
@@ -355,7 +392,11 @@ export default function DeliveryDetails({ selectedDelivery, selectedCommunity })
                 <DeliveryFeesAndDiscount selectedDelivery={selectedDelivery} />
                 <DeliveryTotal selectedDelivery={selectedDelivery} />
             </div>
-            <RenderFooterBtn selectedDelivery={selectedDelivery} />
+            <RenderFooterBtn
+                selectedDelivery={selectedDelivery}
+                setDeliveryStausForOrder={setDeliveryStausForOrder}
+                setOrderDelayed={setOrderDelayed}
+                setOrderRefundComplete={setOrderRefundComplete} />
         </div>
     )
 }
