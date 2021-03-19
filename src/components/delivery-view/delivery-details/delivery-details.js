@@ -38,7 +38,7 @@ function DeliveryDetailsHeader({ selectedDelivery, setOrderCancelled }) {
 
     return (
         <div className="delivery-details-header-item">
-            <div className="delivery-details-header-name">Product details</div>
+            <div className="delivery-details-header-name">ORDER DETAILS</div>
             {(isOpen(order.status) || isDelayed(order.status)) && (
                 <React.Fragment>
                     <Button className="delivery-details-header-btn" onClick={openCancelModal}>Cancel order</Button>
@@ -376,7 +376,18 @@ export default function DeliveryDetails({
     setOrderRefundComplete
 }) {
     if (!selectedDelivery || !selectedCommunity) {
-        return null;
+        return (
+            <div className="delivery-details-style">
+                <div className="delivery-details-header-item">
+                    <div className="delivery-details-header-name">ORDER DETAILS</div>
+                </div>
+                <div className="delivery-details-body">
+                    <div className="no-slection">
+                        No  order selected.
+                    </div>
+                </div>
+            </div>
+        );
     }
     return (
         <div className="delivery-details-style">

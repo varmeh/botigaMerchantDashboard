@@ -45,7 +45,7 @@ export default function CommunityList({
         <div className="community-list-style">
             <CommunityistHeader />
             <div className="coupon-list-body">
-                {
+                {aggregateDeliveryForCommunity.length > 0 ?
                     aggregateDeliveryForCommunity.map(((_delivery, i) => (
                         <CommunityItem
                             key={i}
@@ -55,6 +55,11 @@ export default function CommunityList({
                             selectedCommunityId={selectedCommunityId}
                         />
                     )))
+                    : (
+                        <div className="no-slection no-slection-border-top">
+                            No result found
+                        </div>
+                    )
                 }
             </div>
         </div>

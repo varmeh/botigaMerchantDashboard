@@ -135,7 +135,7 @@ export default function DeliveryList({
                 setUnsetFilterList={setUnsetFilterList} />
             <div className="delivery-list-body">
                 {
-                    deliveriesForSelectedCommunity.map(((_delivery, i) => (
+                    deliveriesForSelectedCommunity.length > 0 ? deliveriesForSelectedCommunity.map(((_delivery, i) => (
                         <DeliveryItem
                             key={i}
                             delivery={_delivery}
@@ -143,6 +143,11 @@ export default function DeliveryList({
                             setSelectedDeliveryId={setSelectedDeliveryId}
                             deliveryFilterList={deliveryFilterList} />
                     )))
+                        : (
+                            <div className="no-slection no-slection-border-top">
+                                No result found
+                            </div>
+                        )
                 }
             </div>
         </div>
