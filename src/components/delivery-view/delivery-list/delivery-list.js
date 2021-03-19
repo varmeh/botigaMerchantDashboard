@@ -73,7 +73,7 @@ function DeliveryListHeader({ deliveryFilterList, setUnsetFilterList }) {
 }
 
 
-function DeliveryItem({ delivery, deliveryFilterList, setSelectedDeliveryId, selectedDeliveryId }) {
+function DeliveryItem({ delivery, setSelectedDeliveryId, selectedDeliveryId }) {
     const {
         buyer: { house, name },
         order: { number, products, totalAmount, status: orderStatus },
@@ -86,9 +86,6 @@ function DeliveryItem({ delivery, deliveryFilterList, setSelectedDeliveryId, sel
         setSelectedDeliveryId(number)
     }
 
-    if (deliveryFilterList.length > 0 && !deliveryFilterList.includes(orderStatus)) {
-        return null;
-    }
 
     const selectedClass = selectedDeliveryId === number
         ? 'delivery-item item_selected'
@@ -128,6 +125,12 @@ export default function DeliveryList({
     setSelectedDeliveryId,
     selectedDeliveryId
 }) {
+
+    const AllDeliveriesForSelectedCommunity = deliveryFilterList.length > 0
+        ? deliveriesForSelectedCommunity.filter(
+            _delivery => deliveryFilterList.includes(_delivery.order.status)
+        ) : deliveriesForSelectedCommunity;
+
     return (
         <div className="product-list-style">
             <DeliveryListHeader
@@ -135,13 +138,13 @@ export default function DeliveryList({
                 setUnsetFilterList={setUnsetFilterList} />
             <div className="delivery-list-body">
                 {
-                    deliveriesForSelectedCommunity.length > 0 ? deliveriesForSelectedCommunity.map(((_delivery, i) => (
+                    AllDeliveriesForSelectedCommunity.length > 0 ? AllDeliveriesForSelectedCommunity.map(((_delivery, i) => (
                         <DeliveryItem
                             key={i}
                             delivery={_delivery}
                             selectedDeliveryId={selectedDeliveryId}
                             setSelectedDeliveryId={setSelectedDeliveryId}
-                            deliveryFilterList={deliveryFilterList} />
+                        />
                     )))
                         : (
                             <div className="no-slection no-slection-border-top">
