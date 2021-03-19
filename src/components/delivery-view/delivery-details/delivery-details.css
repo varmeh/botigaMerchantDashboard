@@ -22,12 +22,26 @@
     text-transform: uppercase;
     color: #000000;
 }
+.delivery-details-header-btn.MuiButton-text{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 15px;
+    text-transform: capitalize;
+    color: #E21E1E;
+}
 .delivery-details-body{
     display: flex;
     flex-direction: column;
     padding: 25px 0px 25px 0px;
     height: 689px;
     overflow-y: auto;
+}
+.delivery-overview{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 24px;
 }
 .delivery-details-row{
     padding-top: 14px;
@@ -110,7 +124,6 @@
 }
 
 .delivery-summary-full-divider{
-    margin-top: 24px;
     border-top: 1px solid #F4F4F4;
 }
 .delivery-summary-row-divider{
@@ -121,4 +134,59 @@
 
 .delivery-summary-shade-row{
     background: #F9F9F9;
+}
+
+.delivery-payment-status{
+    display: flex;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    color: #121714;
+    align-items: center;
+}
+
+.delivery-payment-status .status-text{
+    margin-left: 8px;
+}
+
+.delivery-refund-status{
+    display: flex;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    color: #121714;
+    align-items: center;
+}
+.delivery-refund-status .status-text{
+    margin-left: 8px;
+}
+.refund-msg{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    color: rgba(18, 23, 21, 0.5);
+    word-break: break-word;
+}
+
+.delivery-details-row-action{
+    border-top: 1px solid #DCDCDC;
+    padding: 18px 25px 18px 25px;
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    background-color: white;
+}
+.delivery-details-row-action-btns{
+    display: flex;
+}
+.delivery-details-spacer{
+    width: 22px;
 }

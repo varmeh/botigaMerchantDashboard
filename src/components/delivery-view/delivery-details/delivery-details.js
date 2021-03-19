@@ -1,13 +1,64 @@
-import React from "react";
+import React, { useState } from "react";
 import PhoneIcon from '@material-ui/icons/Phone';
+import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import HistoryIcon from '@material-ui/icons/History';
+import paymentSucess from "../../../assets/icons/payment-success.svg";
+import paymentFailure from "../../../assets/icons/payment-failure.svg"
+import { isOpen, isDelayed, isOutForDelivery, isRefundDue } from "../../../helpers/util";
 
 import "./delivery-details.css";
 
-function DeliveryDetailsHeader() {
+function DeliveryDetailsHeader({ selectedDelivery }) {
+    const [openCancel, setOpenCancel] = useState(false);
+    const { order } = selectedDelivery;
+
+
+    function openCancelModal() {
+        setOpenCancel(true);
+    }
+
+    function closeCancelModal() {
+        setOpenCancel(false);
+    }
+
+    function cancelOrder() {
+        setOpenCancel(false);
+    }
+
     return (
         <div className="delivery-details-header-item">
             <div className="delivery-details-header-name">Product details</div>
+            {(isOpen(order.status) || isDelayed(order.status)) && (
+                <React.Fragment>
+                    <Button className="delivery-details-header-btn" onClick={openCancelModal}>Cancel order</Button>
+                    <Dialog
+                        className="delete-category-modal"
+                        open={openCancel}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description">
+                        <DialogTitle id="alert-dialog-title">Cancel Order</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText id="alert-dialog-description">
+                                Are you sure you want to cancel this order?
+                     </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={closeCancelModal}>
+                                {'Don\'t Cancel'}
+                            </Button>
+                            <Button onClick={cancelOrder} color="secondary" variant="contained" disableElevation>
+                                Confirm
+                    </Button>
+                        </DialogActions>
+                    </Dialog>
+                </React.Fragment>
+            )}
         </div>
     );
 }
@@ -26,7 +77,7 @@ function DeliveryOverview({ selectedDelivery, selectedCommunity }) {
     } = selectedDelivery;
     const { apartmentName, apartmentArea } = selectedCommunity;
     return (
-        <React.Fragment>
+        <div className="delivery-overview">
             <div className="delivery-details-row">
                 <div className="buyer-name left-align-item">{name}</div>
                 <div className="delivery-info right-align-item">
@@ -55,8 +106,116 @@ function DeliveryOverview({ selectedDelivery, selectedCommunity }) {
                     </Tooltip>
                 </div>
             </div>
-        </React.Fragment>
+        </div>
     );
+}
+
+function DeliveryPaymentSection({ selectedDelivery }) {
+    const { payment: { status, paymentMode = '' } } = selectedDelivery;
+
+    function renderPaymnetSuccessSection() {
+        return (
+            <div className="delivery-payment-status">
+                <img src={paymentSucess} />
+                <div className="status-text">Paid via {paymentMode.toUpperCase()}</div>
+            </div>
+        );
+    }
+
+    function renderdPaymentFailureSection() {
+        return (
+            <div className="delivery-payment-status">
+                <img src={paymentFailure} />
+                <div className="status-text">Payment Failed</div>
+            </div>
+        );
+    }
+
+    function renderPaymentSection(status) {
+        if (status === 'success') {
+            return renderPaymnetSuccessSection();
+        } else {
+            return renderdPaymentFailureSection();
+        }
+    }
+
+    return (
+        <div className="delivery-details-row delivery-summary-full-divider">
+            {renderPaymentSection(status)}
+        </div>
+    );
+}
+
+function RefundSection({ selectedDelivery }) {
+    const { refund } = selectedDelivery;
+    const [openRefund, setOpenRefund] = useState(false);
+
+    function openRefundModal() {
+        setOpenRefund(true);
+    }
+
+    function closeRefundModal() {
+        setOpenRefund(false);
+    }
+
+    if (refund) {
+        const { amount, status } = refund;
+        if (status) {
+            if (status === 'success') {
+                return (
+                    <React.Fragment>
+                        <div className="delivery-summary-row-divider" />
+                        <div className="delivery-details-row">
+                            <div className="delivery-refund-status">
+                                <img src={paymentSucess} />
+                                <div className="status-text">Refund Completed.</div>
+                            </div>
+                        </div>
+                    </React.Fragment>
+
+                );
+            } else {
+                return (
+                    <React.Fragment>
+                        <div className="delivery-summary-row-divider" />
+                        <div className="delivery-details-row">
+                            <div className="delivery-refund-status">
+                                <span className="refund-msg">You need to Refund</span>&nbsp;₹{amount}
+                            </div>
+                            <Button disableElevation startIcon={<HistoryIcon />} onClick={openRefundModal}>
+                                Refund
+                        </Button>
+                        </div>
+                        <React.Fragment>
+                            <Dialog
+                                className="delete-category-modal"
+                                open={openRefund}
+                                aria-labelledby="alert-dialog-title"
+                                aria-describedby="alert-dialog-description">
+                                <DialogTitle id="alert-dialog-title">How to Refund?</DialogTitle>
+                                <DialogContent>
+                                    <DialogContentText id="alert-dialog-description">
+                                        <ol>
+                                            <li>Message customer for thier preferred UPI / refund method.</li>
+                                            <li>Transfer the money to customer as per your convenience</li>
+                                            <li>Once done. Come back and mark as refund. We will notify the customer :)</li>
+                                        </ol>
+                                    </DialogContentText>
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button onClick={closeRefundModal} color="primary" variant="contained" disableElevation>
+                                        Done
+                                    </Button>
+                                </DialogActions>
+                            </Dialog>
+                        </React.Fragment>
+                    </React.Fragment>
+                );
+            }
+        }
+        return null;
+    }
+    return null;
 }
 
 function DeliverySummary({ selectedDelivery }) {
@@ -118,11 +277,57 @@ function DeliveryTotal({ selectedDelivery }) {
         <React.Fragment>
             <div className="delivery-summary-row-divider" />
             <div className="delivery-details-row">
-                <div className="delivery-info-black delivery-info-bold left-align-item">Total</div>
+                <div className="delivery-info-black delivery-info-bold left-align-item">Total Paid</div>
                 <div className="delivery-info-black delivery-info-bold left-align-item">₹{totalAmount}</div>
             </div>
         </React.Fragment>
     );
+}
+
+function RenderFooterBtn({ selectedDelivery }) {
+    const { order, refund = {} } = selectedDelivery;
+
+    if (isOpen(order.status) || isDelayed(order.status)) {
+        return (
+            <div className='delivery-details-row-action'>
+                <Button onClick={null}>Mark as Delay</Button>
+                <div className='delivery-details-spacer' />
+                <Button
+                    type='submit'
+                    variant='contained'
+                    color='primary'
+                    disableElevation>
+                    Out for Delivery
+        </Button>
+            </div>
+        );
+    } else if (isOutForDelivery(order.status)) {
+        return (
+            <div className='delivery-details-row-action'>
+                <Button
+                    type='submit'
+                    variant='contained'
+                    color='primary'
+                    disableElevation>
+                    Mark as delivered
+                </Button>
+            </div>
+        );
+    } else if (isRefundDue(refund.status)) {
+        return (
+            <div className='delivery-details-row-action'>
+                <Button
+                    type='submit'
+                    variant='contained'
+                    color='primary'
+                    disableElevation>
+                    Mark as delivered
+                </Button>
+            </div>
+        )
+    } else {
+        return null;
+    }
 }
 
 export default function DeliveryDetails({ selectedDelivery, selectedCommunity }) {
@@ -131,13 +336,16 @@ export default function DeliveryDetails({ selectedDelivery, selectedCommunity })
     }
     return (
         <div className="delivery-details-style">
-            <DeliveryDetailsHeader />
+            <DeliveryDetailsHeader selectedDelivery={selectedDelivery} />
             <div className="delivery-details-body">
                 <DeliveryOverview selectedDelivery={selectedDelivery} selectedCommunity={selectedCommunity} />
+                <DeliveryPaymentSection selectedDelivery={selectedDelivery} />
+                <RefundSection selectedDelivery={selectedDelivery} />
                 <DeliverySummary selectedDelivery={selectedDelivery} />
                 <DeliveryFeesAndDiscount selectedDelivery={selectedDelivery} />
                 <DeliveryTotal selectedDelivery={selectedDelivery} />
             </div>
+            <RenderFooterBtn selectedDelivery={selectedDelivery} />
         </div>
     )
 }
