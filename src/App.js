@@ -12,6 +12,7 @@ import { getCoupons } from "./services/profile-service";
 import { getAggregateDelivery } from './services/delivery-service';
 import { NUMBER_OF_BANNERS } from "./helpers/validators";
 import { LOGIN_VIEW, HOME_VIEW } from "./helpers/BotigaRouteFile";
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 import "./App.css";
 
@@ -27,7 +28,8 @@ class MyApp extends React.Component {
       coupons: [],
       banners: [...Array(NUMBER_OF_BANNERS).keys()].map(_ => null),
       aggregateDelivery: [],
-      selectedDeliverydate: null
+      selectedDeliverydate: null,
+      isMainViewLoading: false
     };
   }
 
@@ -38,7 +40,8 @@ class MyApp extends React.Component {
     coupons: [],
     banners: [...Array(NUMBER_OF_BANNERS).keys()].map(_ => null),
     aggregateDelivery: [],
-    selectedDeliverydate: null
+    selectedDeliverydate: null,
+    isMainViewLoading: false
   })
 
 
@@ -120,10 +123,14 @@ class MyApp extends React.Component {
 
   async _fetchAggregateDelivery(date) {
     try {
+      this._showMainViewLoader();
       const { data } = await getAggregateDelivery(date);
       this.setState({ aggregateDelivery: data });
       return data;
     } catch (err) { this._setError(true, err); }
+    finally {
+      this._hideMainViewLoader();
+    }
   }
 
   _setSelectedDeliveryDate = (date) => {
@@ -140,10 +147,14 @@ class MyApp extends React.Component {
     aggregateDelivery: deliveryList
   });
 
+  _showMainViewLoader = () => this.setState({ isMainViewLoading: true });
+
+  _hideMainViewLoader = () => this.setState({ isMainViewLoading: false });
+
 
   render() {
     const { location: { pathname = '' } } = this.props;
-    const { isError, error, products, coupons, banners, aggregateDelivery, selectedDeliverydate } = this.state;
+    const { isError, error, products, coupons, banners, aggregateDelivery, selectedDeliverydate, isMainViewLoading } = this.state;
     const includeSideBar = !SIDE_NAVIGATION_HIDDEN_FOR_ROUTES.includes(pathname)
     return (
       <AppContext.Provider value={{
@@ -166,7 +177,14 @@ class MyApp extends React.Component {
         <div className="app">
           {includeSideBar && <SideNav />}
           <div className={includeSideBar ? 'main-content-sidebar' : 'main-content-no-sidebar'}>
-            <AppRoutes />
+            <div className={isMainViewLoading ? 'disable-container' : 'no-css'}>
+              {isMainViewLoading && (
+                <div className='view-loader'>
+                  <CircularProgress />
+                </div>
+              )}
+              <AppRoutes />
+            </div>
           </div>
           {isError && <Error err={error} />}
         </div>
