@@ -12,6 +12,7 @@ import paymentSucess from "../../../assets/icons/payment-success.svg";
 import paymentFailure from "../../../assets/icons/payment-failure.svg"
 import { isOpen, isDelayed, isOutForDelivery, isRefundDue } from "../../../helpers/util";
 import { BotigaCalendarWithButton } from "../../common/BotigaCalendar/BotigaCalendar";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import "./delivery-details.css";
 
@@ -373,7 +374,8 @@ export default function DeliveryDetails({
     setDeliveryStausForOrder,
     setOrderDelayed,
     setOrderCancelled,
-    setOrderRefundComplete
+    setOrderRefundComplete,
+    isProcessingOrder
 }) {
     if (!selectedDelivery || !selectedCommunity) {
         return (
@@ -390,18 +392,30 @@ export default function DeliveryDetails({
         );
     }
     return (
-        <div className="delivery-details-style">
+        <div className={isProcessingOrder ? "disable-container delivery-details-style" : "delivery-details-style"}>
+            {isProcessingOrder && (
+                <div className='view-loader'>
+                    <CircularProgress />
+                </div>
+            )}
             <DeliveryDetailsHeader
                 selectedDelivery={selectedDelivery}
                 setOrderCancelled={setOrderCancelled}
             />
             <div className="delivery-details-body">
-                <DeliveryOverview selectedDelivery={selectedDelivery} selectedCommunity={selectedCommunity} />
-                <DeliveryPaymentSection selectedDelivery={selectedDelivery} />
-                <RefundSection selectedDelivery={selectedDelivery} />
-                <DeliverySummary selectedDelivery={selectedDelivery} />
-                <DeliveryFeesAndDiscount selectedDelivery={selectedDelivery} />
-                <DeliveryTotal selectedDelivery={selectedDelivery} />
+                <DeliveryOverview
+                    selectedDelivery={selectedDelivery}
+                    selectedCommunity={selectedCommunity} />
+                <DeliveryPaymentSection
+                    selectedDelivery={selectedDelivery} />
+                <RefundSection
+                    selectedDelivery={selectedDelivery} />
+                <DeliverySummary
+                    selectedDelivery={selectedDelivery} />
+                <DeliveryFeesAndDiscount
+                    selectedDelivery={selectedDelivery} />
+                <DeliveryTotal
+                    selectedDelivery={selectedDelivery} />
             </div>
             <RenderFooterBtn
                 selectedDelivery={selectedDelivery}
@@ -409,5 +423,5 @@ export default function DeliveryDetails({
                 setOrderDelayed={setOrderDelayed}
                 setOrderRefundComplete={setOrderRefundComplete} />
         </div>
-    )
+    );
 }

@@ -24,6 +24,7 @@ export function DeliveryScreen() {
     const [selectedCommunityId, setSelectedCommunityId] = useState(null);
     const [selectedDeliveryId, setSelectedDeliveryId] = useState(null);
     const [searchText, setSearchText] = useState('');
+    const [isProcessingOrder, setProcessingOrder] = useState(false);
 
     useEffect(() => {
         initAggregateDeliveryList();
@@ -107,45 +108,49 @@ export function DeliveryScreen() {
 
     async function setDeliveryStausForOrder(orderId, status) {
         try {
+            setProcessingOrder(true);
             await setDeliveryStatus(orderId, status);
             await getDeliverListByApartmentAndUpdateDelivery();
         } catch (err) {
             setError(true, err);
         } finally {
-
+            setProcessingOrder(false);
         }
     }
 
     async function setOrderDelayed(orderId, newDate) {
         try {
+            setProcessingOrder(true);
             await setDeliveryDelayed(orderId, newDate);
             getDeliverListByApartmentAndUpdateDelivery();
         } catch (err) {
             setError(true, err);
         } finally {
-
+            setProcessingOrder(false);
         }
     }
 
     async function setOrderCancelled(orderId) {
         try {
+            setProcessingOrder(true);
             await cancelOrder(orderId);
             getDeliverListByApartmentAndUpdateDelivery();
         } catch (err) {
             setError(true, err);
         } finally {
-
+            setProcessingOrder(false);
         }
     }
 
     async function setOrderRefundComplete(orderId) {
         try {
+            setProcessingOrder(true);
             await setRefundCompleted(orderId);
             getDeliverListByApartmentAndUpdateDelivery();
         } catch (err) {
             setError(true, err);
         } finally {
-
+            setProcessingOrder(false);
         }
     }
 
@@ -204,6 +209,7 @@ export function DeliveryScreen() {
                     setOrderRefundComplete={setOrderRefundComplete}
                     selectedDelivery={getSelectedDelivery(selectedCommunityId, selectedDeliveryId)}
                     selectedCommunity={getSelectedCommunity(selectedCommunityId)}
+                    isProcessingOrder={isProcessingOrder}
                 />
             </BotigaPageView>
         </React.Fragment>
