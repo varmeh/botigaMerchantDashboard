@@ -11,6 +11,7 @@ import HistoryIcon from '@material-ui/icons/History';
 import paymentSucess from "../../../assets/icons/payment-success.svg";
 import paymentFailure from "../../../assets/icons/payment-failure.svg"
 import { isOpen, isDelayed, isOutForDelivery, isRefundDue } from "../../../helpers/util";
+import { BotigaCalendarWithButton } from "../../common/BotigaCalendar/BotigaCalendar";
 
 import "./delivery-details.css";
 
@@ -290,7 +291,16 @@ function RenderFooterBtn({ selectedDelivery }) {
     if (isOpen(order.status) || isDelayed(order.status)) {
         return (
             <div className='delivery-details-row-action'>
-                <Button onClick={null}>Mark as Delay</Button>
+                <BotigaCalendarWithButton
+                    disableToolbar
+                    currentSelectedDate={null}
+                    onDateChange={null}
+                    id="delivery-date"
+                    variant="inline"
+                    btnClassName="no-class"
+                    btnVarient="default"
+                    btnLabel="Mark as Delay"
+                    showBtnIcon={false} />
                 <div className='delivery-details-spacer' />
                 <Button
                     type='submit'
@@ -321,7 +331,7 @@ function RenderFooterBtn({ selectedDelivery }) {
                     variant='contained'
                     color='primary'
                     disableElevation>
-                    Mark as delivered
+                    Mark as Refunded
                 </Button>
             </div>
         )

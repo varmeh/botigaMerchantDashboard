@@ -38,7 +38,15 @@ export function BotigaCalendar(props) {
 }
 
 export function BotigaCalendarWithButton(props) {
-    const { currentSelectedDate, onDateChange, btnClassName, ...otherProps } = props;
+    const {
+        currentSelectedDate,
+        onDateChange,
+        btnClassName = '',
+        btnVarient = 'primary',
+        btnLabel = null,
+        showBtnIcon = true,
+        ...otherProps
+    } = props;
 
     const [isOpen, setIsOpen] = useState(false);
     const [selectedDate, handleDateChange] = useState(null);
@@ -61,14 +69,20 @@ export function BotigaCalendarWithButton(props) {
         onDateChange(value);
     }
 
+    function getBtnLabelText() {
+        return btnLabel
+            ? btnLabel
+            : selectedDate != null
+                ? convertTo_DD_MM_YYY(selectedDate) === convertTo_DD_MM_YYY(new Date())
+                    ? 'TODAY'
+                    : convertTo_DD_MM_YYY(selectedDate)
+                : 'TODAY';
+    }
+
     return (
         <React.Fragment>
-            <Button onClick={openDatePicker} className={btnClassName} endIcon={<ExpandMoreIcon />} color="primary">
-                {selectedDate != null
-                    ? convertTo_DD_MM_YYY(selectedDate) === convertTo_DD_MM_YYY(new Date())
-                        ? 'TODAY'
-                        : convertTo_DD_MM_YYY(selectedDate)
-                    : 'TODAY'}
+            <Button onClick={openDatePicker} className={btnClassName} endIcon={showBtnIcon ? <ExpandMoreIcon /> : null} color={btnVarient}>
+                {getBtnLabelText()}
             </Button>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <DatePicker
