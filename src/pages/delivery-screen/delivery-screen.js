@@ -7,6 +7,7 @@ import DeliveryList from "../../components/delivery-view/delivery-list/delivery-
 import DeliveryDetails from "../../components/delivery-view/delivery-details/delivery-details";
 import { setDeliveryStatus, setDeliveryDelayed, getDeliveryByApartment } from "../../services/delivery-service";
 import { cancelOrder, setRefundCompleted } from '../../services/order-service';
+import SelectAllOrder from "../../components/select-all-order/select-all-order";
 
 
 export function DeliveryScreen() {
@@ -212,6 +213,7 @@ export function DeliveryScreen() {
                     isProcessingOrder={isProcessingOrder}
                 />
             </BotigaPageView>
+            <SelectAllOrder />
         </React.Fragment>
     );
 

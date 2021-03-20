@@ -1,0 +1,45 @@
+.select-all-order{
+    display: flex;
+    justify-content: center;
+}
+.select-all-order .action-btns-container{
+    display: flex;
+    background: #FFFFFF;
+    border: 1px solid #E5E5E5;
+    box-sizing: border-box;
+    box-shadow: 0px 3px 22px rgba(0, 0, 0, 0.09);
+    border-radius: 8px;
+}
+
+.select-all-order .select-all-btn{
+   margin: 10px 12px 10px 12px;
+   font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 22px;
+    text-transform: capitalize;
+    color: #179F57;
+}
+.select-all-order .mark-deliverd-btn{
+    margin: 10px 6px 10px 12px;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 22px;
+    text-transform: capitalize;
+    color: #121715;
+    opacity: 0.5;
+ }
+
+.select-all-order .out-for-delivery-btn{
+    margin: 10px 12px 10px 6px;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 22px;
+    text-transform: capitalize;
+    color: #FFFFFF;
+}
