@@ -104,7 +104,8 @@
     align-items: center;
     border: 1px solid #E0E0E0;
     border-radius: 4px;
-    padding: 17px;
+    padding: 10px;
+    align-self: flex-start;
 }
 .contact-tooltip{
     font-family: Montserrat;

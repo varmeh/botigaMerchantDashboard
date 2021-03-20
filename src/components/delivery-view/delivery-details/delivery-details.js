@@ -97,13 +97,15 @@ function DeliveryOverview({ selectedDelivery, selectedCommunity }) {
                 </div>
             </div>
             <div className="delivery-details-row">
-                <div className="delivery-info">
-                    <div className="no-class">DELIVER TO</div>
-                    <div className="delivery-info-row delivery-info-black">
-                        {`${house} ${apartmentName}, ${apartmentArea}`}
+                <div className="delivery-info equal">
+                    <div className="no-class">
+                        <div className="no-class">DELIVER TO</div>
+                        <div className="delivery-info-row delivery-info-black">
+                            {`${house} ${apartmentName}, ${apartmentArea}`}
+                        </div>
                     </div>
                 </div>
-                <div className="delivery-query-info-box">
+                <div className="delivery-query-info-box equal">
                     <div className="delivery-info">Queries on order or Payment? Contact customer directly.</div>
                     <Tooltip title={<span className="contact-tooltip">{phone}</span>} arrow>
                         <div className="delivery-contact-info">
