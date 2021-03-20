@@ -34,13 +34,10 @@ function getMainProductImageObject(product) {
 	if (isProductEmpty(product)) {
 		return null
 	} else {
-		if (product.imageUrlLarge && product.imageUrl) {
-			return {
-				imageUrl: product.imageUrlLarge,
-				imageUrlSmall: product.imageUrl
-			}
+		return {
+			imageUrl: product.imageUrlLarge,
+			imageUrlSmall: product.imageUrl
 		}
-		return null
 	}
 }
 
@@ -226,20 +223,28 @@ export function AddNewProduct({
 								</TextField>
 							</div>
 							<div className='product-details-row'>
-								{mainImage ? (
-									<PreviewMainImage
-										mainImage={mainImage}
-										setMainImage={setMainImage}
-										setIsLoading={setIsLoading}
-										setError={setError}
-									/>
-								) : (
-									<MainImageUploadComponent
-										setMainImage={setMainImage}
-										setIsLoading={setIsLoading}
-										setError={setError}
-									/>
-								)}
+								{mainImage ?
+									mainImage.imageUrl ? (
+										<PreviewMainImage
+											mainImage={mainImage}
+											setMainImage={setMainImage}
+											setIsLoading={setIsLoading}
+											setError={setError}
+										/>
+									) : (
+										<MainImageUploadComponent
+											setMainImage={setMainImage}
+											setIsLoading={setIsLoading}
+											setError={setError}
+										/>
+									)
+									: (
+										<MainImageUploadComponent
+											setMainImage={setMainImage}
+											setIsLoading={setIsLoading}
+											setError={setError}
+										/>
+									)}
 								<div className='product-details-spacer' />
 								<div className='secondary-container'>
 									{otherImages.length > 0 ? (
