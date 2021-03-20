@@ -1,15 +1,15 @@
 import axios from "../helpers/axios";
-import { convertTo_YYYY_MM_DD } from "../helpers/util";
+import { convertToRequestFormatDate } from "../helpers/util";
 
 async function getAggregateDelivery(date) {
     const deliveryDate = date
         ? date
         : new Date();
-    return axios().get(`/api/seller/delivery/aggregate/${convertTo_YYYY_MM_DD(deliveryDate)}`);
+    return axios().get(`/api/seller/delivery/aggregate/${convertToRequestFormatDate(deliveryDate)}`);
 }
 
 async function getDeliveryByApartment(aptId, date) {
-    return axios().get(`/api/seller/delivery/${aptId}/${convertTo_YYYY_MM_DD(date)}`)
+    return axios().get(`/api/seller/delivery/${aptId}/${convertToRequestFormatDate(date)}`)
 }
 
 async function cancelDelivery(orderId) {
@@ -25,7 +25,7 @@ async function setDeliveryStatus(orderId, status) {
 async function setDeliveryDelayed(orderId, newDate) {
     return axios().patch('/api/seller/delivery/delayed', {
         orderId,
-        'newDate': convertTo_YYYY_MM_DD(newDate)
+        'newDate': convertToRequestFormatDate(newDate)
     });
 }
 

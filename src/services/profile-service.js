@@ -1,6 +1,6 @@
 import axios from "../helpers/axios";
 import { deleteProductImage } from "./common-service";
-import { convertTo_YYYY_MM_DD } from "../helpers/util";
+import { convertToRequestFormatDate } from "../helpers/util";
 
 async function uploadBanner(image) {
     var bodyFormData = new FormData();
@@ -29,7 +29,7 @@ async function addCoupon(couponCode, discountType, discountValue, expiryDate, mi
             couponCode,
             discountType,
             discountValue,
-            expiryDate: convertTo_YYYY_MM_DD(expiryDate),
+            expiryDate: convertToRequestFormatDate(expiryDate),
             minimumOrderValue,
             maxDiscountAmount,
             visibleToAllCustomers
@@ -39,7 +39,7 @@ async function addCoupon(couponCode, discountType, discountValue, expiryDate, mi
             couponCode,
             discountType,
             discountValue,
-            expiryDate: convertTo_YYYY_MM_DD(expiryDate),
+            expiryDate: convertToRequestFormatDate(expiryDate),
             minimumOrderValue,
             visibleToAllCustomers
         });
@@ -54,7 +54,7 @@ async function updateCoupon(couponId, couponCode, discountType, discountValue, e
             couponCode,
             discountType,
             discountValue,
-            expiryDate: convertTo_YYYY_MM_DD(expiryDate),
+            expiryDate: convertToRequestFormatDate(expiryDate),
             minimumOrderValue,
             maxDiscountAmount,
             visibleToAllCustomers
@@ -65,7 +65,7 @@ async function updateCoupon(couponId, couponCode, discountType, discountValue, e
             couponCode,
             discountType,
             discountValue,
-            expiryDate: convertTo_YYYY_MM_DD(expiryDate),
+            expiryDate: convertToRequestFormatDate(expiryDate),
             minimumOrderValue,
             visibleToAllCustomers
         });

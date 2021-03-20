@@ -1,3 +1,4 @@
+import moment from 'moment'
 import { uploadProductImage } from "../services/product-service";
 import { uploadBanner, updateBanners } from "../services/profile-service";
 
@@ -7,28 +8,27 @@ export function capitalize(s) {
 }
 
 export function isBackDatedDate(_date) {
-  const givenDate = new Date(_date);
-  const currentDate = new Date();
-  if (currentDate > givenDate) {
+  const givenDate = moment(_date);
+  const currentDate = moment(new Date());
+  if (currentDate.diff(givenDate) > 0) {
     return true;
   }
   return false;
 }
 
-// This is to be used in request format date
-export function convertTo_YYYY_MM_DD(date) {
-  if (typeof date !== "string") {
-    return date.toISOString().split('T')[0];
-  }
-  return date.split('T')[0];
+export function convertToRequestFormatDate(date) {
+  //Formats date as 2021-03-16
+  return moment(date).format('YYYY-MM-DD');
 }
 
-// This is to be used in display date in ui
-export function convertTo_DD_MM_YYY(date) {
-  if (typeof date !== "string") {
-    return date.toLocaleDateString();
-  }
-  return date.toLocaleDateString();
+export function convertToCalendarFormatDate(date) {
+  //Formats date as  03/20/2021
+  return moment(date).format('L');
+}
+
+export function convertToUiFormatLongDate(date) {
+  //Formats date as March 11, 2021 12:40 PM
+  return moment(date).format('LLL')
 }
 
 export async function getResizedFile(file, cbFunction, isMainImage, setIsLoading, setError) {

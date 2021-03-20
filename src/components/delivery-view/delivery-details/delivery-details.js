@@ -10,7 +10,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import HistoryIcon from '@material-ui/icons/History';
 import paymentSucess from "../../../assets/icons/payment-success.svg";
 import paymentFailure from "../../../assets/icons/payment-failure.svg"
-import { isOpen, isDelayed, isOutForDelivery, isRefundDue } from "../../../helpers/util";
+import { isOpen, isDelayed, isOutForDelivery, isRefundDue, convertToUiFormatLongDate } from "../../../helpers/util";
 import { BotigaCalendarWithButton } from "../../common/BotigaCalendar/BotigaCalendar";
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -89,10 +89,8 @@ function DeliveryOverview({ selectedDelivery, selectedCommunity }) {
                 <div className="delivery-info right-align-item">
                     <div className="no-class">Order No: #{number}</div>
                     <div className="delivery-info-row">
-                        {`${new Date(orderDate).toLocaleDateString('en-us', { month: 'short', year: 'numeric', day: 'numeric' })} ${new Date(orderDate).toLocaleTimeString('en-us', {
-                            hour12: true, hour: 'numeric',
-                            minute: 'numeric'
-                        }).toUpperCase()}`}
+                        {convertToUiFormatLongDate(orderDate)}
+
                     </div>
                 </div>
             </div>
