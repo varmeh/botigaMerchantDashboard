@@ -245,36 +245,29 @@ function DeliverySummary({ selectedDelivery }) {
 }
 
 function DeliveryFeesAndDiscount({ selectedDelivery }) {
-    const { order: { couponCode, discountAmount, deliveryFee, totalAmount } } = selectedDelivery;
+    const { order: { couponCode, discountAmount = 0, deliveryFee = 0, totalAmount = 0 } } = selectedDelivery;
     const hasCoupon = (couponCode) => couponCode != '' && couponCode != null;
 
-    const hasDeliveryFee = (deliveryFee) =>
-        deliveryFee != 0 && deliveryFee != null && deliveryFee.toString() != '';
+    return (
+        <React.Fragment>
+            <div className="delivery-details-row">
+                <div className="delivery-info-black left-align-item">Items total</div>
+                <div className="delivery-info-black left-align-item">₹{totalAmount + discountAmount - deliveryFee}</div>
+            </div>
 
-    if (hasCoupon(couponCode) || hasDeliveryFee(deliveryFee)) {
-        return (
-            <React.Fragment>
+            <div className="delivery-details-row">
+                <div className="delivery-info-black left-align-item">Delivery Fee</div>
+                <div className="delivery-info-black left-align-item">₹{deliveryFee}</div>
+            </div>
+
+            {hasCoupon(couponCode) && (
                 <div className="delivery-details-row">
-                    <div className="delivery-info-black left-align-item">Items total</div>
-                    <div className="delivery-info-black left-align-item">₹{totalAmount + discountAmount - deliveryFee}</div>
+                    <div className="delivery-info-black left-align-item">Coupon Applied ({couponCode})</div>
+                    <div className="delivery-info-primary left-align-item">-₹{discountAmount}</div>
                 </div>
-                {hasDeliveryFee(deliveryFee) && (
-                    <div className="delivery-details-row">
-                        <div className="delivery-info-black left-align-item">Delivery Fee</div>
-                        <div className="delivery-info-black left-align-item">₹{deliveryFee}</div>
-                    </div>
-                )}
-                {hasCoupon(couponCode) && (
-                    <div className="delivery-details-row">
-                        <div className="delivery-info-black left-align-item">Coupon Applied ({couponCode})</div>
-                        <div className="delivery-info-primary left-align-item">-₹{discountAmount}</div>
-                    </div>
-                )}
-            </React.Fragment>
-        )
-    } else {
-        return null;
-    }
+            )}
+        </React.Fragment>
+    )
 }
 
 function DeliveryTotal({ selectedDelivery }) {
