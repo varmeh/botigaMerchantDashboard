@@ -40,7 +40,7 @@ function DeliveryDetailsHeader({ selectedDelivery, setOrderCancelled }) {
     return (
         <div className="delivery-details-header-item">
             <div className="delivery-details-header-name">ORDER DETAILS</div>
-            {(isOpen(order.status) || isDelayed(order.status)) && (
+            {(isOpen(order.status) || isDelayed(order.status) || isOutForDelivery(order.status)) && (
                 <React.Fragment>
                     <Button className="delivery-details-header-btn" onClick={openCancelModal}>Cancel order</Button>
                     <Dialog
