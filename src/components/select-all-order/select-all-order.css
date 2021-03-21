@@ -9,6 +9,8 @@
     box-sizing: border-box;
     box-shadow: 0px 3px 22px rgba(0, 0, 0, 0.09);
     border-radius: 8px;
+    position: fixed;
+    bottom: 15px;
 }
 
 .select-all-order .select-all-btn{
