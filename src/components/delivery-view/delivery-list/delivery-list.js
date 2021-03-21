@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./delivery-list.css";
 import paidStamp from "../../../assets/icons/paid.svg";
-import { statusMessage, statusColor } from "../../../helpers/util";
+import { statusMessage, statusColor, transformedStatusFilterList } from "../../../helpers/util";
 import Popover from '@material-ui/core/Popover';
 import IconButton from '@material-ui/core/IconButton';
 import FilterListIcon from '@material-ui/icons/FilterList';
@@ -23,8 +23,7 @@ function DeliveryListHeader({ deliveryFilterList, setUnsetFilterList }) {
     const id = open ? 'delivery-filter' : undefined;
 
     const avialbleStatus = [
-        { status: 'open', displayText: 'Order Placed' },
-        { status: 'delayed', displayText: 'Delayed' },
+        { status: 'open-orders', displayText: 'Open orders' },
         { status: 'out', displayText: 'Out for delivery' },
         { status: 'delivered', displayText: 'Delivered' },
         { status: 'cancelled', displayText: 'Cancelled' }
@@ -125,10 +124,10 @@ export default function DeliveryList({
     setSelectedDeliveryId,
     selectedDeliveryId
 }) {
-
-    const AllDeliveriesForSelectedCommunity = deliveryFilterList.length > 0
+    const statusFilterList = transformedStatusFilterList(deliveryFilterList);
+    const AllDeliveriesForSelectedCommunity = statusFilterList.length > 0
         ? deliveriesForSelectedCommunity.filter(
-            _delivery => deliveryFilterList.includes(_delivery.order.status)
+            _delivery => statusFilterList.includes(_delivery.order.status)
         ) : deliveriesForSelectedCommunity;
 
     return (

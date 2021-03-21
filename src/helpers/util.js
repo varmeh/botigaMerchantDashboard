@@ -113,7 +113,7 @@ export function statusMessage(status) {
 export function statusColor(status) {
   if (isDelivered(status)) {
     return 'delivered';
-  } else if (isOpen(status)) {
+  } else if (isOpen(status) || status === 'open-orders') {
     return 'open';
   } else if (isOutForDelivery(status)) {
     return 'out-for-delivery';
@@ -132,3 +132,16 @@ export const isRefundSuccess = (status) => status == 'success';
 export const isRefundFailure = (status) => status == 'failure';
 export const isRefund = (status) => status != null;
 export const isRefundDue = (status) => status != null && !isRefundSuccess(status);
+
+export const transformedStatusFilterList = (filterStatusList) => {
+  const statusList = [];
+  filterStatusList.forEach(status => {
+    if (status === 'open-orders') {
+      statusList.push('open');
+      statusList.push('delayed');
+    } else {
+      statusList.push(status);
+    }
+  });
+  return statusList;
+}
