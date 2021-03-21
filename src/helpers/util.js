@@ -131,4 +131,4 @@ export const isRefundInitiated = (status) => status == 'initiated';
 export const isRefundSuccess = (status) => status == 'success';
 export const isRefundFailure = (status) => status == 'failure';
 export const isRefund = (status) => status != null;
-export const isRefundDue = (status) => status != null && !isRefundSuccess;
+export const isRefundDue = (status) => status != null && !isRefundSuccess(status);
