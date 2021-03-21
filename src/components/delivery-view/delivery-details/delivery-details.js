@@ -188,7 +188,7 @@ function RefundSection({ selectedDelivery }) {
                             <div className="delivery-refund-status">
                                 <span className="refund-msg">You need to Refund</span>&nbsp;₹{amount}
                             </div>
-                            <Button disableElevation startIcon={<HistoryIcon />} onClick={openRefundModal}>
+                            <Button variant={"outlined"} disableElevation startIcon={<HistoryIcon />} onClick={openRefundModal}>
                                 Refund
                         </Button>
                         </div>

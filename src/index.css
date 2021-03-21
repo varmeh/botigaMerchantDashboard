@@ -105,7 +105,7 @@ body{
     width: 8px;
     border-radius: 50%;
     margin-right: 4px;
-    background-color:#e9a136;
+    background-color:#787371
 }
 .out-for-delivery{
     display: inline-block;
@@ -121,7 +121,7 @@ body{
     width: 8px;
     border-radius: 50%;
     margin-right: 4px;
-    background-color: #e95636;
+    background-color: #e9a136;
 }
 .canelled{
     display: inline-block;
@@ -129,7 +129,7 @@ body{
     width: 8px;
     border-radius: 50%;
     margin-right: 4px;
-    background-color: #787371;
+    background-color: #e95636;
 }
 
 .MuiCheckbox-colorPrimary.Mui-checked{
