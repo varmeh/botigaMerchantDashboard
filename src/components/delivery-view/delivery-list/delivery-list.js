@@ -181,7 +181,7 @@ function DeliveryItem({
                 </div>
                 {paymentStatus === "success" ? (
                     <div className="paid-stamp-conatiner">
-                        <img src={paidStamp} className="paid-stamp" />
+                        <img alt="paid-stamp" src={paidStamp} className="paid-stamp" />
                     </div>
                 ) : (<div className="delivery-item-delivery-info total-amount">₹{totalAmount}</div>)}
             </div>

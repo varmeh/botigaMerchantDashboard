@@ -23,7 +23,7 @@
 
 .search-bar .screen-search-container{
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
 }
 .search-bar .spacer{
     width: 20px;

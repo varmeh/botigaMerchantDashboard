@@ -122,7 +122,7 @@ function DeliveryPaymentSection({ selectedDelivery }) {
     function renderPaymnetSuccessSection() {
         return (
             <div className="delivery-payment-status">
-                <img src={paymentSucess} />
+                <img alt="payment-success" src={paymentSucess} />
                 <div className="status-text">Paid via {paymentMode.toUpperCase()}</div>
             </div>
         );
@@ -131,7 +131,7 @@ function DeliveryPaymentSection({ selectedDelivery }) {
     function renderdPaymentFailureSection() {
         return (
             <div className="delivery-payment-status">
-                <img src={paymentFailure} />
+                <img alt="payment-failure" src={paymentFailure} />
                 <div className="status-text">Payment Failed</div>
             </div>
         );
@@ -173,7 +173,7 @@ function RefundSection({ selectedDelivery }) {
                         <div className="delivery-summary-row-divider" />
                         <div className="delivery-details-row">
                             <div className="delivery-refund-status">
-                                <img src={paymentSucess} />
+                                <img alt="payment-success" src={paymentSucess} />
                                 <div className="status-text">Refund Completed.</div>
                             </div>
                         </div>
@@ -246,7 +246,7 @@ function DeliverySummary({ selectedDelivery }) {
 
 function DeliveryFeesAndDiscount({ selectedDelivery }) {
     const { order: { couponCode, discountAmount = 0, deliveryFee = 0, totalAmount = 0 } } = selectedDelivery;
-    const hasCoupon = (couponCode) => couponCode != '' && couponCode != null;
+    const hasCoupon = (couponCode) => couponCode !== '' && couponCode !== null;
 
     return (
         <React.Fragment>
@@ -311,7 +311,6 @@ function RenderFooterBtn({
                 <BotigaCalendarWithButton
                     disableToolbar
                     currentSelectedDate={null}
-                    onDateChange={null}
                     id="delivery-date"
                     variant="inline"
                     btnClassName="mark-as-delay-btn"
