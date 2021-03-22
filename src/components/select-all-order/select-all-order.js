@@ -61,14 +61,14 @@ function SelectAllOpenOrder({
                             className="select-all-btn"
                             onClick={selectAllOpenOrder}
                             disableElevation>
-                            Select All
+                            Select all
                         </Button>
                     ) : (
                         <Button
                             className="select-all-btn"
                             onClick={deSelectAllOpenOrder}
                             disableElevation>
-                            Deselect All
+                            Deselect all
                         </Button>
                     )}
                     <Button
@@ -78,7 +78,7 @@ function SelectAllOpenOrder({
                         onClick={() => batchDeliveriesUpdate('out')}
                         disabled={isActionBtnDisabled()}
                         disableElevation>
-                        Out for Delivery
+                        Out for delivery
                     </Button>
                 </div>
             </div>
@@ -140,14 +140,14 @@ function SelectAllOuForDelivery({
                             className="select-all-btn"
                             onClick={selectAllOutForDeliveryOrders}
                             disableElevation>
-                            Select All
+                            Select all
                         </Button>
                     ) : (
                         <Button
                             className="select-all-btn"
                             onClick={deSelectAllOutForDeliveryOrders}
                             disableElevation>
-                            Deselect All
+                            Deselect all
                         </Button>)
                     }
                     <Button
@@ -157,7 +157,7 @@ function SelectAllOuForDelivery({
                         onClick={() => batchDeliveriesUpdate('delivered')}
                         disabled={isActionBtnDisabled()}
                         disableElevation>
-                        Mark Delivered
+                        Mark delivered
                     </Button>
                 </div>
             </div>

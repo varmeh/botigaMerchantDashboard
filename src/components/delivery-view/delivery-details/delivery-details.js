@@ -188,7 +188,7 @@ function RefundSection({ selectedDelivery }) {
                             <div className="delivery-refund-status">
                                 <span className="refund-msg">You need to Refund</span>&nbsp;₹{amount}
                             </div>
-                            <Button variant={"outlined"} disableElevation startIcon={<HistoryIcon />} onClick={openRefundModal}>
+                            <Button className="refund-section-btn" variant={"outlined"} disableElevation startIcon={<HistoryIcon />} onClick={openRefundModal}>
                                 Refund
                         </Button>
                         </div>
@@ -314,9 +314,9 @@ function RenderFooterBtn({
                     onDateChange={null}
                     id="delivery-date"
                     variant="inline"
-                    btnClassName="no-class"
+                    btnClassName="mark-as-delay-btn"
                     btnVarient="default"
-                    btnLabel="Mark as Delay"
+                    btnLabel="Mark as delay"
                     showBtnIcon={false}
                     onDateChange={_setOrderDelayed} />
                 <div className='delivery-details-spacer' />
@@ -324,9 +324,10 @@ function RenderFooterBtn({
                     type='submit'
                     variant='contained'
                     color='primary'
+                    className="out-for-delivery-btn"
                     onClick={_setDeliveryStausForOrder('out')}
                     disableElevation>
-                    Out for Delivery
+                    Out for delivery
                 </Button>
             </div>
         );
@@ -337,6 +338,7 @@ function RenderFooterBtn({
                     type='submit'
                     variant='contained'
                     color='primary'
+                    className="mark-as-deiverd-btn"
                     onClick={_setDeliveryStausForOrder('delivered')}
                     disableElevation>
                     Mark as delivered
@@ -350,9 +352,10 @@ function RenderFooterBtn({
                     type='submit'
                     variant='contained'
                     color='primary'
+                    className="mark-as-refund-btn"
                     onClick={setRefundComplete}
                     disableElevation>
-                    Mark as Refunded
+                    Mark as refunded
                 </Button>
             </div>
         )

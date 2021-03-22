@@ -20,7 +20,7 @@
     font-weight: 500;
     font-size: 15px;
     line-height: 22px;
-    text-transform: capitalize;
+    text-transform: none;
     color: #179F57;
 }
 .select-all-order .mark-deliverd-btn{
@@ -30,7 +30,7 @@
     font-weight: 500;
     font-size: 15px;
     line-height: 22px;
-    text-transform: capitalize;
+    text-transform: none;
     color: #FFFFFF;
  }
 
@@ -41,6 +41,6 @@
     font-weight: 500;
     font-size: 15px;
     line-height: 22px;
-    text-transform: capitalize;
+    text-transform: none;
     color: #FFFFFF;
 }
