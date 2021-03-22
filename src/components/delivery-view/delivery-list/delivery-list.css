@@ -55,40 +55,31 @@
 }
 
 .delivery-item{
-    padding: 40px 20px 20px 20px ;
+    padding: 20px ;
     display: flex;
     flex-direction: column;
     border-top: 1px solid  #DCDCDC;
     cursor: pointer;
-    position: relative;
+}
+.delivery-item-row-container{
+    display: flex;
+    flex-direction: row; 
+    flex:1;
+    justify-content: space-between;
 }
 
-.delivery-item .checkbox-delivery-item-row-checked{
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    display: block;
-}
-.delivery-item .checkbox-delivery-item-row-uncheck{
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    display: none;
-}
-.delivery-item:hover .checkbox-delivery-item-row-uncheck{ 
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    display: block; 
+.delivery-item-row-with-checkbox{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
 }
 
 .delivery-item-row{
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: flex-start;
     word-break: break-word;
 }
-
 
 .delivery-item-order-info{
     font-family: Montserrat;
@@ -108,6 +99,15 @@
     line-height: 16px;
     color: rgba(18, 23, 21, 0.5);
 }
+.delivery-item-delivery-info-order-status{
+    margin-top: 8px;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    color: rgba(18, 23, 21, 0.5);
+}
 
 .total-amount{
     font-family: Montserrat;
@@ -118,4 +118,15 @@
     font-size: 12px;
     line-height: 16px;
     color: #121714;
+    margin-bottom: 9px;
+}
+
+.filter-list-btn.MuiButton-text{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 22px;
+    text-transform: capitalize;
+    color: #179F57;
 }

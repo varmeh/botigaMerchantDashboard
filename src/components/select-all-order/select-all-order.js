@@ -43,9 +43,7 @@ function SelectAllOpenOrder({
     }
 
     function showSelectAllContainer() {
-        return allOpenOrdersIds.length > 0 && (
-            isEqualArray(statusFilterList, openOrdersArray) || selectedOpenOrders.length !== 0
-        );
+        return allOpenOrdersIds.length > 0 && isEqualArray(statusFilterList, openOrdersArray);
     }
 
     function isActionBtnDisabled() {
@@ -122,9 +120,8 @@ function SelectAllOuForDelivery({
     }
 
     function showSelectAllContainer() {
-        return allOutForDeliveryOrdersIds.length > 0 && (
-            isEqualArray(statusFilterList, outForDeliveryArray) || selectedOutforDeliveryOrders.length !== 0
-        );
+        return allOutForDeliveryOrdersIds.length > 0 && isEqualArray(statusFilterList, outForDeliveryArray);
+
     }
 
     function isActionBtnDisabled() {

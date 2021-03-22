@@ -99,13 +99,21 @@ body{
     margin-right: 4px;
     background-color: #179f57;
 }
-.open{
+.open,.all,.default{
     display: inline-block;
     height: 8px;
     width: 8px;
     border-radius: 50%;
     margin-right: 4px;
     background-color:#787371
+}
+.delayed,.only-open{
+    display: inline-block;
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    margin-right: 4px;
+    background-color: #e9a136;
 }
 .out-for-delivery{
     display: inline-block;
@@ -114,14 +122,6 @@ body{
     border-radius: 50%;
     margin-right: 4px;
     background-color: #36b9e9;
-}
-.delayed{
-    display: inline-block;
-    height: 8px;
-    width: 8px;
-    border-radius: 50%;
-    margin-right: 4px;
-    background-color: #e9a136;
 }
 .canelled{
     display: inline-block;
@@ -153,4 +153,8 @@ body{
 
 .right-align-item{
     text-align: right;
+}
+
+.MuiRadio-colorSecondary.Mui-checked{
+    color: #179F57 !important;
 }

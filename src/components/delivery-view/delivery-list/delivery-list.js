@@ -3,12 +3,12 @@ import "./delivery-list.css";
 import paidStamp from "../../../assets/icons/paid.svg";
 import { statusMessage, statusColor, transformedStatusFilterList } from "../../../helpers/util";
 import Popover from '@material-ui/core/Popover';
-import IconButton from '@material-ui/core/IconButton';
-import FilterListIcon from '@material-ui/icons/FilterList';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import Radio from '@material-ui/core/Radio';
+import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
-import Badge from '@material-ui/core/Badge';
 
-function DeliveryListHeader({ deliveryFilterList, setUnsetFilterList }) {
+function DeliveryListHeader({ deliveryFilterList, setFilterList }) {
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = (event) => {
@@ -23,7 +23,8 @@ function DeliveryListHeader({ deliveryFilterList, setUnsetFilterList }) {
     const id = open ? 'delivery-filter' : undefined;
 
     const avialbleStatus = [
-        { status: 'open-orders', displayText: 'Open orders' },
+        { status: 'all', displayText: 'All' },
+        { status: 'only-open', displayText: 'Open' },
         { status: 'out', displayText: 'Out for delivery' },
         { status: 'delivered', displayText: 'Delivered' },
         { status: 'cancelled', displayText: 'Cancelled' }
@@ -31,16 +32,26 @@ function DeliveryListHeader({ deliveryFilterList, setUnsetFilterList }) {
 
     const isfilterWithStatusChecked = status => deliveryFilterList.includes(status);
 
+    const handleChange = (event) => {
+        setFilterList(event.target.value);
+    };
+
+    const getDisaplyTextForStatus = () => {
+        const deliverySelectedStatus = deliveryFilterList[0];
+        const statusEl = avialbleStatus.find(el => el.status === deliverySelectedStatus);
+        return statusEl ? statusEl.displayText : '';
+    };
+
     return (
         <div className="community-header-item">
             <div className="community-header-name">DELIVERIES</div>
             <div className="no-class">
-                <IconButton aria-label="delete" size="small" onClick={handleClick}>
-                    {deliveryFilterList.length > 0
-                        ? (<Badge color="primary" variant="dot"><FilterListIcon fontSize="small" /></Badge>)
-                        : <FilterListIcon fontSize="small" />
-                    }
-                </IconButton>
+                <Button
+                    onClick={handleClick}
+                    endIcon={<ExpandMore />}
+                    className="filter-list-btn">
+                    {getDisaplyTextForStatus()}
+                </Button>
                 <Popover
                     id={id}
                     open={open}
@@ -55,11 +66,11 @@ function DeliveryListHeader({ deliveryFilterList, setUnsetFilterList }) {
                                     <span className={statusColor(_entry.status)} />
                                     <span>{_entry.displayText}</span>
                                 </div>
-                                <Checkbox
-                                    color="primary"
-                                    size="small"
+                                <Radio
                                     checked={isfilterWithStatusChecked(_entry.status)}
-                                    onChange={() => setUnsetFilterList(_entry.status)}
+                                    onChange={handleChange}
+                                    value={_entry.status}
+                                    name="filter-status"
                                     inputProps={{ 'aria-label': _entry.displayText }}
                                 />
                             </div>
@@ -78,7 +89,8 @@ function DeliveryItem({
     selectedDeliveryId,
     selectedOpenOrders,
     selectedOutforDeliveryOrders,
-    setUnsetOrderListIds
+    setUnsetOrderListIds,
+    deliveryFilterList
 }) {
     const {
         buyer: { house, name },
@@ -89,6 +101,7 @@ function DeliveryItem({
     const itemText = products.length > 1 ? `${products.length} items` : `${products.length} item`;
 
     const showCheckBoxForStatus = ['open', 'out', 'delayed'];
+    const notAllowedFilters = ['all', 'delivered', 'cancelled']
 
 
     function selectDeliveryId() {
@@ -104,96 +117,48 @@ function DeliveryItem({
 
     function handleOrderCheckBoxChange() {
         if (orderStatus === "open" || orderStatus === "delayed") {
-            setUnsetOrderListIds(_id, "open-order")
+            setUnsetOrderListIds(_id, "only-open")
         } else if (orderStatus === "out") {
             setUnsetOrderListIds(_id, "out")
         }
     }
 
-    const enableCheckBox = status => {
-        if (showCheckBoxForStatus.includes(status)) {
-            if (status === "open" || status === "delayed") {
-                if (selectedOpenOrders.length === 0 && selectedOutforDeliveryOrders.length === 0) {
-                    return true;
-                } else if (selectedOpenOrders.length > 0 && selectedOutforDeliveryOrders.length === 0) {
-                    return true;
-                } else {
-                    return false;
-                }
-
-            } else {
-                if (selectedOutforDeliveryOrders.length === 0 && selectedOpenOrders.length === 0) {
-                    return true;
-                } else if (selectedOutforDeliveryOrders.length > 0 && selectedOpenOrders.length === 0) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        } else {
-            return false;
-        }
-    }
+    const showCheckBox = showCheckBoxForStatus.includes(orderStatus) && !notAllowedFilters.includes(
+        deliveryFilterList[0]
+    );
 
     return (
         <div className={selectedClass} onClick={selectDeliveryId}>
-            <React.Fragment>
-                {enableCheckBox(orderStatus) ? (
-                    <React.Fragment>
-                        {isCheckBoxSelected ? (
-                            <div className="checkbox-delivery-item-row-checked">
-                                <Checkbox
-                                    color="primary"
-                                    size="small"
-                                    checked={isCheckBoxSelected}
-                                    onChange={handleOrderCheckBoxChange}
-                                    inputProps={{ 'aria-label': 'select order' }}
-                                />
-                            </div>
-                        )
-                            : (<div className="checkbox-delivery-item-row-uncheck">
-                                <Checkbox
-                                    color="primary"
-                                    size="small"
-                                    checked={isCheckBoxSelected}
-                                    onChange={handleOrderCheckBoxChange}
-                                    inputProps={{ 'aria-label': 'select order' }}
-                                />
-                            </div>
-                            )}
-                    </React.Fragment>
-                )
-                    : (
-                        <div className="checkbox-delivery-item-row-uncheck">
-                            <Checkbox
-                                size="small"
-                                color="primary"
-                                checked={false}
-                                disabled
-                                inputProps={{ 'aria-label': 'select order' }}
-                            />
+            <div className="delivery-item-row-with-checkbox">
+                {showCheckBox && (
+                    <Checkbox
+                        color="primary"
+                        size="small"
+                        checked={isCheckBoxSelected}
+                        onChange={handleOrderCheckBoxChange}
+                        inputProps={{ 'aria-label': 'select order' }}
+                    />
+                )}
+                <div className="delivery-item-row-container">
+                    <div className="delivery-item-row">
+                        <div className="no-class">
+                            <div className="delivery-item-order-info">{house}, {name}</div>
+                            <div className="delivery-item-delivery-info uppercase">#{number} . {itemText}</div>
                         </div>
-                    )}
-            </React.Fragment>
-            <div className="delivery-item-row">
-                <div className="no-class">
-                    <div className="delivery-item-order-info">{house}, {name}</div>
-                    <div className="delivery-item-delivery-info uppercase">#{number} . {itemText}</div>
-                </div>
-                {paymentStatus === "success" ? (
-                    <div className="paid-stamp-conatiner">
-                        <img alt="paid-stamp" src={paidStamp} className="paid-stamp" />
+                        <div className="delivery-item-delivery-info-order-status">
+                            <span className={statusColor(orderStatus)} />
+                            {statusMessage(orderStatus)}
+                        </div>
                     </div>
-                ) : (<div className="delivery-item-delivery-info total-amount">₹{totalAmount}</div>)}
-            </div>
-            <div className="delivery-item-row">
-                <div className="delivery-item-delivery-info">
-                    <span className={statusColor(orderStatus)} />
-                    {statusMessage(orderStatus)}
+                    <div className="delivery-item-row">
+                        <div className="delivery-item-delivery-info total-amount">₹{totalAmount}</div>
+                        {paymentStatus === "success" ? (
+                            <div className="paid-stamp-conatiner">
+                                <img alt="paid-stamp" src={paidStamp} className="paid-stamp" />
+                            </div>
+                        ) : null}
+                    </div>
                 </div>
-                {paymentStatus === "success"
-                    ? <div className="delivery-item-delivery-info total-amount">₹{totalAmount}</div>
-                    : null}
             </div>
         </div>
     )
@@ -203,7 +168,7 @@ function DeliveryItem({
 export default function DeliveryList({
     deliveriesForSelectedCommunity,
     deliveryFilterList,
-    setUnsetFilterList,
+    setFilterList,
     setSelectedDeliveryId,
     selectedDeliveryId,
     selectedOpenOrders,
@@ -220,7 +185,7 @@ export default function DeliveryList({
         <div className="product-list-style">
             <DeliveryListHeader
                 deliveryFilterList={deliveryFilterList}
-                setUnsetFilterList={setUnsetFilterList} />
+                setFilterList={setFilterList} />
             <div className="delivery-list-body">
                 {
                     AllDeliveriesForSelectedCommunity.length > 0 ? AllDeliveriesForSelectedCommunity.map(((_delivery, i) => (
@@ -232,6 +197,7 @@ export default function DeliveryList({
                             selectedOpenOrders={selectedOpenOrders}
                             selectedOutforDeliveryOrders={selectedOutforDeliveryOrders}
                             setUnsetOrderListIds={setUnsetOrderListIds}
+                            deliveryFilterList={deliveryFilterList}
                         />
                     )))
                         : (

@@ -113,15 +113,20 @@ export function statusMessage(status) {
 export function statusColor(status) {
   if (isDelivered(status)) {
     return 'delivered';
-  } else if (isOpen(status) || status === 'open-orders') {
+  } else if (isOpen(status)) {
     return 'open';
   } else if (isOutForDelivery(status)) {
     return 'out-for-delivery';
   } else if (isDelayed(status)) {
     return 'delayed';
-  } else {
-    // Cancelled
+  } else if (isCancelled(status)) {
     return 'canelled';
+  } else if (status === 'all') {
+    return 'all';
+  } else if (status === 'only-open') {
+    return 'only-open';
+  } else {
+    return "default";
   }
 }
 
@@ -136,7 +141,14 @@ export const isRefundDue = (status) => status != null && !isRefundSuccess(status
 export const transformedStatusFilterList = (filterStatusList) => {
   const statusList = [];
   filterStatusList.forEach(status => {
-    if (status === 'open-orders') {
+    if (status === 'all') {
+      statusList.push('open');
+      statusList.push('delayed');
+      statusList.push('out');
+      statusList.push('delivered');
+      statusList.push('cancelled');
+    }
+    if (status === 'only-open') {
       statusList.push('open');
       statusList.push('delayed');
     } else {

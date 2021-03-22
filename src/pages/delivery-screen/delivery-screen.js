@@ -23,7 +23,7 @@ export function DeliveryScreen() {
         hideMainViewLoader,
     } = useContext(appContext);
 
-    const [deliveryFilterList, setDeliveryFilterList] = useState([]);
+    const [deliveryFilterList, setDeliveryFilterList] = useState(['all']);
     const [openOrdersId, setOpenOrderIds] = useState([]);
     const [outforDeliveryIds, setOutForDeliveryIds] = useState([]);
     const [selectedCommunityId, setSelectedCommunityId] = useState(null);
@@ -69,14 +69,9 @@ export function DeliveryScreen() {
         setSearchText(value);
     }
 
-    function setUnsetFilterList(status) {
-        let tempStatusList = [...deliveryFilterList];
-        if (tempStatusList.includes(status)) {
-            tempStatusList = tempStatusList.filter(_status => _status !== status);
-        } else {
-            tempStatusList = [...tempStatusList, status];
-        }
-        setDeliveryFilterList(tempStatusList);
+    function setFilterList(status) {
+        const statusList = [status];
+        setDeliveryFilterList(statusList);
     }
 
     function getAllDeliveryForSelectedCommunity(id) {
@@ -186,7 +181,7 @@ export function DeliveryScreen() {
     }
 
     function setUnsetOrderListIds(id, type) {
-        if (type === "open-order") {
+        if (type === "only-open") {
             let tempList = [...openOrdersId];
             if (tempList.includes(id)) {
                 tempList = tempList.filter(_id => _id !== id);
@@ -210,13 +205,11 @@ export function DeliveryScreen() {
             showMainViewLoader();
             if (status === 'out') {
                 await setDeliveryStatusBatch(status, openOrdersId);
-                setOpenOrderIds([]);
             } else if (status === 'delivered') {
                 await setDeliveryStatusBatch(status, outforDeliveryIds);
-                setOutForDeliveryIds([]);
             }
             await getDeliverListByApartmentAndUpdateDelivery();
-            setDeliveryFilterList([]);
+            resetDeliverScreenState();
         } catch (err) {
             setError(true, err);
         } finally {
@@ -224,11 +217,26 @@ export function DeliveryScreen() {
         }
     }
 
+
+    function handleDateChange(date) {
+        setSelectedDeliveryDate(date);
+        resetDeliverScreenState();
+    }
+
+    function resetDeliverScreenState() {
+        setDeliveryFilterList(['all']);
+        setOpenOrderIds([]);
+        setOutForDeliveryIds([]);
+        setSearchText('');
+        setProcessingOrder('');
+        setSelectedDeliveryId(null);
+    }
+
     return (
         <React.Fragment>
             <SearchBarDelivery
                 selectedDeliverydate={selectedDeliverydate}
-                onDateChange={setSelectedDeliveryDate}
+                onDateChange={handleDateChange}
                 screenName={screenName}
                 reset={clearSearch}
                 handleChange={setSearch}
@@ -240,7 +248,7 @@ export function DeliveryScreen() {
                     selectCommunity={selectCommunity}
                     selectedCommunityId={selectedCommunityId} />
                 <DeliveryList
-                    setUnsetFilterList={setUnsetFilterList}
+                    setFilterList={setFilterList}
                     deliveryFilterList={deliveryFilterList}
                     selectedCommunityId={selectedCommunityId}
                     selectedDeliveryId={selectedDeliveryId}
