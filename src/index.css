@@ -135,6 +135,13 @@ body{
 .MuiCheckbox-colorPrimary.Mui-checked{
     color: #179F57 !important;
 }
+.MuiCheckbox-colorPrimary.Mui-disabled{
+    color: #DCDCDC !important;
+}
+.MuiCheckbox-colorPrimary.Mui-disabled .MuiIconButton-label{
+    border-radius: 5px;
+    background-color: #DCDCDC !important;
+}
 .MuiBadge-colorPrimary {
     color: #fff;
     background-color: #179F57 !important;

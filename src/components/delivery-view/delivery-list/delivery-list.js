@@ -167,6 +167,7 @@ function DeliveryItem({
                         <div className="checkbox-delivery-item-row-uncheck">
                             <Checkbox
                                 size="small"
+                                color="primary"
                                 checked={false}
                                 disabled
                                 inputProps={{ 'aria-label': 'select order' }}
