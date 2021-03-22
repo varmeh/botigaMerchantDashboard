@@ -72,13 +72,23 @@ function DeliveryListHeader({ deliveryFilterList, setUnsetFilterList }) {
 }
 
 
-function DeliveryItem({ delivery, setSelectedDeliveryId, selectedDeliveryId }) {
+function DeliveryItem({
+    delivery,
+    setSelectedDeliveryId,
+    selectedDeliveryId,
+    selectedOpenOrders,
+    selectedOutforDeliveryOrders,
+    setUnsetOrderListIds
+}) {
     const {
         buyer: { house, name },
         order: { number, products, totalAmount, status: orderStatus },
-        payment: { status: paymentStatus }
+        payment: { status: paymentStatus },
+        _id,
     } = delivery;
     const itemText = products.length > 1 ? `${products.length} items` : `${products.length} item`;
+
+    const showCheckBoxForStatus = ['open', 'out', 'delayed'];
 
 
     function selectDeliveryId() {
@@ -90,8 +100,80 @@ function DeliveryItem({ delivery, setSelectedDeliveryId, selectedDeliveryId }) {
         ? 'delivery-item item_selected'
         : 'delivery-item';
 
+    const isCheckBoxSelected = selectedOpenOrders.includes(_id) || selectedOutforDeliveryOrders.includes(_id);
+
+    function handleOrderCheckBoxChange() {
+        if (orderStatus === "open" || orderStatus === "delayed") {
+            setUnsetOrderListIds(_id, "open-order")
+        } else if (orderStatus === "out") {
+            setUnsetOrderListIds(_id, "out")
+        }
+    }
+
+    const enableCheckBox = status => {
+        if (showCheckBoxForStatus.includes(status)) {
+            if (status === "open" || status === "delayed") {
+                if (selectedOpenOrders.length === 0 && selectedOutforDeliveryOrders.length === 0) {
+                    return true;
+                } else if (selectedOpenOrders.length > 0 && selectedOutforDeliveryOrders.length === 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+
+            } else {
+                if (selectedOutforDeliveryOrders.length === 0 && selectedOpenOrders.length === 0) {
+                    return true;
+                } else if (selectedOutforDeliveryOrders.length > 0 && selectedOpenOrders.length === 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        } else {
+            return false;
+        }
+    }
+
     return (
         <div className={selectedClass} onClick={selectDeliveryId}>
+            <React.Fragment>
+                {enableCheckBox(orderStatus) ? (
+                    <React.Fragment>
+                        {isCheckBoxSelected ? (
+                            <div className="checkbox-delivery-item-row-checked">
+                                <Checkbox
+                                    color="primary"
+                                    size="small"
+                                    checked={isCheckBoxSelected}
+                                    onChange={handleOrderCheckBoxChange}
+                                    inputProps={{ 'aria-label': 'select order' }}
+                                />
+                            </div>
+                        )
+                            : (<div className="checkbox-delivery-item-row-uncheck">
+                                <Checkbox
+                                    color="primary"
+                                    size="small"
+                                    checked={isCheckBoxSelected}
+                                    onChange={handleOrderCheckBoxChange}
+                                    inputProps={{ 'aria-label': 'select order' }}
+                                />
+                            </div>
+                            )}
+                    </React.Fragment>
+                )
+                    : (
+                        <div className="checkbox-delivery-item-row-uncheck">
+                            <Checkbox
+                                size="small"
+                                checked={false}
+                                disabled
+                                inputProps={{ 'aria-label': 'select order' }}
+                            />
+                        </div>
+                    )}
+            </React.Fragment>
             <div className="delivery-item-row">
                 <div className="no-class">
                     <div className="delivery-item-order-info">{house}, {name}</div>
@@ -122,7 +204,10 @@ export default function DeliveryList({
     deliveryFilterList,
     setUnsetFilterList,
     setSelectedDeliveryId,
-    selectedDeliveryId
+    selectedDeliveryId,
+    selectedOpenOrders,
+    selectedOutforDeliveryOrders,
+    setUnsetOrderListIds
 }) {
     const statusFilterList = transformedStatusFilterList(deliveryFilterList);
     const AllDeliveriesForSelectedCommunity = statusFilterList.length > 0
@@ -143,6 +228,9 @@ export default function DeliveryList({
                             delivery={_delivery}
                             selectedDeliveryId={selectedDeliveryId}
                             setSelectedDeliveryId={setSelectedDeliveryId}
+                            selectedOpenOrders={selectedOpenOrders}
+                            selectedOutforDeliveryOrders={selectedOutforDeliveryOrders}
+                            setUnsetOrderListIds={setUnsetOrderListIds}
                         />
                     )))
                         : (

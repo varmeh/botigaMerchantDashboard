@@ -5,7 +5,7 @@ import { SearchBarDelivery } from "../../components/common/search-bar/search-bar
 import CommunityList from "../../components/community-list/community-list";
 import DeliveryList from "../../components/delivery-view/delivery-list/delivery-list";
 import DeliveryDetails from "../../components/delivery-view/delivery-details/delivery-details";
-import { setDeliveryStatus, setDeliveryDelayed, getDeliveryByApartment } from "../../services/delivery-service";
+import { setDeliveryStatus, setDeliveryDelayed, getDeliveryByApartment, setDeliveryStatusBatch } from "../../services/delivery-service";
 import { cancelOrder, setRefundCompleted } from '../../services/order-service';
 import SelectAllOrder from "../../components/select-all-order/select-all-order";
 
@@ -18,10 +18,14 @@ export function DeliveryScreen() {
         setError,
         setSelectedDeliveryDate,
         selectedDeliverydate,
-        setAggregateDelivery
+        setAggregateDelivery,
+        showMainViewLoader,
+        hideMainViewLoader,
     } = useContext(appContext);
 
     const [deliveryFilterList, setDeliveryFilterList] = useState([]);
+    const [openOrdersId, setOpenOrderIds] = useState([]);
+    const [outforDeliveryIds, setOutForDeliveryIds] = useState([]);
     const [selectedCommunityId, setSelectedCommunityId] = useState(null);
     const [selectedDeliveryId, setSelectedDeliveryId] = useState(null);
     const [searchText, setSearchText] = useState('');
@@ -181,6 +185,45 @@ export function DeliveryScreen() {
         }
     }
 
+    function setUnsetOrderListIds(id, type) {
+        if (type === "open-order") {
+            let tempList = [...openOrdersId];
+            if (tempList.includes(id)) {
+                tempList = tempList.filter(_id => _id !== id);
+            } else {
+                tempList = [...tempList, id];
+            }
+            setOpenOrderIds(tempList);
+        } else if (type === "out") {
+            let tempList = [...outforDeliveryIds];
+            if (tempList.includes(id)) {
+                tempList = tempList.filter(_id => _id !== id);
+            } else {
+                tempList = [...tempList, id];
+            }
+            setOutForDeliveryIds(tempList);
+        }
+    }
+
+    async function batchDeliveriesUpdate(status) {
+        try {
+            showMainViewLoader();
+            if (status === 'out') {
+                await setDeliveryStatusBatch(status, openOrdersId);
+                setOpenOrderIds([]);
+            } else if (status === 'delivered') {
+                await setDeliveryStatusBatch(status, outforDeliveryIds);
+                setOutForDeliveryIds([]);
+            }
+            await getDeliverListByApartmentAndUpdateDelivery();
+            setDeliveryFilterList([]);
+        } catch (err) {
+            setError(true, err);
+        } finally {
+            hideMainViewLoader();
+        }
+    }
+
     return (
         <React.Fragment>
             <SearchBarDelivery
@@ -202,7 +245,10 @@ export function DeliveryScreen() {
                     selectedCommunityId={selectedCommunityId}
                     selectedDeliveryId={selectedDeliveryId}
                     setSelectedDeliveryId={setSelectedDeliveryId}
-                    deliveriesForSelectedCommunity={getAllDeliveryForSelectedCommunity(selectedCommunityId)} />
+                    deliveriesForSelectedCommunity={getAllDeliveryForSelectedCommunity(selectedCommunityId)}
+                    selectedOpenOrders={openOrdersId}
+                    selectedOutforDeliveryOrders={outforDeliveryIds}
+                    setUnsetOrderListIds={setUnsetOrderListIds} />
                 <DeliveryDetails
                     setOrderDelayed={setOrderDelayed}
                     setDeliveryStausForOrder={setDeliveryStausForOrder}
@@ -213,7 +259,15 @@ export function DeliveryScreen() {
                     isProcessingOrder={isProcessingOrder}
                 />
             </BotigaPageView>
-            <SelectAllOrder />
+            <SelectAllOrder
+                deliveriesForSelectedCommunity={getAllDeliveryForSelectedCommunity(selectedCommunityId)}
+                deliveryFilterList={deliveryFilterList}
+                setOpenOrderIds={setOpenOrderIds}
+                setOutForDeliveryIds={setOutForDeliveryIds}
+                selectedOpenOrders={openOrdersId}
+                selectedOutforDeliveryOrders={outforDeliveryIds}
+                batchDeliveriesUpdate={batchDeliveriesUpdate}
+            />
         </React.Fragment>
     );
 

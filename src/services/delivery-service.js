@@ -29,4 +29,10 @@ async function setDeliveryDelayed(orderId, newDate) {
     });
 }
 
-export { getAggregateDelivery, getDeliveryByApartment, cancelDelivery, setDeliveryStatus, setDeliveryDelayed };
+async function setDeliveryStatusBatch(status, orderIdList) {
+    return axios().patch('/api/seller/delivery/batch/status', {
+        status, orderIdList
+    });
+}
+
+export { getAggregateDelivery, getDeliveryByApartment, cancelDelivery, setDeliveryStatus, setDeliveryDelayed, setDeliveryStatusBatch };

@@ -173,6 +173,8 @@ class MyApp extends React.Component {
         setError: this._setError,
         setAggregateDelivery: this._setAggregateDelivery,
         clearContext: this._clearContext,
+        showMainViewLoader: this._showMainViewLoader,
+        hideMainViewLoader: this._hideMainViewLoader,
       }}>
         <div className="app">
           {includeSideBar && <SideNav />}

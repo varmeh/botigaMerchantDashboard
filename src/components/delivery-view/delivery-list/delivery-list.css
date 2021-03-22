@@ -55,11 +55,31 @@
 }
 
 .delivery-item{
-    padding: 20px;
+    padding: 40px 20px 20px 20px ;
     display: flex;
     flex-direction: column;
     border-top: 1px solid  #DCDCDC;
     cursor: pointer;
+    position: relative;
+}
+
+.delivery-item .checkbox-delivery-item-row-checked{
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    display: block;
+}
+.delivery-item .checkbox-delivery-item-row-uncheck{
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    display: none;
+}
+.delivery-item:hover .checkbox-delivery-item-row-uncheck{ 
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    display: block; 
 }
 
 .delivery-item-row{

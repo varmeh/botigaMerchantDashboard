@@ -24,15 +24,14 @@
     color: #179F57;
 }
 .select-all-order .mark-deliverd-btn{
-    margin: 10px 6px 10px 12px;
+    margin: 10px 12px 10px 6px;
     font-family: Montserrat;
     font-style: normal;
     font-weight: 500;
     font-size: 15px;
     line-height: 22px;
     text-transform: capitalize;
-    color: #121715;
-    opacity: 0.5;
+    color: #FFFFFF;
  }
 
 .select-all-order .out-for-delivery-btn{
