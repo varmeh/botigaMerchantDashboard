@@ -210,7 +210,7 @@ function RefundSection({ selectedDelivery }) {
                                 </DialogContent>
                                 <DialogActions>
                                     <Button onClick={closeRefundModal} color="primary" variant="contained" disableElevation>
-                                        Done
+                                        Ok
                                     </Button>
                                 </DialogActions>
                             </Dialog>
