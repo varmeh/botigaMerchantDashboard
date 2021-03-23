@@ -310,7 +310,7 @@ function RenderFooterBtn({
             <div className='delivery-details-row-action'>
                 <BotigaCalendarWithButton
                     disableToolbar
-                    currentSelectedDate={null}
+                    currentSelectedDate={order.expectedDeliveryDate}
                     id="delivery-date"
                     variant="inline"
                     btnClassName="mark-as-delay-btn"
