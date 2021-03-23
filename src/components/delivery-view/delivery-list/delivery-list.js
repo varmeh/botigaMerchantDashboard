@@ -34,6 +34,7 @@ function DeliveryListHeader({ deliveryFilterList, setFilterList }) {
 
     const handleChange = (event) => {
         setFilterList(event.target.value);
+        handleClose();
     };
 
     const getDisaplyTextForStatus = () => {
