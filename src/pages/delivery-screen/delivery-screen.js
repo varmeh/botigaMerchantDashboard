@@ -168,9 +168,9 @@ export function DeliveryScreen() {
                     if (_delivery.apartment._id === selectedCommunityId) {
                         return {
                             ..._delivery,
-                            deliveries: deliveries.map(_eachDelivery => ({
-                                ..._eachDelivery,
-                                _id: _eachDelivery.id
+                            deliveries: deliveries.map(({ id, ...others }) => ({
+                                ...others,
+                                _id: id
                             })),
                             count: deliveries.length
                         }
