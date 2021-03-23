@@ -77,7 +77,7 @@ function ProductItem({ product, selectProduct, selectedProductId, selectedCatego
           checked={productStatus} />
       </div>
       <div className="product-item-row-description">
-        <div className="product-secondary-text">
+        <div className="product-secondary-text product-secondary-text-container">
           {getProductSizeAndPriceDetails(size, mrp, price)}
           <div className="description text-light">
             {description}
