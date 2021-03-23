@@ -106,11 +106,12 @@ export function DeliveryScreen() {
         setSelectedDeliveryId(null);
     }
 
+    // Used for seting status to out and deliverd
     async function setDeliveryStausForOrder(orderId, status) {
         try {
             setProcessingOrder(true);
             await setDeliveryStatus(orderId, status);
-            await getDeliverListByApartmentAndUpdateDelivery();
+            updateDeliveryStatus(orderId, "order-status-change", status);
         } catch (err) {
             setError(true, err);
         } finally {
@@ -130,11 +131,12 @@ export function DeliveryScreen() {
         }
     }
 
+    // Used for order canceled
     async function setOrderCancelled(orderId) {
         try {
             setProcessingOrder(true);
-            await cancelOrder(orderId);
-            getDeliverListByApartmentAndUpdateDelivery();
+            const { data: { refund } } = await cancelOrder(orderId);
+            updateDeliveryStatus(orderId, "order-cancel", "cancelled", refund);
         } catch (err) {
             setError(true, err);
         } finally {
@@ -142,11 +144,12 @@ export function DeliveryScreen() {
         }
     }
 
+    // Used for refund complete
     async function setOrderRefundComplete(orderId) {
         try {
             setProcessingOrder(true);
-            await setRefundCompleted(orderId);
-            getDeliverListByApartmentAndUpdateDelivery();
+            const { data: { refund } } = await setRefundCompleted(orderId);
+            updateDeliveryStatus(orderId, "refund-complete", "cancelled", refund);
         } catch (err) {
             setError(true, err);
         } finally {
@@ -154,6 +157,7 @@ export function DeliveryScreen() {
         }
     }
 
+    // Update delivery by hitting api.
     async function getDeliverListByApartmentAndUpdateDelivery() {
         try {
             const { data: { deliveries = [] } } = await getDeliveryByApartment(selectedCommunityId, selectedDeliverydate);
@@ -175,8 +179,59 @@ export function DeliveryScreen() {
             }
         } catch (err) {
             setError(true, err);
-        } finally {
+        }
+    }
 
+    // Update delivery localy.
+    function updateDeliveryStatus(orderId, operationType, status, refund) {
+        try {
+            const selectectedCommunity = aggregateDelivery.find(_delivery => _delivery.apartment._id === selectedCommunityId);
+            if (selectectedCommunity) {
+                const updatedAggregateDelivery = aggregateDelivery.map(_delivery => {
+                    if (_delivery.apartment._id === selectedCommunityId) {
+                        return {
+                            ..._delivery,
+                            deliveries: _delivery.deliveries.map(_eachDelivery => {
+                                if (_eachDelivery._id === orderId) {
+                                    return transformDeliveryAfterUpdate(operationType, _eachDelivery, status, refund);
+                                }
+                                return _eachDelivery;
+                            })
+                        }
+                    }
+                    return _delivery;
+                });
+                setAggregateDelivery(updatedAggregateDelivery);
+            }
+        } catch (err) {
+            setError(true, err);
+        }
+    }
+
+    // Transform delivery obejct after staus change, cancel and refund opration
+    function transformDeliveryAfterUpdate(operationType, deliveryObj, status, refund) {
+        if (operationType === "order-status-change") {
+            return ({
+                ...deliveryObj,
+                order: {
+                    ...deliveryObj.order,
+                    status: status
+                }
+            });
+        } else if (operationType === "order-cancel" || operationType === "refund-complete") {
+            return ({
+                ...deliveryObj,
+                order: {
+                    ...deliveryObj.order,
+                    status: status
+                },
+                refund: deliveryObj.refund ? {
+                    ...deliveryObj.refund,
+                    ...refund
+                } : { ...refund }
+            });
+        } else {
+            return deliveryObj;
         }
     }
 
