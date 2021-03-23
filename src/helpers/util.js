@@ -159,3 +159,7 @@ export const transformedStatusFilterList = (filterStatusList) => {
 }
 
 export const isEqualArray = (array1, array2) => JSON.stringify(array1) === JSON.stringify(array2);
+
+export const getMaxDateRangeForDeliveryAction = () => moment().add(90, 'days');
+
+export const getMinDateRangeToViewDelivery = () => moment().add(-15, 'days');

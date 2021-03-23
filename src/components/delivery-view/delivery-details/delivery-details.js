@@ -10,7 +10,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import HistoryIcon from '@material-ui/icons/History';
 import paymentSucess from "../../../assets/icons/payment-success.svg";
 import paymentFailure from "../../../assets/icons/payment-failure.svg"
-import { isOpen, isDelayed, isOutForDelivery, isRefundDue, convertToUiFormatLongDate } from "../../../helpers/util";
+import { isOpen, isDelayed, isOutForDelivery, isRefundDue, convertToUiFormatLongDate, getMaxDateRangeForDeliveryAction } from "../../../helpers/util";
 import { BotigaCalendarWithButton } from "../../common/BotigaCalendar/BotigaCalendar";
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -317,6 +317,8 @@ function RenderFooterBtn({
                     btnVarient="default"
                     btnLabel="Mark as delay"
                     showBtnIcon={false}
+                    disablePast
+                    maxDate={getMaxDateRangeForDeliveryAction()}
                     onDateChange={_setOrderDelayed} />
                 <div className='delivery-details-spacer' />
                 <Button

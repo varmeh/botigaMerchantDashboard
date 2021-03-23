@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import { BotigaCalendarWithButton } from "../../common/BotigaCalendar/BotigaCalendar";
+import { getMinDateRangeToViewDelivery, getMaxDateRangeForDeliveryAction } from "../../../helpers/util";
 
 import "./search-bar.css";
 
@@ -81,7 +82,10 @@ export function SearchBarDelivery({
                     onDateChange={onDateChange}
                     btnClassName="delivery-date-selection-btn"
                     id="delivery-date"
-                    variant="inline" />
+                    variant="inline"
+                    minDate={getMinDateRangeToViewDelivery()}
+                    maxDate={getMaxDateRangeForDeliveryAction()}
+                />
             </div>
             <div className="screen-search-container">
                 <Button startIcon={<ArrowDownward />}>Download Excel</Button>
