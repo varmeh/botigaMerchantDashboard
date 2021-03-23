@@ -119,6 +119,7 @@ export function DeliveryScreen() {
         }
     }
 
+    // Used for order delayed operation
     async function setOrderDelayed(orderId, newDate) {
         try {
             setProcessingOrder(true);
@@ -170,7 +171,8 @@ export function DeliveryScreen() {
                             deliveries: deliveries.map(_eachDelivery => ({
                                 ..._eachDelivery,
                                 _id: _eachDelivery.id
-                            }))
+                            })),
+                            count: deliveries.length
                         }
                     }
                     return _delivery;
@@ -255,6 +257,7 @@ export function DeliveryScreen() {
         }
     }
 
+    //For batch upadtes
     async function batchDeliveriesUpdate(status) {
         try {
             showMainViewLoader();
