@@ -9,7 +9,7 @@ async function getAggregateDelivery(date) {
 }
 
 async function getDeliveryByApartment(aptId, date) {
-    return axios().get(`/api/seller/delivery/${aptId}/${convertToRequestFormatDate(date)}`)
+    return axios().get(`/api/seller/delivery/${aptId}/${convertToRequestFormatDate(date)}?limit=25&page=1`);
 }
 
 async function cancelDelivery(orderId) {
