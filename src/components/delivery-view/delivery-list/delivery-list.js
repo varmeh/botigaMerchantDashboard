@@ -8,7 +8,7 @@ import Radio from '@material-ui/core/Radio';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 
-function DeliveryListHeader({ deliveryFilterList, setFilterList }) {
+function DeliveryListHeader({ deliveryFilterList, setFilterList, deliveriesForSelectedCommunity = [] }) {
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = (event) => {
@@ -43,6 +43,29 @@ function DeliveryListHeader({ deliveryFilterList, setFilterList }) {
         return statusEl ? statusEl.displayText : '';
     };
 
+    const orderStausCount = deliveriesForSelectedCommunity.reduce((acc, _delivery) => {
+        const { order: { status } } = _delivery;
+        const tempAcc = { ...acc };
+        tempAcc['all'] = tempAcc['all'] + 1;
+
+        if (status === 'open' || status === 'delayed') {
+            tempAcc['only-open'] = tempAcc['only-open'] + 1;
+        } else if (status === 'out') {
+            tempAcc['out'] = tempAcc['out'] + 1;
+        } else if (status === 'delivered') {
+            tempAcc['delivered'] = tempAcc['delivered'] + 1;
+        } else if (status === 'cancelled') {
+            tempAcc['cancelled'] = tempAcc['cancelled'] + 1;
+        }
+        return tempAcc;
+    }, {
+        'all': 0,
+        'only-open': 0,
+        'out': 0,
+        'delivered': 0,
+        'cancelled': 0
+    });
+
     return (
         <div className="community-header-item">
             <div className="community-header-name">DELIVERIES</div>
@@ -65,7 +88,7 @@ function DeliveryListHeader({ deliveryFilterList, setFilterList }) {
                             <div className="delivery-filter-item">
                                 <div className="delivery-item-delivery-info">
                                     <span className={statusColor(_entry.status)} />
-                                    <span>{_entry.displayText}</span>
+                                    <span>{_entry.displayText}&nbsp;({orderStausCount[_entry.status]})</span>
                                 </div>
                                 <Radio
                                     checked={isfilterWithStatusChecked(_entry.status)}
@@ -167,7 +190,7 @@ function DeliveryItem({
 
 
 export default function DeliveryList({
-    deliveriesForSelectedCommunity,
+    deliveriesForSelectedCommunity = [],
     deliveryFilterList,
     setFilterList,
     setSelectedDeliveryId,
@@ -186,7 +209,8 @@ export default function DeliveryList({
         <div className="product-list-style">
             <DeliveryListHeader
                 deliveryFilterList={deliveryFilterList}
-                setFilterList={setFilterList} />
+                setFilterList={setFilterList}
+                deliveriesForSelectedCommunity={deliveriesForSelectedCommunity} />
             <div className="delivery-list-body">
                 {
                     AllDeliveriesForSelectedCommunity.length > 0 ? AllDeliveriesForSelectedCommunity.map(((_delivery, i) => (
