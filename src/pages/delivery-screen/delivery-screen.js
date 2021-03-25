@@ -21,6 +21,7 @@ export function DeliveryScreen() {
         setAggregateDelivery,
         showMainViewLoader,
         hideMainViewLoader,
+        brandName
     } = useContext(appContext);
 
     const [deliveryFilterList, setDeliveryFilterList] = useState(['all']);
@@ -293,6 +294,9 @@ export function DeliveryScreen() {
     return (
         <React.Fragment>
             <SearchBarDelivery
+                brandName={brandName}
+                aggregateDelivery={aggregateDelivery}
+                setError={setError}
                 selectedDeliverydate={selectedDeliverydate}
                 onDateChange={handleDateChange}
                 screenName={screenName}

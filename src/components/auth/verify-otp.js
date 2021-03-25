@@ -12,7 +12,7 @@ import { HOME_VIEW } from "../../helpers/BotigaRouteFile";
 import "./index.css";
 
 export const VerifyOtp = withRouter(({ history, location }) => {
-    const { setError } = useContext(appContext);
+    const { setError, setBrandName } = useContext(appContext);
     const { state: { phone = '' } = {} } = location;
     const [otp, setOtp] = useState('');
     const [sessionId, setSessionId] = useState('');
@@ -61,9 +61,10 @@ export const VerifyOtp = withRouter(({ history, location }) => {
             if (response.data['message'] === 'createSeller') {
                 setError(true, "Seller doesn't exists");
             } else {
-                const { headers: { authorization } } = response;
+                const { headers: { authorization }, data } = response;
                 const token = new Token();
                 await token.setAuthenticationToken(authorization);
+                setBrandName(data.brandName);
                 goToHomeView();
             }
         } catch (err) {

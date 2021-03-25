@@ -29,7 +29,8 @@ class MyApp extends React.Component {
       banners: [...Array(NUMBER_OF_BANNERS).keys()].map(_ => null),
       aggregateDelivery: [],
       selectedDeliverydate: null,
-      isMainViewLoading: false
+      isMainViewLoading: false,
+      brandName: '',
     };
   }
 
@@ -41,13 +42,18 @@ class MyApp extends React.Component {
     banners: [...Array(NUMBER_OF_BANNERS).keys()].map(_ => null),
     aggregateDelivery: [],
     selectedDeliverydate: null,
-    isMainViewLoading: false
+    isMainViewLoading: false,
+    brandName: '',
   })
 
+  _setBrandName = (name) => this.setState({ brandName: name })
 
   async componentDidMount() {
     try {
-      await fetchProfile();
+      const { data } = await fetchProfile();
+      if (data.brand) {
+        this._setBrandName(data.brand.name);
+      }
       this.props.history.replace(HOME_VIEW);
     } catch (err) {
       this._setError(true, err);
@@ -154,13 +160,14 @@ class MyApp extends React.Component {
 
   render() {
     const { location: { pathname = '' } } = this.props;
-    const { isError, error, products, coupons, banners, aggregateDelivery, selectedDeliverydate, isMainViewLoading } = this.state;
+    const { isError, error, products, coupons, banners, aggregateDelivery, selectedDeliverydate, isMainViewLoading, brandName } = this.state;
     const includeSideBar = !SIDE_NAVIGATION_HIDDEN_FOR_ROUTES.includes(pathname)
     return (
       <AppContext.Provider value={{
         products: products,
         coupons: coupons,
         banners: banners,
+        brandName: brandName,
         aggregateDelivery: aggregateDelivery,
         selectedDeliverydate: selectedDeliverydate,
         fetchCouponList: this._fetchCouponList.bind(this),
@@ -175,6 +182,7 @@ class MyApp extends React.Component {
         clearContext: this._clearContext,
         showMainViewLoader: this._showMainViewLoader,
         hideMainViewLoader: this._hideMainViewLoader,
+        setBrandName: this._setBrandName
       }}>
         <div className="app">
           {includeSideBar && <SideNav />}

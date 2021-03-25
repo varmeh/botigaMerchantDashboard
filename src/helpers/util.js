@@ -1,4 +1,4 @@
-import moment from 'moment'
+import moment from 'moment';
 import { uploadProductImage } from "../services/product-service";
 import { uploadBanner, updateBanners } from "../services/profile-service";
 

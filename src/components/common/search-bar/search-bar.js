@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import { BotigaCalendarWithButton } from "../../common/BotigaCalendar/BotigaCalendar";
 import { getMinDateRangeToViewDelivery, getMaxDateRangeForDeliveryAction } from "../../../helpers/util";
+import { generateDeliveryExcel } from "../../../helpers/generateDeliveryExcel";
 
 import "./search-bar.css";
 
@@ -68,9 +69,17 @@ export function SearchBarDelivery({
     searchValue,
     placeHolder = '',
     onDateChange,
-    selectedDeliverydate
+    selectedDeliverydate,
+    aggregateDelivery = [],
+    setError,
+    brandName
 }) {
     const classes = useStyles();
+
+    function _generateDeliveryExcel() {
+        generateDeliveryExcel(aggregateDelivery, setError, brandName, selectedDeliverydate)
+    }
+
     return (
         <div className="search-bar">
             <div className="screen-title-conatiner">
@@ -88,7 +97,7 @@ export function SearchBarDelivery({
                 />
             </div>
             <div className="screen-search-container">
-                <Button startIcon={<ArrowDownward />}>Download Excel</Button>
+                <Button onClick={_generateDeliveryExcel} startIcon={<ArrowDownward />}>Download Excel</Button>
                 <div className="spacer" />
                 <TextField
                     value={searchValue}
