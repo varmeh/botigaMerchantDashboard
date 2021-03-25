@@ -392,7 +392,7 @@ function RenderFooterBtn({
 					className='out-for-delivery-btn'
 					onClick={_setDeliveryStausForOrder('out')}
 					disableElevation>
-					Delivery Send
+					Mark Shipped
 				</Button>
 			</div>
 		)

@@ -89,7 +89,7 @@ function SelectAllOpenOrder({
 						onClick={() => batchDeliveriesUpdate('out')}
 						disabled={isActionBtnDisabled()}
 						disableElevation>
-						Delivery Send
+						Mark Shipped
 					</Button>
 				</div>
 			</div>

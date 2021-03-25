@@ -33,7 +33,7 @@ function DeliveryListHeader({
 	const avialbleStatus = [
 		{ status: 'all', displayText: 'All' },
 		{ status: 'only-open', displayText: 'Open' },
-		{ status: 'out', displayText: 'Delivery Send' },
+		{ status: 'out', displayText: 'Shipped' },
 		{ status: 'delivered', displayText: 'Delivered' },
 		{ status: 'cancelled', displayText: 'Cancelled' }
 	]
