@@ -98,7 +98,7 @@ export function statusMessage(status) {
   if (isOpen(status)) {
     return 'Order Placed';
   } else if (isOutForDelivery(status)) {
-    return 'Out for delivery';
+    return 'Delivery Send';
   } else if (isDelivered(status)) {
     return 'Delivered';
   } else if (isDelayed(status)) {
