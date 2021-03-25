@@ -378,7 +378,7 @@ function RenderFooterBtn({
 					variant='inline'
 					btnClassName='mark-as-delay-btn'
 					btnVarient='default'
-					btnLabel='Mark as delay'
+					btnLabel='Change Delivery Date'
 					showBtnIcon={false}
 					disablePast
 					maxDate={getMaxDateRangeForDeliveryAction()}
@@ -406,7 +406,7 @@ function RenderFooterBtn({
 					className='mark-as-deiverd-btn'
 					onClick={_setDeliveryStausForOrder('delivered')}
 					disableElevation>
-					Mark as delivered
+					Mark Delivered
 				</Button>
 			</div>
 		)
@@ -420,7 +420,7 @@ function RenderFooterBtn({
 					className='mark-as-refund-btn'
 					onClick={setRefundComplete}
 					disableElevation>
-					Mark as refunded
+					Mark Refunded
 				</Button>
 			</div>
 		)

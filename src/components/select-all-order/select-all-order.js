@@ -171,7 +171,7 @@ function SelectAllOuForDelivery({
 						onClick={() => batchDeliveriesUpdate('delivered')}
 						disabled={isActionBtnDisabled()}
 						disableElevation>
-						Mark delivered
+						Mark Delivered
 					</Button>
 				</div>
 			</div>
