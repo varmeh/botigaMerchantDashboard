@@ -41,6 +41,7 @@ const generateSheetForApartment = ({ workbook, apartmentData }) => {
     worksheet.columns = [
         { header: 'Name', key: 'name' },
         { header: 'House', key: 'house' },
+        { header: 'Phone', key: 'phone' },
         { header: 'Order Number', key: 'orderNumber' },
         { header: 'Amount', key: 'amount' },
         { header: 'Order Status', key: 'orderedStatus' },
@@ -59,7 +60,7 @@ const generateSheetForApartment = ({ workbook, apartmentData }) => {
 
     deliveries.forEach(delivery => {
         const {
-            buyer: { name, house = '' },
+            buyer: { name, house = '', phone },
             createdAt,
             order: { status, totalAmount, products = [], number },
             payment,
@@ -72,6 +73,7 @@ const generateSheetForApartment = ({ workbook, apartmentData }) => {
                 worksheet.addRow({
                     name,
                     house,
+                    phone,
                     orderNumber: number,
                     products: productName,
                     unit: unitInfo,
