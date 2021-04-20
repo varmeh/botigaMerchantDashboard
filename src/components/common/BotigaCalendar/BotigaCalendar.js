@@ -8,7 +8,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { convertToCalendarFormatDate } from "../../../helpers/util";
+import { convertToCalendarFormatDate,convertToCalendarFormatDateForDisplay } from "../../../helpers/util";
 
 import "./index.css";
 
@@ -75,7 +75,7 @@ export function BotigaCalendarWithButton(props) {
             : selectedDate != null
                 ? convertToCalendarFormatDate(selectedDate) === convertToCalendarFormatDate(new Date())
                     ? 'TODAY'
-                    : convertToCalendarFormatDate(selectedDate)
+                    : convertToCalendarFormatDateForDisplay(selectedDate)
                 : 'TODAY';
     }
 

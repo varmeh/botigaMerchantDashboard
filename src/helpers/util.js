@@ -22,8 +22,13 @@ export function convertToRequestFormatDate(date) {
 }
 
 export function convertToCalendarFormatDate(date) {
-	//Formats date as  03/20/2021
-	return moment(date).format('L')
+	//Formats date as  APRIL 14, 2021
+	return moment(date).format('LL')
+}
+
+export function convertToCalendarFormatDateForDisplay(date) {
+	//Formats date as  APRIL 21
+	return moment(date).format('MMMM DD')
 }
 
 export function convertToUiFormatLongDate(date) {

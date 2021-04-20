@@ -329,8 +329,9 @@ function DeliveryFeesAndDiscount({ selectedDelivery }) {
 
 function DeliveryTotal({ selectedDelivery }) {
 	const {
-		order: { totalAmount }
-	} = selectedDelivery
+		order: { totalAmount },
+		payment:{transferredAmount=0}
+	} = selectedDelivery;
 	return (
 		<React.Fragment>
 			<div className='delivery-summary-row-divider' />
@@ -342,6 +343,20 @@ function DeliveryTotal({ selectedDelivery }) {
 					₹{totalAmount}
 				</div>
 			</div>
+			{transferredAmount!==0 && (
+			<React.Fragment>
+				<div className="delivery-summary-row-divider-dashed"/>
+					<div className='delivery-details-row'>
+						<div className='delivery-info-black left-align-item'>
+							Your Settlement
+						</div>
+						<div className='delivery-info-primary delivery-info-bold left-align-item'>
+							₹{transferredAmount}
+						</div>
+					</div>
+				<div className="delivery-summary-row-divider-dashed"/>
+			</React.Fragment>
+			)}
 		</React.Fragment>
 	)
 }
