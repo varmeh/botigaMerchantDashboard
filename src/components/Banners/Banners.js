@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import appContext from "../../contexts/AppContext";
+import appContext from '../../contexts/AppContext'
 import { UploadBannerComponent } from './UploadBanner'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { Image } from '../../components/common/Image/Image'
@@ -8,7 +8,6 @@ import { deleteProductImage } from '../../services/common-service'
 import { updateBanners } from '../../services/profile-service'
 
 import './index.css'
-
 
 function BannersHeader() {
 	return (
@@ -56,22 +55,26 @@ function UploadBanner({
 					<CloseIcon className='banner-preview-close' onClick={deleteBanner} />
 				</div>
 			) : (
-					<UploadBannerComponent
-						setError={setError}
-						setIsLoading={setIsLoading}
-						setBannerAtIndex={setBannerAtIndex}
-						banners={banners}
-						index={index}
-					/>
-				)}
+				<UploadBannerComponent
+					setError={setError}
+					setIsLoading={setIsLoading}
+					setBannerAtIndex={setBannerAtIndex}
+					banners={banners}
+					index={index}
+				/>
+			)}
 		</div>
 	)
 }
 
-
 export function Banners() {
-	const [isLoading, setIsLoading] = useState(false);
-	const { banners, fetchBannerList, updateLocalBannersList, setError } = useContext(appContext);
+	const [isLoading, setIsLoading] = useState(false)
+	const {
+		banners,
+		fetchBannerList,
+		updateLocalBannersList,
+		setError
+	} = useContext(appContext)
 
 	useEffect(() => {
 		initBannerList()
@@ -80,32 +83,32 @@ export function Banners() {
 	async function initBannerList() {
 		try {
 			if (banners.filter(banner => banner).length === 0) {
-				await fetchBannerList();
+				await fetchBannerList()
 			}
 		} catch (err) {
-			setError(true, err);
+			setError(true, err)
 		}
 	}
 
 	function setBannerAtIndex(banner, index) {
 		const bannerList = [...banners]
-		bannerList[index] = banner;
-		updateLocalBannersList(bannerList);
+		bannerList[index] = banner
+		updateLocalBannersList(bannerList)
 	}
 
 	function removeBannerAtIndex(index) {
 		const bannerList = [...banners]
 		bannerList[index] = null
-		updateLocalBannersList(bannerList);
+		updateLocalBannersList(bannerList)
 	}
 
 	function _setIsLoading(value) {
-		setIsLoading(value);
+		setIsLoading(value)
 	}
 
 	const containerClass = isLoading
 		? 'banner-list-style disable-container'
-		: 'banner-list-style';
+		: 'banner-list-style'
 
 	return (
 		<div className={containerClass}>
@@ -128,7 +131,7 @@ export function Banners() {
 						</div>
 						<div className='block_section'>
 							<div className='primary'>size</div>
-							<div className='secondary'>1 MB Max.</div>
+							<div className='secondary'>Approx. 100KB</div>
 						</div>
 					</div>
 				</div>
@@ -146,5 +149,5 @@ export function Banners() {
 				))}
 			</div>
 		</div>
-	);
+	)
 }

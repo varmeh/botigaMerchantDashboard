@@ -60,7 +60,7 @@ export function AddNewProduct({
 		price: product.price || '',
 		quantity: quantity || '',
 		unit: unit || '',
-		description: (product.description || '').replace(/(\r\n|\n|\r)/gm, "")
+		description: (product.description || '').replace(/(\r\n|\n|\r)/gm, '')
 	}
 
 	useEffect(() => {
@@ -223,7 +223,7 @@ export function AddNewProduct({
 								</TextField>
 							</div>
 							<div className='product-details-row'>
-								{mainImage ?
+								{mainImage ? (
 									mainImage.imageUrl ? (
 										<PreviewMainImage
 											mainImage={mainImage}
@@ -238,13 +238,13 @@ export function AddNewProduct({
 											setError={setError}
 										/>
 									)
-									: (
-										<MainImageUploadComponent
-											setMainImage={setMainImage}
-											setIsLoading={setIsLoading}
-											setError={setError}
-										/>
-									)}
+								) : (
+									<MainImageUploadComponent
+										setMainImage={setMainImage}
+										setIsLoading={setIsLoading}
+										setError={setError}
+									/>
+								)}
 								<div className='product-details-spacer' />
 								<div className='secondary-container'>
 									{otherImages.length > 0 ? (
@@ -301,7 +301,7 @@ export function AddNewProduct({
 									</div>
 									<div className='block_section'>
 										<div className='primary'>size</div>
-										<div className='secondary'>1 MB Max.</div>
+										<div className='secondary'>Approx. 100KB</div>
 									</div>
 								</div>
 							</div>
