@@ -120,7 +120,7 @@ export function statusMessage(status) {
 	} else if (isDelivered(status)) {
 		return 'Delivered'
 	} else if (isDelayed(status)) {
-		return 'Delayed'
+		return 'Delivery Date Changed'
 	} else if (isCancelled(status)) {
 		return 'Cancelled'
 	} else {
