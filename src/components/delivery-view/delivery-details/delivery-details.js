@@ -330,7 +330,7 @@ function DeliveryFeesAndDiscount({ selectedDelivery }) {
 function DeliveryTotal({ selectedDelivery }) {
 	const {
 		order: { totalAmount },
-		payment:{transferredAmount=0}
+		payment:{transferredAmount=0, transferId='Not Available'}
 	} = selectedDelivery;
 	return (
 		<React.Fragment>
@@ -355,6 +355,15 @@ function DeliveryTotal({ selectedDelivery }) {
 						</div>
 					</div>
 				<div className="delivery-summary-row-divider-dashed"/>
+					<div className='delivery-details-row'>
+						<div className='delivery-info-black left-align-item'>
+							Razorpay Reconciliation Id
+						</div>
+						<div className='delivery-info-black left-align-item'>
+							{transferId}
+						</div>
+					</div>
+				<div className='delivery-summary-row-divider' />
 			</React.Fragment>
 			)}
 		</React.Fragment>
