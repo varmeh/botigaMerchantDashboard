@@ -92,8 +92,8 @@ export function SearchBarDelivery({
                     btnClassName="delivery-date-selection-btn"
                     id="delivery-date"
                     variant="inline"
-                    minDate={getMinDateRangeToViewDelivery()}
-                    maxDate={getMaxDateRangeForDeliveryAction()}
+                    minDate={getMinDateRangeToViewDelivery(-45)}
+                    maxDate={getMaxDateRangeForDeliveryAction(7)}
                 />
             </div>
             <div className="screen-search-container">

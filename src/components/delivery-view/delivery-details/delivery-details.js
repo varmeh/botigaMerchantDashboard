@@ -405,7 +405,7 @@ function RenderFooterBtn({
 					btnLabel='Change Delivery Date'
 					showBtnIcon={false}
 					disablePast
-					maxDate={getMaxDateRangeForDeliveryAction()}
+					maxDate={getMaxDateRangeForDeliveryAction(2)}
 					onDateChange={_setOrderDelayed}
 				/>
 				<div className='delivery-details-spacer' />
