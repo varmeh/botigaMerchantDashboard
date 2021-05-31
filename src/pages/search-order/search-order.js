@@ -205,7 +205,7 @@ export function SearchOrder() {
         handleChange={setSearch}
         searchValue={searchText}
         onEnter={fetchOrders}
-        placeHolder={"Enter order no or phone no"}
+        placeHolder={"Order or Customer Phone Number"}
       />
       <BotigaPageView>
         {orderList.length === 0 ? (
