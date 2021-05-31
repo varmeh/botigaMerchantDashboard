@@ -1,0 +1,238 @@
+.delivery-details-style {
+  width: 850px;
+  height: 827px;
+  position: relative;
+}
+.delivery-details-header-item {
+  padding: 20px 25px 20px 25px;
+  height: 66px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #dcdcdc;
+}
+.delivery-details-header-name {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 150%;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #000000;
+}
+.delivery-details-header-btn.MuiButton-text {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  text-transform: capitalize;
+  color: #e21e1e;
+}
+.delivery-details-body {
+  display: flex;
+  flex-direction: column;
+  padding: 25px 0px 25px 0px;
+  height: 689px;
+  overflow-y: auto;
+}
+.delivery-overview {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+}
+.delivery-details-row {
+  padding-top: 14px;
+  padding-bottom: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 25px;
+  padding-right: 25px;
+}
+.delivery-details-row .buyer-name {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 27px;
+  color: #121714;
+}
+
+.delivery-details-row .delivery-info {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: rgba(18, 23, 21, 0.5);
+  word-break: break-word;
+}
+.delivery-details-row .delivery-info-black {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: rgba(18, 23, 21);
+  word-break: break-word;
+}
+.delivery-details-row .delivery-info-primary {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: #179f57;
+  word-break: break-word;
+}
+.delivery-details-row .delivery-info-row {
+  margin-top: 4px;
+}
+.delivery-details-row .delivery-info-bold {
+  font-weight: 600;
+}
+
+.delivery-query-info-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 10px;
+  align-self: flex-start;
+}
+.contact-tooltip {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 22px;
+  color: #ffffff;
+  box-shadow: 0px 8px 28px rgba(18, 23, 21, 0.3);
+  border-radius: 8px;
+}
+.delivery-query-info-box .delivery-contact-info {
+  background: rgba(18, 23, 21, 0.05);
+  border-radius: 6.85714px;
+  padding: 6px;
+  justify-content: center;
+}
+
+.delivery-summary-full-divider {
+  border-top: 1px solid #f4f4f4;
+}
+.delivery-summary-row-divider {
+  margin-left: 25px;
+  margin-right: 25px;
+  border-bottom: 1px solid #f4f4f4;
+}
+
+.delivery-summary-shade-row {
+  background: #f9f9f9;
+}
+
+.delivery-payment-status {
+  display: flex;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: #121714;
+  align-items: center;
+}
+
+.delivery-payment-status .status-text {
+  margin-left: 8px;
+}
+
+.delivery-refund-status {
+  display: flex;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: #121714;
+  align-items: center;
+}
+.delivery-refund-status .status-text {
+  margin-left: 8px;
+}
+.refund-msg {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: rgba(18, 23, 21, 0.5);
+  word-break: break-word;
+}
+.delivery-details-row .refund-section-btn {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 22px;
+  text-transform: capitalize;
+}
+
+.delivery-summary-row-divider-dashed {
+  border-top: 1px dashed rgba(18, 23, 21, 0.25);
+  margin-left: 25px;
+  margin-right: 25px;
+}
+
+.delivery-details-row-action {
+  border-top: 1px solid #dcdcdc;
+  padding: 18px 25px 18px 25px;
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  background-color: white;
+}
+
+.delivery-details-row-action .mark-as-delay-btn {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 22px;
+  text-transform: none;
+}
+.delivery-details-row-action .out-for-delivery-btn {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 22px;
+  text-transform: none;
+}
+.delivery-details-row-action .mark-as-deiverd-btn {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 22px;
+  text-transform: none;
+}
+.delivery-details-row-action .mark-as-refund-btn {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 22px;
+  text-transform: none;
+}
+
+.delivery-details-row-action-btns {
+  display: flex;
+}
+.delivery-details-spacer {
+  width: 22px;
+}

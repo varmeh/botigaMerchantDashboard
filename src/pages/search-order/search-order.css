@@ -1,0 +1,30 @@
+.no-order-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+.no-order {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.no-order .primaryInfo {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  color: #121715;
+  margin-bottom: 12px;
+}
+
+.no-order .secondaryInfo {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  color: #121715;
+  opacity: 0.6;
+}

@@ -1,0 +1,101 @@
+.delivery-list-style {
+  position: relative;
+  width: 320px;
+  border-left: 1px solid #dcdcdc;
+  border-right: 1px solid #dcdcdc;
+  height: 827px;
+  display: flex;
+  flex-direction: column;
+}
+.delivery-list-body {
+  overflow-y: auto;
+}
+
+.order-header-item {
+  padding: 20px 25px 20px 25px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 65px;
+}
+.order-header-name {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 150%;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #000000;
+}
+
+.paid-stamp-conatiner {
+  padding-left: 3px;
+  padding-right: 3px;
+}
+.paid-stamp {
+  height: 40px;
+  width: 52.07px;
+}
+
+.delivery-item {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid #dcdcdc;
+  cursor: pointer;
+}
+.delivery-item-row-container {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  justify-content: space-between;
+}
+
+.delivery-item-row {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  word-break: break-word;
+}
+
+.delivery-item-order-info {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.5px;
+  color: #121714;
+}
+.delivery-item-delivery-info {
+  margin-top: 4px;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: rgba(18, 23, 21, 0.5);
+}
+.delivery-item-delivery-info-order-status {
+  margin-top: 8px;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: rgba(18, 23, 21, 0.5);
+}
+
+.total-amount {
+  font-family: Montserrat;
+  text-align: center;
+  width: 58.07px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: #121714;
+  margin-bottom: 9px;
+}
