@@ -480,7 +480,7 @@ export default function OrderDetails({
 }) {
   if (!selectedOrder) {
     return (
-      <div className="delivery-details-style">
+      <div className="order-details-style">
         <div className="delivery-details-header-item">
           <div className="delivery-details-header-name">ORDER DETAILS</div>
         </div>
@@ -494,8 +494,8 @@ export default function OrderDetails({
     <div
       className={
         isProcessingOrder
-          ? "disable-container delivery-details-style"
-          : "delivery-details-style"
+          ? "disable-container order-details-style"
+          : "order-details-style"
       }
     >
       {isProcessingOrder && (
