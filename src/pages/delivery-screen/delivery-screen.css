@@ -1,0 +1,49 @@
+.delivery-breakup {
+  width: 700px;
+  padding: 40px;
+}
+.delivery-breakup .delivery-breakup-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 35px;
+}
+.delivery-breakup .delivery-breakup-title {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  color: #000000;
+}
+.delivery-breakup table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+.delivery-breakup th {
+  text-align: left;
+  padding: 12px;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: #121714;
+  opacity: 0.3;
+  text-transform: uppercase;
+  border-bottom: 2px solid #f4f4f4;
+}
+.delivery-breakup td {
+  text-align: left;
+  padding: 12px;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  color: #121714;
+  word-break: break-all;
+}
+
+.delivery-breakup tr:nth-child(odd):not(:first-child) {
+  background-color: #f2f2f2;
+  border-radius: 8px !important;
+}

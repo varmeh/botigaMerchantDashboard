@@ -1,160 +1,167 @@
-*{
-    box-sizing: border-box;
+* {
+  box-sizing: border-box;
 }
 
-body{
-    background: #E5E5E5;
+body {
+  background: #e5e5e5;
 }
 
-.main-logo-conatiner{
-    display: flex;
-    justify-content: center;
+.main-logo-conatiner {
+  display: flex;
+  justify-content: center;
 }
-.main-logo-conatiner .main-logo{
-    width: 148.06px;
-    height: 40px;
-}
-
-.item_selected{
-    background-color: whitesmoke !important;
+.main-logo-conatiner .main-logo {
+  width: 148.06px;
+  height: 40px;
 }
 
-.MuiButton-containedPrimary{
-    background-color: #179F57 !important;
+.item_selected {
+  background-color: whitesmoke !important;
 }
 
-.MuiButton-containedSecondary{
-    background-color: #da3030 !important;
+.MuiButton-containedPrimary {
+  background-color: #179f57 !important;
 }
 
-.MuiSwitch-colorPrimary.Mui-checked{
-    color: #179F57 !important;
+.MuiButton-containedSecondary {
+  background-color: #da3030 !important;
+}
+
+.MuiSwitch-colorPrimary.Mui-checked {
+  color: #179f57 !important;
 }
 .MuiSwitch-colorPrimary.Mui-checked + .MuiSwitch-track {
-    background-color: #179F57 !important;
+  background-color: #179f57 !important;
 }
 .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track {
-    opacity: 0.5 !important;
+  opacity: 0.5 !important;
 }
 
-
-.MuiAppBar-colorPrimary{
-    background-color: #179F57 !important;
+.MuiAppBar-colorPrimary {
+  background-color: #179f57 !important;
 }
 
-.MuiCircularProgress-root{
-    color: #179F57 !important;
+.MuiCircularProgress-root {
+  color: #179f57 !important;
 }
 
-.disable-container{
-    pointer-events: none !important;
+.disable-container {
+  pointer-events: none !important;
 }
-.view-loader{
-    z-index: 1000;
-    position: absolute;
-    top: 50%;
-    right: 50%;
-}
-
-
-.no-slection{
-    height: 300px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: Montserrat;
-    word-break: break-word;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 22px;
-    color: #000000;
-    padding: 20px;
-    text-align: center;
-    opacity: 0.5;
+.view-loader {
+  z-index: 1000;
+  position: absolute;
+  top: 50%;
+  right: 50%;
 }
 
-.no-slection-border-top{
-    border-top: 1px solid #DCDCDC;
+.no-slection {
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Montserrat;
+  word-break: break-word;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 22px;
+  color: #000000;
+  padding: 20px;
+  text-align: center;
+  opacity: 0.5;
 }
 
- div.main-upload-image:focus,div.upload-image:focus,div.secondary-small-upload-image:focus,div.banner-upload-image:focus{
-    outline-color: #179F57;
+.no-slection-border-top {
+  border-top: 1px solid #dcdcdc;
 }
 
-.equal{
-    display: flex;
-    flex: 1;
-}
-.uppercase{
-    text-transform: uppercase;
-}
-
-
-.delivered{
-    display: inline-block;
-    height: 8px;
-    width: 8px;
-    border-radius: 50%;
-    margin-right: 4px;
-    background-color: #179f57;
-}
-.open,.all,.default{
-    display: inline-block;
-    height: 8px;
-    width: 8px;
-    border-radius: 50%;
-    margin-right: 4px;
-    background-color:#787371
-}
-.delayed,.only-open{
-    display: inline-block;
-    height: 8px;
-    width: 8px;
-    border-radius: 50%;
-    margin-right: 4px;
-    background-color: #e9a136;
-}
-.out-for-delivery{
-    display: inline-block;
-    height: 8px;
-    width: 8px;
-    border-radius: 50%;
-    margin-right: 4px;
-    background-color: #36b9e9;
-}
-.canelled{
-    display: inline-block;
-    height: 8px;
-    width: 8px;
-    border-radius: 50%;
-    margin-right: 4px;
-    background-color: #e95636;
+div.main-upload-image:focus,
+div.upload-image:focus,
+div.secondary-small-upload-image:focus,
+div.banner-upload-image:focus {
+  outline-color: #179f57;
 }
 
-.MuiCheckbox-colorPrimary.Mui-checked{
-    color: #179F57 !important;
+.equal {
+  display: flex;
+  flex: 1;
 }
-.MuiCheckbox-colorPrimary.Mui-disabled{
-    color: #DCDCDC !important;
+.uppercase {
+  text-transform: uppercase;
 }
-.MuiCheckbox-colorPrimary.Mui-disabled .MuiIconButton-label{
-    border-radius: 5px;
-    background-color: #DCDCDC !important;
+
+.delivered {
+  display: inline-block;
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  margin-right: 4px;
+  background-color: #179f57;
+}
+.open,
+.all,
+.default {
+  display: inline-block;
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  margin-right: 4px;
+  background-color: #787371;
+}
+.delayed,
+.only-open {
+  display: inline-block;
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  margin-right: 4px;
+  background-color: #e9a136;
+}
+.out-for-delivery {
+  display: inline-block;
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  margin-right: 4px;
+  background-color: #36b9e9;
+}
+.canelled {
+  display: inline-block;
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  margin-right: 4px;
+  background-color: #e95636;
+}
+
+.MuiCheckbox-colorPrimary.Mui-checked {
+  color: #179f57 !important;
+}
+.MuiCheckbox-colorPrimary.Mui-disabled {
+  color: #dcdcdc !important;
+}
+.MuiCheckbox-colorPrimary.Mui-disabled .MuiIconButton-label {
+  border-radius: 5px;
+  background-color: #dcdcdc !important;
 }
 .MuiBadge-colorPrimary {
-    color: #fff;
-    background-color: #179F57 !important;
+  color: #fff;
+  background-color: #179f57 !important;
 }
 
-.left-align-item{
-    text-align: left;
+.left-align-item {
+  text-align: left;
 }
 
-.right-align-item{
-    text-align: right;
+.right-align-item {
+  text-align: right;
 }
 
-.MuiRadio-colorSecondary.Mui-checked{
-    color: #179F57 !important;
+.center-align-item {
+  text-align: center !important;
+}
+
+.MuiRadio-colorSecondary.Mui-checked {
+  color: #179f57 !important;
 }

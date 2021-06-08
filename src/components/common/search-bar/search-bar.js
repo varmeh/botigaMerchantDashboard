@@ -6,13 +6,15 @@ import Search from "@material-ui/icons/Search";
 import Close from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
-import ArrowDownward from "@material-ui/icons/ArrowDownward";
+import ListAltIcon from "@material-ui/icons/ListAlt";
 import { BotigaCalendarWithButton } from "../../common/BotigaCalendar/BotigaCalendar";
 import {
   getMinDateRangeToViewDelivery,
   getMaxDateRangeForDeliveryAction,
 } from "../../../helpers/util";
 import { generateDeliveryExcel } from "../../../helpers/generateDeliveryExcel";
+import Icon from "@material-ui/core/Icon";
+import msExcelIcon from "../../../assets/icons/microsoft-excel.svg";
 
 import "./search-bar.css";
 
@@ -85,6 +87,7 @@ export function SearchBarDelivery({
   onDateChange,
   selectedDeliverydate,
   aggregateDelivery = [],
+  toggleDrawer,
   setError,
   brandName,
 }) {
@@ -98,6 +101,12 @@ export function SearchBarDelivery({
       selectedDeliverydate
     );
   }
+
+  const excelSvgIcon = (
+    <Icon>
+      <img className="ms-excelIcon" alt="excel-download" src={msExcelIcon} />
+    </Icon>
+  );
 
   return (
     <div className="search-bar">
@@ -116,7 +125,19 @@ export function SearchBarDelivery({
         />
       </div>
       <div className="screen-search-container">
-        <Button onClick={_generateDeliveryExcel} startIcon={<ArrowDownward />}>
+        <Button
+          className="sec-action"
+          onClick={() => toggleDrawer(true)}
+          startIcon={<ListAltIcon />}
+        >
+          Product Breakup
+        </Button>
+        <div className="spacer" />
+        <Button
+          className="sec-action"
+          onClick={_generateDeliveryExcel}
+          startIcon={excelSvgIcon}
+        >
           Download Excel
         </Button>
         <div className="spacer" />

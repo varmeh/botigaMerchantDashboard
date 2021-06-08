@@ -73,6 +73,22 @@ const getWorkSheet = ({ workbook, worksheetName, isAggregateTab = false }) => {
   return worksheet;
 };
 
+const getEmptyRowValue = ({ isAggregateTab = false }) => ({
+  ...(isAggregateTab ? { apartmentName: "" } : {}),
+  name: "",
+  house: "",
+  phone: "",
+  orderNumber: "",
+  products: "",
+  unit: "",
+  quantity: "",
+  orderedStatus: "",
+  amount: "",
+  paymentStatus: "",
+  refundStatus: "",
+  orderDate: "",
+});
+
 const generateDeliveryRow = ({
   isAggregateTab = false,
   apartmentName = "",
@@ -115,7 +131,7 @@ const generateDeliveryRow = ({
       }
     });
     if (index !== deliveries.length - 1) {
-      worksheet.addRow({});
+      worksheet.addRow(getEmptyRowValue({ isAggregateTab }));
     }
   });
 };
@@ -148,7 +164,7 @@ const generateAggregateExcelTab = ({ workbook, deliveryData }) => {
   deliveryData.forEach((_aptData, index) => {
     const { apartment: { apartmentName } = {}, deliveries = [] } = _aptData;
     if (index !== 0) {
-      worksheet.addRow({});
+      worksheet.addRow(getEmptyRowValue({ isAggregateTab: true }));
     }
 
     generateDeliveryRow({
@@ -159,13 +175,8 @@ const generateAggregateExcelTab = ({ workbook, deliveryData }) => {
     });
 
     if (index !== deliveryData.length - 1) {
-      worksheet.addRow({});
-      worksheet.addRow({}).fill = {
-        type: "pattern",
-        pattern: "solid",
-        fgColor: { argb: "D3D3D3" },
-      };
-      worksheet.addRow({}).fill = {
+      worksheet.addRow(getEmptyRowValue({ isAggregateTab: true }));
+      worksheet.addRow(getEmptyRowValue({ isAggregateTab: true })).fill = {
         type: "pattern",
         pattern: "solid",
         fgColor: { argb: "D3D3D3" },
@@ -175,7 +186,7 @@ const generateAggregateExcelTab = ({ workbook, deliveryData }) => {
   formatDeliveryWorksheet({ worksheet, isAggregateTab: true });
 };
 
-const generateProductBreakUpExcel = ({ workbook, deliveryData }) => {
+export const getProductBreakupRows = ({ deliveryData = [] }) => {
   const prodcutBreakUpMap = {};
   deliveryData.forEach((_data) => {
     const { deliveries } = _data;
@@ -202,6 +213,14 @@ const generateProductBreakUpExcel = ({ workbook, deliveryData }) => {
   });
 
   const rows = Object.values(prodcutBreakUpMap);
+  rows.sort(function (a, b) {
+    return b.quantity - a.quantity;
+  });
+  return rows;
+};
+
+const generateProductBreakUpExcel = ({ workbook, deliveryData }) => {
+  const rows = getProductBreakupRows({ deliveryData });
   if (rows.length > 0) {
     const worksheet = workbook.addWorksheet("Product Breakup");
     worksheet.columns = [

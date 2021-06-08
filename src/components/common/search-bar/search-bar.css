@@ -1,40 +1,53 @@
-.search-bar{
-    width: 1170px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 40px auto 20px auto;
+.search-bar {
+  width: 1170px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 40px auto 20px auto;
 }
 
-.search-bar .screen-title{
-    font-family: Montserrat;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 28px;
-    line-height: 150%;    
-    color: #000000;
+.search-bar .screen-title {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 150%;
+  color: #000000;
 }
 
-
-
-.search-bar .screen-title-conatiner{
-    display: flex;
+.search-bar .screen-title-conatiner {
+  display: flex;
 }
 
-.search-bar .screen-search-container{
-    display: flex;
-    justify-content: flex-end;
+.search-bar .screen-search-container {
+  display: flex;
+  justify-content: flex-end;
 }
-.search-bar .spacer{
-    width: 20px;
+.search-bar .spacer {
+  width: 20px;
+}
+.search-bar .ms-excelIcon {
+  position: relative;
+
+  bottom: 4px;
+}
+.search-bar .sec-action.MuiButton-root {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  background-color: #ffffff;
+  text-transform: capitalize;
+  padding-left: 12px;
+  padding-right: 12px;
 }
 .delivery-date-selection-btn.MuiButton-text {
-    font-family: Montserrat;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 150%;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    color: #179F57;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 150%;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #179f57;
 }
