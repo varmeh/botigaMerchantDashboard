@@ -7,140 +7,174 @@ import SearchBar from "../../components/common/search-bar/search-bar";
 import BotigaPageView from "../../components/common/BotigaPageView/BotigaPageView";
 
 function getCategoryList(products) {
-    return products.map(category => ({
-        visible: category.visible,
-        categoryId: category.categoryId,
-        name: category.name,
-        count: category.products.length,
-        displaytext: category.products.length > 1 ? `${category.products.length} items` : `${category.products.length} item`
-    }));
+  return products.map((category) => ({
+    visible: category.visible,
+    categoryId: category.categoryId,
+    name: category.name,
+    count: category.products.length,
+    displaytext:
+      category.products.length > 1
+        ? `${category.products.length} items`
+        : `${category.products.length} item`,
+  }));
 }
 
 function getProductList(products, selectedCategoryId) {
-    const selectedProduct = products.find(product => product.categoryId === selectedCategoryId);
-    if (selectedProduct) {
-        return selectedProduct.products;
-    } else {
-        return [];
-    }
-
+  const selectedProduct = products.find(
+    (product) => product.categoryId === selectedCategoryId
+  );
+  if (selectedProduct) {
+    return selectedProduct.products;
+  } else {
+    return [];
+  }
 }
 
 function getSelectedProduct(products, selectedCategoryId, selectedProductId) {
-    const productList = getProductList(products, selectedCategoryId);
-    const product = productList.find(p => p.id === selectedProductId);
-    return product;
+  const productList = getProductList(products, selectedCategoryId);
+  const product = productList.find((p) => p.id === selectedProductId);
+  return product;
 }
 
 export function StoreScreen() {
-    const screenName = 'Store';
-    const { fetchProductList, products, setError, updateCategoryVisiblityInProductList } = useContext(appContext);
-    const [selectedCategoryId, setSelectedCategoryId] = useState(null);
-    const [selectedProductId, setSelectedProductId] = useState(null);
-    const [isAddProduct, setIsAddProduct] = useState(false);
-    const [searchText, setSearchText] = useState('');
+  const screenName = "Store";
+  const {
+    fetchProductList,
+    products,
+    setError,
+    updateCategoryVisiblityInProductList,
+    showMainViewLoader,
+    hideMainViewLoader,
+  } = useContext(appContext);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+  const [selectedProductId, setSelectedProductId] = useState(null);
+  const [isAddProduct, setIsAddProduct] = useState(false);
+  const [searchText, setSearchText] = useState("");
 
-    useEffect(() => {
-        initProductList();
-    }, []);
+  useEffect(() => {
+    initProductList();
+  }, []);
 
-    function selectedCategory(categoryId) {
-        setSelectedCategoryId(categoryId);
-        setSelectedProductId(null);
-        setIsAddProduct(false);
+  function selectedCategory(categoryId) {
+    setSelectedCategoryId(categoryId);
+    setSelectedProductId(null);
+    setIsAddProduct(false);
+  }
+
+  function selectProduct(productId) {
+    setIsAddProduct(false);
+    setSelectedProductId(productId);
+  }
+
+  function showProductAddForm() {
+    setSelectedProductId(null);
+    setIsAddProduct(true);
+  }
+
+  function hideShowAddProductForm() {
+    setSelectedProductId(null);
+    setIsAddProduct(false);
+  }
+
+  function setInitialCategorySelection(productList) {
+    if (productList.length > 0) {
+      const firstProductElement = productList[0];
+      if (firstProductElement) {
+        setSelectedCategoryId(firstProductElement.categoryId);
+      }
     }
+  }
 
-    function selectProduct(productId) {
-        setIsAddProduct(false);
-        setSelectedProductId(productId);
+  async function initProductList() {
+    try {
+      if (products.length > 0) {
+        setInitialCategorySelection(products);
+      } else {
+        const productList = await fetchProductList();
+        setInitialCategorySelection(productList);
+      }
+    } catch (err) {
+      setError(true, err);
     }
+  }
 
-    function showProductAddForm() {
-        setSelectedProductId(null);
-        setIsAddProduct(true);
+  async function updateScreen(requiresInitialSelection) {
+    try {
+      const productList = await fetchProductList();
+      hideShowAddProductForm();
+      if (
+        typeof requiresInitialSelection === "boolean" &&
+        requiresInitialSelection
+      ) {
+        setInitialCategorySelection(productList);
+      }
+    } catch (err) {
+      setError(true, err);
     }
+  }
 
-    function hideShowAddProductForm() {
-        setSelectedProductId(null);
-        setIsAddProduct(false);
-    }
+  function clearSearch() {
+    setSearchText("");
+  }
 
-    function setInitialCategorySelection(productList) {
-        if (productList.length > 0) {
-            const firstProductElement = productList[0];
-            if (firstProductElement) {
-                setSelectedCategoryId(firstProductElement.categoryId);
-            }
-        }
-    }
+  function setSearch(event) {
+    const { value } = event.target;
+    setSearchText(value);
+  }
 
-    async function initProductList() {
-        try {
-            if (products.length > 0) {
-                setInitialCategorySelection(products);
-            } else {
-                const productList = await fetchProductList();
-                setInitialCategorySelection(productList);
-            }
-        } catch (err) {
-            setError(true, err);
-        }
-    }
+  const isAddProductBtnDisabled = getCategoryList(products).length === 0;
+  const filterdCategories = getCategoryList(products).filter((category) =>
+    category.name.toLowerCase().includes(searchText.toLowerCase())
+  );
+  const filterProducts = getProductList(products, selectedCategoryId).filter(
+    (product) => product.name.toLowerCase().includes(searchText.toLowerCase())
+  );
 
-    async function updateScreen(requiresInitialSelection) {
-        try {
-            const productList = await fetchProductList();
-            hideShowAddProductForm();
-            if (typeof requiresInitialSelection === "boolean" && requiresInitialSelection) {
-                setInitialCategorySelection(productList);
-            }
-        } catch (err) {
-            setError(true, err);
-        }
-    }
-
-    function clearSearch() {
-        setSearchText('');
-    }
-
-    function setSearch(event) {
-        const { value } = event.target;
-        setSearchText(value);
-    }
-
-    const isAddProductBtnDisabled = getCategoryList(products).length === 0;
-    const filterdCategories = getCategoryList(products).filter(category => category.name.toLowerCase().includes(searchText.toLowerCase()));
-    const filterProducts = getProductList(products, selectedCategoryId).filter(product => product.name.toLowerCase().includes(searchText.toLowerCase()));
-
-    return (
-        <React.Fragment>
-            <SearchBar screenName={screenName} reset={clearSearch} handleChange={setSearch} searchValue={searchText} placeHolder={"Search an item or category..."} />
-            <BotigaPageView>
-                <CategoryList
-                    categories={filterdCategories}
-                    selectedCategoryId={selectedCategoryId}
-                    selectCategory={selectedCategory}
-                    updateScreen={updateScreen}
-                    setError={setError}
-                    updateCategoryVisiblityInProductList={updateCategoryVisiblityInProductList} />
-                <ProductList
-                    isAddProductBtnDisabled={isAddProductBtnDisabled}
-                    products={filterProducts}
-                    selectedProductId={selectedProductId}
-                    selectedCategoryId={selectedCategoryId}
-                    selectProduct={selectProduct}
-                    showProductAddForm={showProductAddForm}
-                    updateScreen={updateScreen}
-                    setError={setError} />
-                <ProductView
-                    selectedCategoryId={selectedCategoryId}
-                    product={getSelectedProduct(products, selectedCategoryId, selectedProductId)}
-                    isAddProduct={isAddProduct}
-                    hideShowAddProductForm={hideShowAddProductForm}
-                    updateScreen={updateScreen}
-                    setError={setError} />
-            </BotigaPageView>
-        </React.Fragment>
-    )
-
+  return (
+    <React.Fragment>
+      <SearchBar
+        screenName={screenName}
+        reset={clearSearch}
+        handleChange={setSearch}
+        searchValue={searchText}
+        placeHolder={"Search an item or category..."}
+      />
+      <BotigaPageView>
+        <CategoryList
+          categories={filterdCategories}
+          selectedCategoryId={selectedCategoryId}
+          selectCategory={selectedCategory}
+          updateScreen={updateScreen}
+          setError={setError}
+          updateCategoryVisiblityInProductList={
+            updateCategoryVisiblityInProductList
+          }
+          showMainViewLoader={showMainViewLoader}
+          hideMainViewLoader={hideMainViewLoader}
+        />
+        <ProductList
+          isAddProductBtnDisabled={isAddProductBtnDisabled}
+          products={filterProducts}
+          selectedProductId={selectedProductId}
+          selectedCategoryId={selectedCategoryId}
+          selectProduct={selectProduct}
+          showProductAddForm={showProductAddForm}
+          updateScreen={updateScreen}
+          setError={setError}
+        />
+        <ProductView
+          selectedCategoryId={selectedCategoryId}
+          product={getSelectedProduct(
+            products,
+            selectedCategoryId,
+            selectedProductId
+          )}
+          isAddProduct={isAddProduct}
+          hideShowAddProductForm={hideShowAddProductForm}
+          updateScreen={updateScreen}
+          setError={setError}
+        />
+      </BotigaPageView>
+    </React.Fragment>
+  );
 }

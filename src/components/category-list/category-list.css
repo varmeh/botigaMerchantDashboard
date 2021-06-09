@@ -1,117 +1,117 @@
-.category-list-style{
-    width: 320px;
-    height: 827px;
-    display: flex;
-    flex-direction: column;
+.category-list-style {
+  width: 320px;
+  height: 827px;
+  display: flex;
+  flex-direction: column;
 }
 
-.category-header-item{
-    padding: 20px 25px 20px 25px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+.category-header-item {
+  padding: 20px 25px 20px 25px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
-.category-header-name{
-    font-family: Montserrat;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 14px;
-    line-height: 150%;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    color: #000000;
+.category-header-name {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 150%;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #000000;
 }
-.category-header-btn.MuiButton-text{
-    font-family: Montserrat;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 150%;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    color: #179F57;
-}
-
-
-.category-list-body{
-    overflow-y: auto;
+.category-header-btn.MuiButton-text {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 150%;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #179f57;
 }
 
-
-.category-item{
-    padding: 12px 25px 7px 25px;
-    display: flex;
-    flex-direction: column;
-    border-top: 1px solid  #DCDCDC;
-    cursor: pointer;
-}
-.category-item-row{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.category-name{
-    font-family: Montserrat;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 150%;
-    color: #000000;
-    display: flex;
-    flex: 1;
-    word-break: break-word;
-}
-.category-quantity{
-    font-family: Montserrat;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 150%;
-    text-align: right;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    color: #000000;
-    opacity: 0.5;
+.category-list-body {
+  overflow-y: auto;
 }
 
-
-
-.add-category-modal .MuiPaper-rounded{
-    padding: 10px 10px 20px 10px;
+.category-list-body .drag-active {
+  background-color: #dcdcdc;
+  opacity: 0.5;
 }
 
-.add-category-modal-title .MuiTypography-h6{
-    font-family: Montserrat;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 24px;
-    color: #121715;
+.category-item {
+  padding: 12px 25px 7px 25px;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid #dcdcdc;
+  cursor: pointer;
+}
+.category-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.category-name {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 150%;
+  color: #000000;
+  display: flex;
+  flex: 1;
+  word-break: break-word;
+}
+.category-quantity {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 150%;
+  text-align: right;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #000000;
+  opacity: 0.5;
 }
 
-
-button.save-category-btn .MuiButton-label{
-    text-transform: initial !important;
-    font-family: Montserrat;
-    font-style: normal;
-    color: white !important;
+.add-category-modal .MuiPaper-rounded {
+  padding: 10px 10px 20px 10px;
 }
 
-button.save-category-cancel .MuiButton-label{
-    text-transform: initial !important;
-    font-family: Montserrat;
-    font-style: normal;
-    color: rgba(18, 23, 21, 0.5);
+.add-category-modal-title .MuiTypography-h6 {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  color: #121715;
+}
+
+button.save-category-btn .MuiButton-label {
+  text-transform: initial !important;
+  font-family: Montserrat;
+  font-style: normal;
+  color: white !important;
+}
+
+button.save-category-cancel .MuiButton-label {
+  text-transform: initial !important;
+  font-family: Montserrat;
+  font-style: normal;
+  color: rgba(18, 23, 21, 0.5);
 }
 
 .add-category-action.MuiDialogActions-root {
-    flex: 0 0 auto;
-    display: flex;
-    padding: 8px 24px 8px 8px;
-    align-items: center;
-    justify-content: flex-end;
+  flex: 0 0 auto;
+  display: flex;
+  padding: 8px 24px 8px 8px;
+  align-items: center;
+  justify-content: flex-end;
 }
 
-.delete-category-modal .MuiDialog-paper{
-    padding: 15px;
+.delete-category-modal .MuiDialog-paper {
+  padding: 15px;
 }
