@@ -418,7 +418,6 @@ function RenderFooterBtn({
           btnVarient="default"
           btnLabel="Change Delivery Date"
           showBtnIcon={false}
-          disablePast
           maxDate={getMaxDateRangeForDeliveryAction(15)}
           onDateChange={_setOrderDelayed}
         />
