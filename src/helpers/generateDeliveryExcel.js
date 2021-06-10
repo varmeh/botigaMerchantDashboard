@@ -1,7 +1,12 @@
 import moment from "moment";
 import Excel from "exceljs/dist/es5/exceljs.browser.js";
 import { saveAs } from "file-saver";
-import { convertToCalendarFormatDate } from "./util";
+import {
+  convertToCalendarFormatDate,
+  isOpen,
+  isDelayed,
+  isPaymentSuccess,
+} from "./util";
 
 const formatColumn = ({ columns, worksheet }) => {
   columns.forEach((v) => {
@@ -192,23 +197,29 @@ export const getProductBreakupRows = ({ deliveryData = [] }) => {
     const { deliveries } = _data;
     deliveries.forEach((_delivery) => {
       const {
-        order: { products },
+        order: { products, status: orderStatus },
+        payment: { status: paymentStatus },
       } = _delivery;
-      products.forEach((_product) => {
-        const { name, quantity, unitInfo } = _product;
-        const key = `${name}${unitInfo}`
-          .toLowerCase()
-          .replace(/[^A-Z0-9]/gi, "");
-        if (prodcutBreakUpMap[key]) {
-          const temp = {
-            ...prodcutBreakUpMap[key],
-            quantity: prodcutBreakUpMap[key].quantity + quantity,
-          };
-          prodcutBreakUpMap[key] = temp;
-        } else {
-          prodcutBreakUpMap[key] = { name, unitInfo, quantity };
-        }
-      });
+      if (
+        (isOpen(orderStatus) || isDelayed(orderStatus)) &&
+        isPaymentSuccess(paymentStatus)
+      ) {
+        products.forEach((_product) => {
+          const { name, quantity, unitInfo } = _product;
+          const key = `${name}${unitInfo}`
+            .toLowerCase()
+            .replace(/[^A-Z0-9]/gi, "");
+          if (prodcutBreakUpMap[key]) {
+            const temp = {
+              ...prodcutBreakUpMap[key],
+              quantity: prodcutBreakUpMap[key].quantity + quantity,
+            };
+            prodcutBreakUpMap[key] = temp;
+          } else {
+            prodcutBreakUpMap[key] = { name, unitInfo, quantity };
+          }
+        });
+      }
     });
   });
 
