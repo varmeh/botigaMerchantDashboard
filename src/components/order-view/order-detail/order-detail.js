@@ -26,7 +26,6 @@ import "./order-detail.css";
 function OrderDetailsHeader({ selectedOrder, setOrderCancelled }) {
   const [openCancel, setOpenCancel] = useState(false);
   const { order, _id } = selectedOrder;
-  console.log(selectedOrder);
 
   function openCancelModal() {
     setOpenCancel(true);

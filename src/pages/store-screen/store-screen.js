@@ -45,6 +45,8 @@ export function StoreScreen() {
     updateCategoryVisiblityInProductList,
     showMainViewLoader,
     hideMainViewLoader,
+    updateProductRecomendation,
+    maxRecommendedProducts,
   } = useContext(appContext);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [selectedProductId, setSelectedProductId] = useState(null);
@@ -130,10 +132,30 @@ export function StoreScreen() {
     (product) => product.name.toLowerCase().includes(searchText.toLowerCase())
   );
 
+  function getRecommendedProductsNumber() {
+    let recomendedProductsCounts = 0;
+    products.forEach((_category) => {
+      _category.products.forEach((_product) => {
+        if (_product.recommended) {
+          recomendedProductsCounts = recomendedProductsCounts + 1;
+        }
+      });
+    });
+    return recomendedProductsCounts;
+  }
+
+  function getScreenMsg() {
+    if (maxRecommendedProducts === 0) {
+      return "";
+    }
+    return `Recommended Products <span class="bold-info">${getRecommendedProductsNumber()} out of ${maxRecommendedProducts}</span>`;
+  }
+
   return (
     <React.Fragment>
       <SearchBar
         screenName={screenName}
+        screenMessage={getScreenMsg()}
         reset={clearSearch}
         handleChange={setSearch}
         searchValue={searchText}
@@ -173,6 +195,8 @@ export function StoreScreen() {
           hideShowAddProductForm={hideShowAddProductForm}
           updateScreen={updateScreen}
           setError={setError}
+          updateProductRecomendation={updateProductRecomendation}
+          maxRecommendedProducts={maxRecommendedProducts}
         />
       </BotigaPageView>
     </React.Fragment>

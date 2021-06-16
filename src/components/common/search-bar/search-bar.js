@@ -37,7 +37,8 @@ const useStyles = makeStyles((_) => ({
 }));
 
 export default function SearchBar({
-  screenName,
+  screenName = "",
+  screenMessage = "",
   reset,
   handleChange,
   searchValue,
@@ -47,7 +48,13 @@ export default function SearchBar({
   const classes = useStyles();
   return (
     <div className="search-bar">
-      <div className="screen-title">{screenName}</div>
+      <div className="screen-title">
+        {screenName}
+        <div
+          className="screen-msg"
+          dangerouslySetInnerHTML={{ __html: screenMessage }}
+        />
+      </div>
       <TextField
         value={searchValue}
         onChange={handleChange}

@@ -1,0 +1,34 @@
+.error .MuiAlert-root {
+  border-radius: 8px !important;
+}
+.error .MuiAlert-filledError {
+  background-color: #fff1f0 !important;
+  padding: 15px !important;
+}
+.error .MuiAlert-filledError .MuiSvgIcon-root {
+  fill: #e72525;
+  height: 24px;
+  width: 24px;
+}
+.error .MuiAlert-action {
+  align-items: flex-start !important;
+}
+.error .MuiSvgIcon-fontSizeSmall {
+  fill: #617367 !important;
+  height: 16px !important;
+  width: 16px !important;
+}
+.error .error-heading {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  color: #012910;
+}
+.error .error-secondary {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  color: #617367;
+}

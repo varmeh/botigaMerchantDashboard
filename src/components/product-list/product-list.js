@@ -53,8 +53,18 @@ function ProductItem({
   setIsLoading,
   setError,
 }) {
-  const { id, name, imageUrl, size, price, mrp, description, available, tag } =
-    product;
+  const {
+    id,
+    name,
+    imageUrl,
+    size,
+    price,
+    mrp,
+    description,
+    available,
+    tag,
+    recommended,
+  } = product;
   const [productStatus, setProductStatus] = useState(available);
   const classes = useStyles();
   let productItemClass = "product-item";
@@ -100,6 +110,11 @@ function ProductItem({
       className={productItemClass}
       onClick={handleItemRowClick}
     >
+      {recommended ? (
+        <div className="product-item-row-header">
+          <span className="recomendation-label">recommended</span>
+        </div>
+      ) : null}
       <div className="product-item-row-header">
         <div className="product-name">{name}</div>
         <FormControlLabel

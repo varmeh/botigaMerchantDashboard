@@ -96,6 +96,14 @@ async function uploadProductImage(image, isMainImage) {
   });
 }
 
+async function updateProductRecommendation(categoryId, productId, recommended) {
+  return axios().patch("/api/seller/products/recommended", {
+    productId,
+    categoryId,
+    recommended,
+  });
+}
+
 export {
   fetchProducts,
   saveProduct,
@@ -104,4 +112,5 @@ export {
   deleteProductImage,
   deleteProduct,
   updateProduct,
+  updateProductRecommendation,
 };
