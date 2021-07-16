@@ -142,6 +142,7 @@ function CategoryItem({
       description,
       secondaryImageUrls,
       available,
+      recommended,
     } = product;
     try {
       const [quantity, unit] = (size || "").split(" ");
@@ -157,7 +158,8 @@ function CategoryItem({
         imageUrlLarge,
         description,
         secondaryImageUrls,
-        available
+        available,
+        recommended
       );
       await deleteProduct(id, selectedCategoryId);
       await refresh(false);

@@ -22,7 +22,8 @@ async function saveProduct(
   imageUrlLarge,
   description,
   secondaryImageUrls,
-  available
+  available,
+  recommended
 ) {
   return axios().post("/api/seller/products", {
     categoryId: categoryId,
@@ -35,6 +36,7 @@ async function saveProduct(
     ...(description ? { description } : {}),
     secondaryImageUrls: secondaryImageUrls ? secondaryImageUrls : [],
     available: typeof available === "boolean" ? available : true,
+    recommended: typeof recommended === "boolean" ? recommended : false,
   });
 }
 
